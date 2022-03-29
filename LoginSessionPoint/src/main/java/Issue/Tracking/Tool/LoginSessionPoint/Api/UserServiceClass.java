@@ -37,7 +37,7 @@ import static org.springframework.http.ResponseEntity.created;
 public class UserServiceClass {
     private final  Issue.Tracking.Tool.LoginSessionPoint.Service.UserService userService;
 
-    @GetMapping("/LoginSessionPoint/user")
+    @GetMapping("/user")
     public ResponseEntity<List<APIUser>>getUsers(){
 
         return ResponseEntity.ok().body(userService.getUsers());
@@ -46,34 +46,34 @@ public class UserServiceClass {
 
 
     //testing only
-    @GetMapping("/LoginSessionPoint/role")
-    public ResponseEntity<List<Role>>getRoles(){
+    @GetMapping("role")
+    public ResponseEntity<List<Role>>getALLRoles(){
 
-        return ResponseEntity.ok().body(userService.getRoles());
+        return ResponseEntity.ok().body(userService.getALLRoles());
 
     }
 
 
 
-    @PostMapping("/LoginSessionPoint/user/save")
+    @PostMapping("user/save")
     public ResponseEntity<APIUser>saveUser(@RequestBody APIUser user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/LoginSessionPoint/user/save").toUriString());
         return created(uri).body(userService.saveUser(user));
     }
 
-    @PostMapping("/LoginSessionPoint/role/save")
+    @PostMapping("role/save")
     public ResponseEntity<Role>saveRole(@RequestBody Role role) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/LoginSessionPoint/role/save").toUriString());
         return created(uri).body(userService.saveRole(role));
     }
 
-    @PostMapping("/LoginSessionPoint/role/addtouser")
+    @PostMapping("role/addtouser")
     public ResponseEntity<?>addRoleToUser(@RequestBody RoleToUserForm form) {
          userService.addRoleToUser(form.getUsername(), form.getRoleName());
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/LoginSessionPoint/token/refresh")
+    @GetMapping("token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String authorizationHeader = request.getHeader(AUTHORIZATION); //
@@ -93,7 +93,7 @@ public class UserServiceClass {
                         .withSubject(user.getUsername())
                         .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))  // Token Expiress at 10 mins
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                        .withClaim("Role", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                         .sign(algorithm);
                 Map<String, String> tokens = new HashMap<>();
 

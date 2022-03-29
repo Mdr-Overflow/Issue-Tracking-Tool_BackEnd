@@ -12,5 +12,7 @@ public interface UserService {
     APIUser getUser(String username);
     List<APIUser> getUsers();   //load n amount
 
-    List<Role> getRoles();
+    //List<Role> getRoles();
+    List <Role> getALLRoles();
+    //APIUser returnThis();
 }

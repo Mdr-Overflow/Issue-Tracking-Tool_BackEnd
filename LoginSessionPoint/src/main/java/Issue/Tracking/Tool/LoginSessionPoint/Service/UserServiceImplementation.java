@@ -46,7 +46,6 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
         APIUser user = userRepo.findByUsername(username);
     Role role = roleRepo.findByName(roleName);
     user.getRoles().add(role);
-
     }
 
     @Override
@@ -61,11 +60,20 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
         return userRepo.findAll();
     }
 
-    @Override
+   /* @Override
     public List<Role> getRoles() {
+        log.info("Getting all roles of user ");
+        return userRepo.findAllByUsername();
+    }*/
+
+    @Override
+    public List<Role> getALLRoles() {
         log.info("Getting all roles ");
         return roleRepo.findAll();
     }
+
+
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
