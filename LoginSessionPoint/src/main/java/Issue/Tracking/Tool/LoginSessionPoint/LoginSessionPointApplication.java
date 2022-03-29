@@ -35,20 +35,20 @@ public class LoginSessionPointApplication {
 	@Bean
 	CommandLineRunner run(UserService userService) {
 		return args -> {
-			userService.saveRole(new Role(null, "ROLE_USER"));
-			userService.saveRole(new Role(null, "ROLE_ADMIN"));
-			userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
+			userService.saveRole(new Role(1L, "ROLE_USER"));
+			userService.saveRole(new Role(2L, "ROLE_ADMIN"));
+			userService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN"));
 
-			userService.saveUser(new APIUser(null, "John Travolta", "1234", new ArrayList<>()));
-			userService.saveUser(new APIUser(null, "Will Smith","1234", new ArrayList<>()));
-			userService.saveUser(new APIUser(null, "Jim Carry", "1234", new ArrayList<>()));
-			userService.saveUser(new APIUser(null, "Arnold Schwarzenegger", "1234", new ArrayList<>()));
-
+			userService.saveUser(new APIUser(1L, "John Travolta", "1234", new ArrayList<>()));
+			userService.saveUser(new APIUser(2L, "Will Smith","1234", new ArrayList<>()));
+			userService.saveUser(new APIUser(3L, "Jim Carry", "1234", new ArrayList<>()));
+			userService.saveUser(new APIUser(4L, "Arnold Schwarzenegger", "1234", new ArrayList<>()));
+/*
 			userService.addRoleToUser("john","ROLE_USER");
 			userService.addRoleToUser("jim", "ROLE_ADMIN");
 			userService.addRoleToUser("arnold", "ROLE_SUPER_ADMIN");
 			userService.addRoleToUser("arnold", "ROLE_ADMIN");
-			userService.addRoleToUser("arnold", "ROLE_USER");
+			userService.addRoleToUser("arnold", "ROLE_USER");*/
 		};
 	}
 
