@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Issue-Tracking-Tool_BackEnd.iml" filepath="$PROJECT_DIR$/.idea/Issue-Tracking-Tool_BackEnd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LoginSessionPoint/LoginSessionPoint.iml" filepath="$PROJECT_DIR$/LoginSessionPoint/LoginSessionPoint.iml" />
     </modules>
   </component>
 </project>
