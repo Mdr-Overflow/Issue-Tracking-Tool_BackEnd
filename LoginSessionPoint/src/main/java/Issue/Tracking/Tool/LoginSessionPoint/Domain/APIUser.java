@@ -15,9 +15,9 @@ import java.util.Collection;
 @Data @NoArgsConstructor @AllArgsConstructor @Document(collection = "User")
 public class APIUser {
 
-    @Transient
+   /* @Transient
     public static final String SEQUENCE_NAME = "users_sequence";
-
+*/
 
     @Id
   /* @SequenceGenerator(

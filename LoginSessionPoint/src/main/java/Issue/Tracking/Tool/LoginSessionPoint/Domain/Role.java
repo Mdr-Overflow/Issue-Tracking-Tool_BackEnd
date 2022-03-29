@@ -15,9 +15,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "Role")
 public class Role {
 
-    @Transient
+    /*@Transient
     public static final String SEQUENCE_NAME = "roles_sequence";
-
+*/
 
     @Id
   /*  @SequenceGenerator(

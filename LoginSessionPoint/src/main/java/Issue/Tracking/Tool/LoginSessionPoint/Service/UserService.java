@@ -11,4 +11,6 @@ public interface UserService {
     void addRoleToUser(String username, String roleName );
     APIUser getUser(String username);
     List<APIUser> getUsers();   //load n amount
+
+    List<Role> getRoles();
 }

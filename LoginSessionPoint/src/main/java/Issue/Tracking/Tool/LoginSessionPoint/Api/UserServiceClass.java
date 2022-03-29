@@ -44,6 +44,17 @@ public class UserServiceClass {
 
     }
 
+
+    //testing only
+    @GetMapping("/LoginSessionPoint/role")
+    public ResponseEntity<List<Role>>getRoles(){
+
+        return ResponseEntity.ok().body(userService.getRoles());
+
+    }
+
+
+
     @PostMapping("/LoginSessionPoint/user/save")
     public ResponseEntity<APIUser>saveUser(@RequestBody APIUser user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/LoginSessionPoint/user/save").toUriString());
