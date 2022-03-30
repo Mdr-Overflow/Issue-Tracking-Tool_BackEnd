@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,7 +33,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.ResponseEntity.created;
 
 @RestController
-@RequestMapping(path = "/LoginSessionPoint")
+//@RequestMapping(path = "/LoginSessionPoint")
 @RequiredArgsConstructor
 public class UserServiceClass {
     private final  Issue.Tracking.Tool.LoginSessionPoint.Service.UserService userService;
@@ -53,7 +54,11 @@ public class UserServiceClass {
 
     }
 
-
+    @GetMapping("/LoginSessionPoint.html")
+    public String LoginSessionPoint() {
+        return "LoginSessionPoint.html";
+    }
+    //
 
     @PostMapping("user/save")
     public ResponseEntity<APIUser>saveUser(@RequestBody APIUser user) {

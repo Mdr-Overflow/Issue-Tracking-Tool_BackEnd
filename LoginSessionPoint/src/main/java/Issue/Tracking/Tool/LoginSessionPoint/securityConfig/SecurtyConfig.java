@@ -32,23 +32,34 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-                 http.csrf().disable()
+                 http.csrf().disable();
 
-                .formLogin()
-                .loginPage("/login");
+        http.authorizeRequests()
+                .antMatchers("/LoginSessionPoint.html")
+                .permitAll()
+                .antMatchers("/*");
+
+
+               http.formLogin()
+                         .loginPage("/LoginSessionPoint.html");
+
+                        // .defaultSuccessUrl("/LoginSessionPoint/user");
+
+
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/LoginSessionPoint").permitAll();
+        http.authorizeRequests().antMatchers("/LoginSessionPoint.html").permitAll();
         http.authorizeRequests().antMatchers("/login").permitAll();
+        //http.authorizeRequests().antMatchers("/login").permitAll();
         http.authorizeRequests().antMatchers(GET, "/LoginSessionPoint/user/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(POST, "/LoginSessionPoint/user/save/**").hasAnyAuthority("ROLE_ADMIN");
         //http.authorizeRequests().anyRequest().permitAll(); // sds
         http.authorizeRequests().anyRequest().authenticated();
 //        http.authorizeRequests().anyRequest().permitAll();
-        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
+        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean())); // Authent.
 
         http.addFilterBefore(new CustomAuthenticationFilter(authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class);
-                                                                //******************
-
+                                                                //******************   //Authoriz.
+                                                                /// ///// HERE
 
     }
     @Bean
