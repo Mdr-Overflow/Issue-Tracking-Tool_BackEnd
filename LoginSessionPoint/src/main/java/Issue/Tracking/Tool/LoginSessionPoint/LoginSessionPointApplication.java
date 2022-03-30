@@ -4,6 +4,7 @@ package Issue.Tracking.Tool.LoginSessionPoint;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.Service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,6 +35,7 @@ public class LoginSessionPointApplication {
 
 
 	@Bean
+
 	CommandLineRunner run(UserService userService) {
 		return args -> {
 			userService.saveRole(new Role(1L, "ROLE_USER"));

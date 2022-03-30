@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 @Service @RequiredArgsConstructor @Transactional
 @Slf4j
+
 public class UserServiceImplementation implements  UserService , UserDetailsService {
 
     private final UserRepo userRepo;
@@ -87,7 +88,9 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
             user.getRoles().forEach(role -> {
                 authorities.add(new SimpleGrantedAuthority(role.getName()));
             }); // look for each role to check
-            return new User(user.getUsername(), user.getPassword(), authorities);
+            UserDetails userD = User.withUsername(user.getUsername()).password(user.getPassword()).authorities(authorities).build();
+            return userD;
+
         }
     }
 }
