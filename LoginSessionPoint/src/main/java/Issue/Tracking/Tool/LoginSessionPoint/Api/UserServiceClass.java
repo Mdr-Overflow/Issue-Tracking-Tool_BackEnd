@@ -2,7 +2,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.Role;
-import Issue.Tracking.Tool.LoginSessionPoint.Service.UserService;
+import Issue.Tracking.Tool.LoginSessionPoint.Service.SecurityService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -10,9 +10,10 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,12 +33,13 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.ResponseEntity.created;
 
-@RestController
+@Controller
 //@RequestMapping(path = "/LoginSessionPoint")
 @RequiredArgsConstructor
 public class UserServiceClass {
     private final  Issue.Tracking.Tool.LoginSessionPoint.Service.UserService userService;
-
+    private final SecurityService securityService;
+    @ResponseBody
     @GetMapping("/user")
     public ResponseEntity<List<APIUser>>getUsers(){
 
@@ -47,6 +49,7 @@ public class UserServiceClass {
 
 
     //testing only
+    @ResponseBody
     @GetMapping("role")
     public ResponseEntity<List<Role>>getALLRoles(){
 
@@ -54,30 +57,47 @@ public class UserServiceClass {
 
     }
 
-    @GetMapping("/LoginSessionPoint.html")
-    public String LoginSessionPoint() {
-        return "LoginSessionPoint.html";
-    }
-    //
+    @GetMapping("/LoginSession")
 
+    public String LoginSession() {
+        if (securityService.isAuthenticated()) {
+            return "redirect:/user";
+        }
+        else{
+
+            return "LoginSession";
+        }
+
+    }
+
+
+
+
+    //testing only
+
+   // @GetMapping
+
+
+    //testing only
+    @ResponseBody
     @PostMapping("user/save")
     public ResponseEntity<APIUser>saveUser(@RequestBody APIUser user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/LoginSessionPoint/user/save").toUriString());
         return created(uri).body(userService.saveUser(user));
     }
-
+    @ResponseBody
     @PostMapping("role/save")
     public ResponseEntity<Role>saveRole(@RequestBody Role role) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/LoginSessionPoint/role/save").toUriString());
         return created(uri).body(userService.saveRole(role));
     }
-
+    @ResponseBody
     @PostMapping("role/addtouser")
     public ResponseEntity<?>addRoleToUser(@RequestBody RoleToUserForm form) {
          userService.addRoleToUser(form.getUsername(), form.getRoleName());
         return ResponseEntity.ok().build();
     }
-
+    @ResponseBody
     @GetMapping("token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 

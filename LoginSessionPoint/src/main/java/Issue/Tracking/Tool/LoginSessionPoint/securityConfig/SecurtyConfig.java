@@ -35,23 +35,26 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                  http.csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/LoginSessionPoint.html")
-                .permitAll()
-                .antMatchers("/*");
+                .antMatchers("/LoginSession")
+
+                .permitAll();
+                //.antMatchers("/*");
 
 
                http.formLogin()
-                         .loginPage("/LoginSessionPoint.html");
-
-                        // .defaultSuccessUrl("/LoginSessionPoint/user");
+               .loginPage("/LoginSession")
+                       //.loginProcessingUrl("/LoginProcess")
+                       .defaultSuccessUrl("/user");
 
 
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/LoginSessionPoint.html").permitAll();
+        //http.authorizeRequests().antMatchers("/LoginSessionPoint").permitAll();
         http.authorizeRequests().antMatchers("/login").permitAll();
+        http.authorizeRequests().antMatchers("/index").permitAll();
+        http.authorizeRequests().antMatchers("/LoginProcess").permitAll();
         //http.authorizeRequests().antMatchers("/login").permitAll();
-        http.authorizeRequests().antMatchers(GET, "/LoginSessionPoint/user/**").hasAnyAuthority("ROLE_USER");
-        http.authorizeRequests().antMatchers(POST, "/LoginSessionPoint/user/save/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority("ROLE_USER");
+        http.authorizeRequests().antMatchers(POST, "/user/save/**").hasAnyAuthority("ROLE_ADMIN");
         //http.authorizeRequests().anyRequest().permitAll(); // sds
         http.authorizeRequests().anyRequest().authenticated();
 //        http.authorizeRequests().anyRequest().permitAll();
