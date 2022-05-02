@@ -1,8 +1,12 @@
 package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.APIUser;
+import Issue.Tracking.Tool.LoginSessionPoint.Domain.Group;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.Role;
+import Issue.Tracking.Tool.LoginSessionPoint.Service.GroupService;
+import Issue.Tracking.Tool.LoginSessionPoint.Service.IssueService;
 import Issue.Tracking.Tool.LoginSessionPoint.Service.SecurityService;
+import Issue.Tracking.Tool.LoginSessionPoint.Service.SolutionService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -10,6 +14,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.GeneratedReferenceTypeDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,11 +42,17 @@ import static org.springframework.http.ResponseEntity.created;
 //@RequestMapping(path = "/LoginSessionPoint")
 @RequiredArgsConstructor
 public class UserServiceClass {
-    private final  Issue.Tracking.Tool.LoginSessionPoint.Service.UserService userService;
+    private final Issue.Tracking.Tool.LoginSessionPoint.Service.UserService userService;
+    private final GroupService groupService;
+    private final IssueService issueService;
+    private final SolutionService solutionService;
+
+
     private final SecurityService securityService;
+
     @ResponseBody
     @GetMapping("/user")
-    public ResponseEntity<List<APIUser>>getUsers(){
+    public ResponseEntity<List<APIUser>> getUsers() {
 
         return ResponseEntity.ok().body(userService.getUsers());
 
@@ -51,7 +62,7 @@ public class UserServiceClass {
     //testing only
     @ResponseBody
     @GetMapping("role")
-    public ResponseEntity<List<Role>>getALLRoles(){
+    public ResponseEntity<List<Role>> getALLRoles() {
 
         return ResponseEntity.ok().body(userService.getALLRoles());
 
@@ -62,8 +73,7 @@ public class UserServiceClass {
     public String LoginSession() {
         if (securityService.isAuthenticated()) {
             return "redirect:/user";
-        }
-        else{
+        } else {
 
             return "LoginSession";
         }
@@ -71,86 +81,96 @@ public class UserServiceClass {
     }
 
 
+    @ResponseBody
+    @GetMapping("GroupManager")
+    public ResponseEntity<List<Group>> getALLGroups() {
+
+        return ResponseEntity.ok().body(groupService.getGroups());
+
+    }
+
+
+    @ResponseBody
+    @PostMapping("GroupManager/save")
+    public ResponseEntity<Group> saveGroup(@RequestBody Group group) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/save").toUriString());
+        return created(uri).body(groupService.saveGroup(group));
+
+    }
+
+    @ResponseBody
+    @PostMapping("GroupManager/addUser")
+    public ResponseEntity<String> saveGroup(@RequestBody String Username, String GroupName) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/addUser").toUriString());
+        groupService.AddUserToGroup(Username, GroupName);
+        return created(uri).body("Nice");
+    }
+
+
+    @ResponseBody
+    @GetMapping("GroupManager/get")
+    public ResponseEntity<Group> getGroup(@RequestBody String groupName) {
+
+        return ResponseEntity.ok().body(groupService.getGroup(groupName));
+
+    }
+
+
+    @ResponseBody
+    @GetMapping("GroupManager/getAll")
+    public ResponseEntity<List<Group>> saveGroup() {
+
+        return ResponseEntity.ok().body(groupService.getGroups());
+
+    }
+
+    @ResponseBody
+    @GetMapping("GroupManager/getTime")
+    public ResponseEntity<Date> getTimeGroup(@RequestBody String groupName) {
+
+        return ResponseEntity.ok().body(groupService.getTimestamp(groupName));
+
+    }
+
+
+
+
+
+
+
+
+
 
 
     //testing only
 
-   // @GetMapping
+    // @GetMapping
 
 
     //testing only
     @ResponseBody
     @PostMapping("user/save")
-    public ResponseEntity<APIUser>saveUser(@RequestBody APIUser user) {
+    public ResponseEntity<APIUser> saveUser(@RequestBody APIUser user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/LoginSessionPoint/user/save").toUriString());
         return created(uri).body(userService.saveUser(user));
     }
+
     @ResponseBody
     @PostMapping("role/save")
-    public ResponseEntity<Role>saveRole(@RequestBody Role role) {
+    public ResponseEntity<Role> saveRole(@RequestBody Role role) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/LoginSessionPoint/role/save").toUriString());
         return created(uri).body(userService.saveRole(role));
     }
+
     @ResponseBody
     @PostMapping("role/addtouser")
-    public ResponseEntity<?>addRoleToUser(@RequestBody RoleToUserForm form) {
-         userService.addRoleToUser(form.getUsername(), form.getRoleName());
+    public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form) {
+        userService.addRoleToUser(form.getUsername(), form.getRoleName());
         return ResponseEntity.ok().build();
     }
-    @ResponseBody
-    @GetMapping("token/refresh")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        String authorizationHeader = request.getHeader(AUTHORIZATION); //
-
-        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            try {
-                String refresh_token = authorizationHeader.substring("Bearer ".length()); // signature
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); // encryption algo
-
-                JWTVerifier verifier = JWT.require(algorithm).build();  // Verifier object
-                DecodedJWT decodedJWT = verifier.verify(refresh_token);  // Verify token
-                String username = decodedJWT.getSubject();     // decode username
-
-                APIUser user = userService.getUser(username);   // create APIUser object
-
-                String access_token = JWT.create()
-                        .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))  // Token Expiress at 10 mins
-                        .withIssuer(request.getRequestURL().toString())
-                        .withClaim("Role", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
-                        .sign(algorithm);
-                Map<String, String> tokens = new HashMap<>();
-
-                tokens.put("access_token", access_token);
-                tokens.put("refresh_token", refresh_token);
-
-                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-
-                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-            }catch (Exception exception) {
-
-                response.setHeader("error", exception.getMessage());
-                response.setStatus(FORBIDDEN.value());
-
-                //response.sendError(FORBIDDEN.value());
-                Map<String, String> error = new HashMap<>();
-                error.put("error_message", exception.getMessage());
-
-                response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), error);
-            }
-        } else {
-            throw new RuntimeException("Refresh token is missing");
-        }
-    }
 }
 
-@Data
-class RoleToUserForm {
-    private String username;
-    private String roleName;
-}
 
 
 

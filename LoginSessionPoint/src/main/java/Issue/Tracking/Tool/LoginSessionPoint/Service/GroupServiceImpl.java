@@ -52,7 +52,7 @@ public class GroupServiceImpl implements  GroupService {
     }
 
     @Override
-    public Date getTimestamp(String IssueName) {
-        return groupRepo.findTimestampByName(IssueName);
+    public Date getTimestamp(String GroupName) {
+        return groupRepo.findTimestampByName(GroupName);
     }
 }

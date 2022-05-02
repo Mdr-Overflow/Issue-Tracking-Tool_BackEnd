@@ -13,7 +13,7 @@ public interface IssueService {
     Issue getIssue(String IssueName);
     List<Issue> getIssues();
 
-    //Status , priotiy , details
+    //Status , priority , details
 
     List<Solution> getSols(Issue issue);
     List<APIUser> getContributors(Issue issue);
