@@ -2,10 +2,13 @@ package Issue.Tracking.Tool.LoginSessionPoint.Service;
 
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.Role;
+//import Issue.Tracking.Tool.LoginSessionPoint.Repo.RoleRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.Repo.RoleRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.Repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,10 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 //import javax.transaction.Transactional;
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-@Service @RequiredArgsConstructor @Transactional
+@Service @RequiredArgsConstructor  @Transactional
 @Slf4j
 
 public class UserServiceImplementation implements  UserService , UserDetailsService {
@@ -58,7 +62,8 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
     @Override
     public List<APIUser> getUsers() {
         log.info("Getting all users ");
-        return userRepo.findAll();
+        org.springframework.data.domain.Pageable givenPage =  PageRequest.of(0, 5, Sort.unsorted()); // Page has overhead cost (determines how many beforehand)
+        return (userRepo.findAll(givenPage)).getContent();
     }
 
    /* @Override

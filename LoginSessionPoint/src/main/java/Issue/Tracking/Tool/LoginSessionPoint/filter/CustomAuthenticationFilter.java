@@ -2,6 +2,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.filter;
 
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.Role;
+import Issue.Tracking.Tool.LoginSessionPoint.Domain.apiKeyPair;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,7 +64,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         log.info("Roles are  {}", AuthRoles);
         APIUser user = new APIUser((Long) null,((UserDetails)authResult.getPrincipal()).getUsername(),
                                                 ((UserDetails)authResult.getPrincipal()).getPassword(),
-                                                    AuthRoles);
+                                                    AuthRoles, new ArrayList<>() , new ArrayList<>() );
 
 
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());

@@ -42,10 +42,10 @@ public class LoginSessionPointApplication {
 			userService.saveRole(new Role(2L, "ROLE_ADMIN"));
 			userService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN"));
 
-			userService.saveUser(new APIUser(1L, "John Travolta", "1234", new ArrayList<>()));
-			userService.saveUser(new APIUser(2L, "Will Smith","1234",new ArrayList<>()));
-			userService.saveUser(new APIUser(3L, "Jim Carry", "1234", new ArrayList<>()));
-			userService.saveUser(new APIUser(4L, "Arnold Schwarzenegger", "1234", new ArrayList<>()));
+			userService.saveUser(new APIUser(1L, "John Travolta", "1234", new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+			userService.saveUser(new APIUser(2L, "Will Smith","1234",new ArrayList<>(),new ArrayList<>(), new ArrayList<>()));
+			userService.saveUser(new APIUser(3L, "Jim Carry", "1234", new ArrayList<>(),new ArrayList<>(), new ArrayList<>()));
+			userService.saveUser(new APIUser(4L, "Arnold Schwarzenegger", "1234", new ArrayList<>(),new ArrayList<>(), new ArrayList<>()));
              // IF NAME NOT IN DB  -> CRASH
 			userService.addRoleToUser("John Travolta","ROLE_USER");
 			userService.addRoleToUser("Jim Carry", "ROLE_ADMIN");
