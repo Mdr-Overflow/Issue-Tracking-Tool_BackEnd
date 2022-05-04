@@ -1,7 +1,7 @@
 package Issue.Tracking.Tool.LoginSessionPoint.Service;
 
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.APIUser;
-import Issue.Tracking.Tool.LoginSessionPoint.Domain.Group;
+import Issue.Tracking.Tool.LoginSessionPoint.Domain.UserGroup;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.Issue;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.Solution;
 
@@ -17,11 +17,11 @@ public interface IssueService {
 
     List<Solution> getSols(Issue issue);
     List<APIUser> getContributors(Issue issue);
-    List<Group> getGroups(Issue issue);
+    List<UserGroup> getGroups(Issue issue);
 
     void AddSol(Solution solution, String issueName);
     void AddUser(APIUser user, String issueName);
-    void AddGroup(Group group, String issueName);
+    void AddGroup(UserGroup userGroup, String issueName);
 
 
     java.util.Date getTimestamp(String IssueName);

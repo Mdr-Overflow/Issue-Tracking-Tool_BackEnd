@@ -2,9 +2,8 @@ package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.Role;
-import Issue.Tracking.Tool.LoginSessionPoint.Service.GroupService;
+import Issue.Tracking.Tool.LoginSessionPoint.Service.UserGroupService;
 import Issue.Tracking.Tool.LoginSessionPoint.Service.IssueService;
-import Issue.Tracking.Tool.LoginSessionPoint.Service.SecurityService;
 import Issue.Tracking.Tool.LoginSessionPoint.Service.SolutionService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -37,12 +36,12 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 public class SecurityAPI {
 
     private final Issue.Tracking.Tool.LoginSessionPoint.Service.UserService userService;
-    private final GroupService groupService;
+    private final UserGroupService userGroupService;
     private final IssueService issueService;
     private final SolutionService solutionService;
 
 
-    private final SecurityService securityService;
+    //private final SecurityService securityService;
 
     @ResponseBody
     @GetMapping("token/refresh")

@@ -4,6 +4,8 @@ package Issue.Tracking.Tool.LoginSessionPoint.Domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Group {
+public class UserGroup {
     @Id
     @SequenceGenerator(
             name = "Group_Id_seq",
@@ -27,9 +29,15 @@ public class Group {
     )
     private Long id;
     private String name;
+    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date createdAt;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Collection<APIUser> users = new ArrayList<>();
+
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date lastUpdated;
 
 }

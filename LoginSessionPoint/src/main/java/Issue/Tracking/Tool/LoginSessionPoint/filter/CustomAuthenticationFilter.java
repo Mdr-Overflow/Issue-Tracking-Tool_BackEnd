@@ -59,13 +59,13 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Collection<Role> AuthRoles = new ArrayList<>();
 
                 ((UserDetails) authResult.getPrincipal()).getAuthorities().forEach(SimpleGrantedAuthority -> {
-            AuthRoles.add(new Role(null  ,SimpleGrantedAuthority.toString()));
+            AuthRoles.add(new Role(null  ,SimpleGrantedAuthority.toString(), null,null));
 
         } );
         log.info("Roles are  {}", AuthRoles);
         APIUser user = new APIUser((Long) null,((UserDetails)authResult.getPrincipal()).getUsername(),
                                                 ((UserDetails)authResult.getPrincipal()).getPassword(),
-                                                    AuthRoles, new ArrayList<>() , new ArrayList<>() );
+                                                    AuthRoles, new ArrayList<>() , new ArrayList<>(),null,null);
 
 
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());

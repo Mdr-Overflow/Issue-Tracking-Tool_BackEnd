@@ -1,10 +1,10 @@
 package Issue.Tracking.Tool.LoginSessionPoint.Service;
 
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.APIUser;
-import Issue.Tracking.Tool.LoginSessionPoint.Domain.Group;
+import Issue.Tracking.Tool.LoginSessionPoint.Domain.UserGroup;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.Issue;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.Solution;
-import Issue.Tracking.Tool.LoginSessionPoint.Repo.GroupRepo;
+import Issue.Tracking.Tool.LoginSessionPoint.Repo.UserGroupRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.Repo.IssueRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.Repo.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.List;
 
 public class IssueServImpl implements  IssueService {
     private final UserRepo userRepo;
-    private final GroupRepo groupRepo;
+    private final UserGroupRepo userGroupRepo;
     private final IssueRepo issueRepo;
     //private final Priority userRepo;
     //private final Status   userRepo;
@@ -62,7 +62,7 @@ public class IssueServImpl implements  IssueService {
     }
 
     @Override
-    public List<Group> getGroups(Issue issue) {
+    public List<UserGroup> getGroups(Issue issue) {
         log.info("Getting all groups of Issue {} ",issue.getName() );
         return issueRepo.findAllGroupsByName(issue.getName());
 
@@ -83,10 +83,10 @@ public class IssueServImpl implements  IssueService {
     }
 
     @Override
-    public void AddGroup(Group group, String IssueName) {
-        log.info("Adding Group to Issue {} ",IssueName );
+    public void AddGroup(UserGroup userGroup, String IssueName) {
+        log.info("Adding UserGroup to Issue {} ",IssueName );
         Issue issue = issueRepo.findByName(IssueName);
-        issue.getGroups().add(group);
+        issue.getUserGroups().add(userGroup);
     }
 
     @Override

@@ -3,6 +3,8 @@ package Issue.Tracking.Tool.LoginSessionPoint.Domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.*;
@@ -30,17 +32,23 @@ public class Solution {
     private boolean isFinal;
     private boolean isAccepted;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Type type;
 
     private String content;
+
+    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date createdAt;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date lastUpdated;
+
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private APIUser owner;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Collection <APIUser> collaborators ;
 
 

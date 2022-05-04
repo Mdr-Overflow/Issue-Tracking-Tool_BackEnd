@@ -1,5 +1,5 @@
 package Issue.Tracking.Tool.LoginSessionPoint.Service;
-
+/*
 import Issue.Tracking.Tool.LoginSessionPoint.filter.CustomAuthenticationFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,3 +50,4 @@ public class SecurityServiceImplementation implements SecurityService{
         }
     }
 }
+*/

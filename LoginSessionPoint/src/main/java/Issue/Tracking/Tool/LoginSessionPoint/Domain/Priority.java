@@ -4,6 +4,8 @@ package Issue.Tracking.Tool.LoginSessionPoint.Domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 
@@ -27,5 +29,12 @@ public class Priority {
 
     private String name;
 
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date createdAt;
 
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date lastUpdated;
 }

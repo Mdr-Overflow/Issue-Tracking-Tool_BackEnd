@@ -3,6 +3,8 @@ package Issue.Tracking.Tool.LoginSessionPoint.Domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.annotation.Transient;
 
@@ -37,14 +39,19 @@ public class APIUser {
     private Long id;
     private String username;
     private String password;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Collection <Role> roles = new ArrayList<>();
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Collection <apiKeyPair> apiKeys=new ArrayList();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Collection <Type> types = new ArrayList<>();
 
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date createdAt;
 
-
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date lastUpdated;
 }

@@ -4,6 +4,8 @@ package Issue.Tracking.Tool.LoginSessionPoint.Domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -37,15 +39,20 @@ public class Issue {
     @OneToOne(fetch = FetchType.LAZY)
     private Priority priority;
 
+    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date createdAt;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date lastUpdated;
+
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Collection <Solution> solutions = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Collection <Group> groups = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Collection <UserGroup> userGroups = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Collection <APIUser> users = new ArrayList<>();
 }

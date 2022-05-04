@@ -35,33 +35,29 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
                  http.csrf().disable();
 
-        http.authorizeRequests()
-                .antMatchers("/LoginSession")
-
-                .permitAll();
-                //.antMatchers("/*");
-
 
                http.formLogin()
-               .loginPage("/LoginSession")
-                       //.loginProcessingUrl("/LoginProcess")
+               .loginPage("/SessionLogin")
+                       .loginProcessingUrl("/LoginProcess")
                        .defaultSuccessUrl("/user");
 
 
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        //http.authorizeRequests().antMatchers("/LoginSessionPoint").permitAll();
-        http.authorizeRequests().antMatchers("/login").permitAll();
-        http.authorizeRequests().antMatchers("/index").permitAll();
-        http.authorizeRequests().antMatchers("/LoginProcess").permitAll();
-        //http.authorizeRequests().antMatchers("/login").permitAll();
+
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+
+        customAuthenticationFilter.setFilterProcessesUrl("/SessionLogin");
+        http.csrf().disable();
+        http.sessionManagement().sessionCreationPolicy(STATELESS);
+        http.authorizeRequests().antMatchers("/login/**", "/token/refresh/**").permitAll();
         http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(POST, "/user/save/**").hasAnyAuthority("ROLE_ADMIN");
-        //http.authorizeRequests().anyRequest().permitAll(); // sds
         http.authorizeRequests().anyRequest().authenticated();
-//        http.authorizeRequests().anyRequest().permitAll();
-        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean())); // Authent.
 
-       // http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilter(customAuthenticationFilter);
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
                                                                 //******************   //Authoriz.
                                                                 /// ///// HERE
 
