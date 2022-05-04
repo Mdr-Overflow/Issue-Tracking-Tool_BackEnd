@@ -2,6 +2,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.securityConfig;
 
 
 import Issue.Tracking.Tool.LoginSessionPoint.filter.CustomAuthenticationFilter;
+import Issue.Tracking.Tool.LoginSessionPoint.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,7 +61,7 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
 //        http.authorizeRequests().anyRequest().permitAll();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean())); // Authent.
 
-        http.addFilterBefore(new CustomAuthenticationFilter(authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class);
+       // http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
                                                                 //******************   //Authoriz.
                                                                 /// ///// HERE
 

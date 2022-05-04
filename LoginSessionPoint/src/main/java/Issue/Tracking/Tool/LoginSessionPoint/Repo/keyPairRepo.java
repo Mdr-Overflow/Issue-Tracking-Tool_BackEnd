@@ -5,7 +5,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.Domain.apiKeyPair;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface keyPairRepo extends JpaRepository<apiKeyPair,Long> {
-    apiKeyPair getapiKeyPairByUserID(Long UID);
+    //apiKeyPair getapiKeyPairByUserID(Long UID);
 
 
 }

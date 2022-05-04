@@ -37,9 +37,9 @@ public class APIUser {
     private Long id;
     private String username;
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Collection <Role> roles = new ArrayList<>();
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Collection <apiKeyPair> apiKeys=new ArrayList();
 
     @ManyToMany(fetch = FetchType.LAZY)

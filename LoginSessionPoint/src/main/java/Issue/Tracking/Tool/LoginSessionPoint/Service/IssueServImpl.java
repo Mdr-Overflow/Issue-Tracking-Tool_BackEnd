@@ -4,6 +4,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.Domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.Group;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.Issue;
 import Issue.Tracking.Tool.LoginSessionPoint.Domain.Solution;
+import Issue.Tracking.Tool.LoginSessionPoint.Repo.GroupRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.Repo.IssueRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.Repo.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class IssueServImpl implements  IssueService {
     private final UserRepo userRepo;
-    private final Group groupRepo;
+    private final GroupRepo groupRepo;
     private final IssueRepo issueRepo;
     //private final Priority userRepo;
     //private final Status   userRepo;

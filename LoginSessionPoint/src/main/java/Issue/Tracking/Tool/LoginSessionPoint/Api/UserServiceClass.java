@@ -68,17 +68,6 @@ public class UserServiceClass {
 
     }
 
-    @GetMapping("/LoginSession")
-
-    public String LoginSession() {
-        if (securityService.isAuthenticated()) {
-            return "redirect:/user";
-        } else {
-
-            return "LoginSession";
-        }
-
-    }
 
 
     @ResponseBody

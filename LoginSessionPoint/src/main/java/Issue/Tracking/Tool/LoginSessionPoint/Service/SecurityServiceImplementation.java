@@ -1,5 +1,6 @@
 package Issue.Tracking.Tool.LoginSessionPoint.Service;
 
+import Issue.Tracking.Tool.LoginSessionPoint.filter.CustomAuthenticationFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -21,9 +22,12 @@ public class SecurityServiceImplementation implements SecurityService{
     private UserDetailsService userDetailsService;
 
 
+    private CustomAuthenticationFilter customAuthenticationFilter;
 
     public boolean isAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        log.info(authentication.toString());
         if (authentication == null || AnonymousAuthenticationToken.class.
                 isAssignableFrom(authentication.getClass())) {
             log.info("NOT AUTHEN.");

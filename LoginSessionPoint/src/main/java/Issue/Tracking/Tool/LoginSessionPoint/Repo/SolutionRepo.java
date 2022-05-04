@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface SolutionRepo  extends JpaRepository<Solution,Long> {
+public interface SolutionRepo  extends JpaRepository<Solution,Long>  {
     Solution findByName(String name);
 
     @Query("SELECT s.owner FROM Solution s where s.name = :name")
