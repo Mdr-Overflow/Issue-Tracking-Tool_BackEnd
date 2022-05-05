@@ -1,8 +1,8 @@
 package Issue.Tracking.Tool.LoginSessionPoint.securityConfig;
 
 
-import Issue.Tracking.Tool.LoginSessionPoint.filter.CustomAuthenticationFilter;
-import Issue.Tracking.Tool.LoginSessionPoint.filter.CustomAuthorizationFilter;
+import Issue.Tracking.Tool.LoginSessionPoint.filter.AuthenFilter;
+import Issue.Tracking.Tool.LoginSessionPoint.filter.AuthoFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.*;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -42,20 +43,23 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                        .defaultSuccessUrl("/user");
 
 
-        http.sessionManagement().sessionCreationPolicy(STATELESS);
 
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
 
-        customAuthenticationFilter.setFilterProcessesUrl("/SessionLogin");
+        AuthenFilter authenFilter = new AuthenFilter(authenticationManagerBean());
+
+        authenFilter.setFilterProcessesUrl("/SessionLogin");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers("/login/**", "/token/refresh/**").permitAll();
-        http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority("ROLE_USER");
-        http.authorizeRequests().antMatchers(POST, "/user/save/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority(USER);
+        http.authorizeRequests().antMatchers(POST, "/user/save/**").hasAnyAuthority(ADMIN);
+        http.authorizeRequests().antMatchers(POST, "/GroupManager/save/**").hasAnyAuthority(ADMIN);
+        http.authorizeRequests().antMatchers(POST, "/IssueDashboard/save/**").hasAnyAuthority( ALL_ROLES.split(splitter));
+        http.authorizeRequests().antMatchers(POST, "/admin/**").hasAnyAuthority(ADMIN);
         http.authorizeRequests().anyRequest().authenticated();
 
-        http.addFilter(customAuthenticationFilter);
-        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilter(authenFilter);
+        http.addFilterBefore(new AuthoFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
                                                                 //******************   //Authoriz.

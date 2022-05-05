@@ -1,10 +1,9 @@
 package Issue.Tracking.Tool.LoginSessionPoint;
 
 
-import Issue.Tracking.Tool.LoginSessionPoint.Domain.APIUser;
-import Issue.Tracking.Tool.LoginSessionPoint.Domain.Role;
-import Issue.Tracking.Tool.LoginSessionPoint.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
+import Issue.Tracking.Tool.LoginSessionPoint.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 @RestController

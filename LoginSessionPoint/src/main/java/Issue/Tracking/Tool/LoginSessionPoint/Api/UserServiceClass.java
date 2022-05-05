@@ -1,11 +1,11 @@
 package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
-import Issue.Tracking.Tool.LoginSessionPoint.Domain.APIUser;
-import Issue.Tracking.Tool.LoginSessionPoint.Domain.UserGroup;
-import Issue.Tracking.Tool.LoginSessionPoint.Domain.Role;
-import Issue.Tracking.Tool.LoginSessionPoint.Service.UserGroupService;
-import Issue.Tracking.Tool.LoginSessionPoint.Service.IssueService;
-import Issue.Tracking.Tool.LoginSessionPoint.Service.SolutionService;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
+import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
+import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
+import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ import static org.springframework.http.ResponseEntity.created;
 //@RequestMapping(path = "/LoginSessionPoint")
 @RequiredArgsConstructor
 public class UserServiceClass {
-    private final Issue.Tracking.Tool.LoginSessionPoint.Service.UserService userService;
+    private final Issue.Tracking.Tool.LoginSessionPoint.service.UserService userService;
     private final UserGroupService userGroupService;
     private final IssueService issueService;
     private final SolutionService solutionService;
