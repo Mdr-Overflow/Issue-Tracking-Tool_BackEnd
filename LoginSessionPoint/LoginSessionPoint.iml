@@ -15,7 +15,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="LoginSessionPoint" />
+          <factory-entry name="LoginSessionPoint" value="1df65b3d-146d-4b1e-8e00-64d3538f54bd" />
           <factory-entry name="entityManagerFactory" />
         </datasource-mapping>
         <naming-strategy-map />
