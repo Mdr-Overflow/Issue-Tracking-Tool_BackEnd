@@ -63,68 +63,6 @@ public class UserServiceClass {
     }
 
 
-
-    @ResponseBody
-    @GetMapping("GroupManager")
-    public ResponseEntity<List<UserGroup>> getALLGroups() {
-
-        return ResponseEntity.ok().body(userGroupService.getGroups());
-
-    }
-
-
-    @ResponseBody
-    @PostMapping("GroupManager/save")
-    public ResponseEntity<UserGroup> saveGroup(@RequestBody UserGroup userGroup) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/save").toUriString());
-        return created(uri).body(userGroupService.saveGroup(userGroup));
-
-    }
-
-    @ResponseBody
-    @PostMapping("GroupManager/addUser")
-    public ResponseEntity<String> saveGroup(@RequestBody String Username, String GroupName) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/addUser").toUriString());
-        userGroupService.AddUserToGroup(Username, GroupName);
-        return created(uri).body("Nice");
-    }
-
-
-    @ResponseBody
-    @GetMapping("GroupManager/get")
-    public ResponseEntity<UserGroup> getGroup(@RequestBody String groupName) {
-
-        return ResponseEntity.ok().body(userGroupService.getGroup(groupName));
-
-    }
-
-
-    @ResponseBody
-    @GetMapping("GroupManager/getAll")
-    public ResponseEntity<List<UserGroup>> saveGroup() {
-
-        return ResponseEntity.ok().body(userGroupService.getGroups());
-
-    }
-
-    @ResponseBody
-    @GetMapping("GroupManager/getTime")
-    public ResponseEntity<Date> getTimeGroup(@RequestBody String groupName) {
-
-        return ResponseEntity.ok().body(userGroupService.getTimestamp(groupName));
-
-    }
-
-
-
-
-
-
-
-
-
-
-
     //testing only
 
     // @GetMapping
