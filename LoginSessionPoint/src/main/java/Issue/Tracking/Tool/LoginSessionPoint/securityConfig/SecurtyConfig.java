@@ -1,7 +1,8 @@
 package Issue.Tracking.Tool.LoginSessionPoint.securityConfig;
 
 
-import Issue.Tracking.Tool.LoginSessionPoint.filter.CustomAuthenticationFilter;
+import Issue.Tracking.Tool.LoginSessionPoint.filter.AuthenFilter;
+import Issue.Tracking.Tool.LoginSessionPoint.filter.AuthoFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.*;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -23,7 +25,9 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurtyConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(11);
+
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -32,36 +36,45 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-                 http.csrf().disable();
-
-        http.authorizeRequests()
-                .antMatchers("/LoginSession")
-
-                .permitAll();
-                //.antMatchers("/*");
 
 
-               http.formLogin()
-               .loginPage("/LoginSession")
-                       //.loginProcessingUrl("/LoginProcess")
-                       .defaultSuccessUrl("/user");
 
 
+
+
+
+
+        AuthenFilter authenFilter = new AuthenFilter(authenticationManagerBean());
+
+
+
+
+
+        http.csrf().disable();
+        //http.authorizeRequests();
+
+       // authenFilter.setFilterProcessesUrl("/login");
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        //http.authorizeRequests().antMatchers("/LoginSessionPoint").permitAll();
-        http.authorizeRequests().antMatchers("/login").permitAll();
-        http.authorizeRequests().antMatchers("/index").permitAll();
-        http.authorizeRequests().antMatchers("/LoginProcess").permitAll();
-        //http.authorizeRequests().antMatchers("/login").permitAll();
-        http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority("ROLE_USER");
-        http.authorizeRequests().antMatchers(POST, "/user/save/**").hasAnyAuthority("ROLE_ADMIN");
-        //http.authorizeRequests().anyRequest().permitAll(); // sds
-        http.authorizeRequests().anyRequest().authenticated();
-//        http.authorizeRequests().anyRequest().permitAll();
-        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean())); // Authent.
+        http.authorizeRequests();
+        http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
 
-        http.addFilterBefore(new CustomAuthenticationFilter(authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class);
-                                                                //******************   //Authoriz.
+        //http.authorizeRequests().antMatchers("/SessionLogin","/LoginProcess" ,"/login/**", "/token/refresh/**", "/swagger-ui.html#/**").permitAll();
+
+        http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority(USER,ADMIN);
+        http.authorizeRequests().antMatchers(POST, "/user/save/**").hasAnyAuthority(ADMIN);
+        http.authorizeRequests().antMatchers(POST, "/GroupManager/save/**").hasAnyAuthority(ADMIN);
+        http.authorizeRequests().antMatchers(POST, "/GroupManager").hasAnyAuthority(ALL_ROLES.split(splitter));
+        http.authorizeRequests().antMatchers(POST, "/IssueDashboard/save/**").hasAnyAuthority( ALL_ROLES.split(splitter));
+        http.authorizeRequests().antMatchers(POST, "/admin/**").hasAnyAuthority(ADMIN);
+        http.authorizeRequests().anyRequest().authenticated();
+
+        http.addFilter(authenFilter);
+        http.addFilterBefore(new AuthoFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.formLogin()
+                .defaultSuccessUrl("/user");
+
+
+        //******************   //Authoriz.
                                                                 /// ///// HERE
 
     }

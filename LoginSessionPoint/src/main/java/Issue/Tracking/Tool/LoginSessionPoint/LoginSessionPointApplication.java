@@ -1,10 +1,9 @@
 package Issue.Tracking.Tool.LoginSessionPoint;
 
 
-import Issue.Tracking.Tool.LoginSessionPoint.Domain.APIUser;
-import Issue.Tracking.Tool.LoginSessionPoint.Domain.Role;
-import Issue.Tracking.Tool.LoginSessionPoint.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
+import Issue.Tracking.Tool.LoginSessionPoint.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 @RestController
@@ -38,14 +36,14 @@ public class LoginSessionPointApplication {
 
 	CommandLineRunner run(UserService userService) {
 		return args -> {
-			userService.saveRole(new Role(1L, "ROLE_USER"));
-			userService.saveRole(new Role(2L, "ROLE_ADMIN"));
-			userService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN"));
+			userService.saveRole(new Role(1L, "ROLE_USER",null,null));
+			userService.saveRole(new Role(2L, "ROLE_ADMIN",null,null));
+			userService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",null,null));
 
-			userService.saveUser(new APIUser(1L, "John Travolta", "1234", new ArrayList<>()));
-			userService.saveUser(new APIUser(2L, "Will Smith","1234",new ArrayList<>()));
-			userService.saveUser(new APIUser(3L, "Jim Carry", "1234", new ArrayList<>()));
-			userService.saveUser(new APIUser(4L, "Arnold Schwarzenegger", "1234", new ArrayList<>()));
+			userService.saveUser(new APIUser(1L, "John Travolta", "1234", new ArrayList<>(),  new ArrayList<>(),null,null));
+			userService.saveUser(new APIUser(2L, "Will Smith","1234",new ArrayList<>(), new ArrayList<>(),null,null));
+			userService.saveUser(new APIUser(3L, "Jim Carry", "1234", new ArrayList<>(), new ArrayList<>(),null,null));
+			userService.saveUser(new APIUser(4L, "Arnold Schwarzenegger", "1234", new ArrayList<>(), new ArrayList<>(),null,null));
              // IF NAME NOT IN DB  -> CRASH
 			userService.addRoleToUser("John Travolta","ROLE_USER");
 			userService.addRoleToUser("Jim Carry", "ROLE_ADMIN");
