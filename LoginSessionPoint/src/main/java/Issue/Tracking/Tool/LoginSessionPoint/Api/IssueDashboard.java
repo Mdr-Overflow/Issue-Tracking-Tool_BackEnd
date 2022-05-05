@@ -16,7 +16,7 @@ public class IssueDashboard {
     private final IssueService issueService;
     private final SolutionService solutionService;
 
-    
+
 
 
 

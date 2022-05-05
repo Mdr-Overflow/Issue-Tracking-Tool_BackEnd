@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static java.nio.file.Files.copy;
 import static java.nio.file.Paths.get;
@@ -37,7 +38,7 @@ public class FilePoint {
         public ResponseEntity<List<String>> uploadFiles(@RequestParam("files")List<MultipartFile> multipartFiles) throws IOException {
             List<String> filenames = new ArrayList<>();
             for(MultipartFile file : multipartFiles) {
-                String filename = StringUtils.cleanPath(file.getOriginalFilename());
+                String filename = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
                 Path fileStorage = get(DIRECTORY, filename).toAbsolutePath().normalize();
                 copy(file.getInputStream(), fileStorage, REPLACE_EXISTING);
                 filenames.add(filename);

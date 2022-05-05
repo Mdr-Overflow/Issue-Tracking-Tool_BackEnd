@@ -8,6 +8,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -30,6 +31,18 @@ public class UserServiceClass {
 
 
     //private final SecurityService securityService;
+
+
+
+    @ResponseBody
+    @GetMapping("/user/{username}")
+    public ResponseEntity<APIUser> getUserByName(@PathVariable("username") String username) {
+        APIUser user = userService.getUser(username);
+        return ResponseEntity.ok().body(user);
+        // use fastAPIUser
+    }
+
+
 
     @ResponseBody
     @GetMapping("/user")

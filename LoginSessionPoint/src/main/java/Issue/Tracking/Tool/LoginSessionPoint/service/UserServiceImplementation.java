@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 
 //import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -53,8 +54,9 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
     @Override
     public void addRoleToUser(String username, String roleName) {
         log.info("Saving role {} to user {}",roleName,username);
-        APIUser user = userRepo.findByUsername(username);
-    Role role = roleRepo.findByName(roleName);
+            APIUser user = userRepo.findByUsername(username);
+
+        Role role = roleRepo.findByName(roleName);
     user.getRoles().add(role);
     }
 
@@ -67,8 +69,13 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
     @Override
     public List<APIUser> getUsers() {
         log.info("Getting all users ");
+
         org.springframework.data.domain.Pageable givenPage =  PageRequest.of(0, 5, Sort.unsorted()); // Page has overhead cost (determines how many beforehand)
-        return (userRepo.findAll(givenPage)).getContent();
+        List<APIUser> users = (userRepo.findAll(givenPage)).getContent();
+        if(users.isEmpty())
+            throw new NoDataFoundException();
+
+        return users;
     }
 
    /* @Override
@@ -80,7 +87,10 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
     @Override
     public List<Role> getALLRoles() {
         log.info("Getting all roles ");
-        return roleRepo.findAll();
+        List<Role> roles = roleRepo.findAll();
+        if(roles.isEmpty())
+            throw new NoDataFoundException();
+        return roles;
     }
 
 

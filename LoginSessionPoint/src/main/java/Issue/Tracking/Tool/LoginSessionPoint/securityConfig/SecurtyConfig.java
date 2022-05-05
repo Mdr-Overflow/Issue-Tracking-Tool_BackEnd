@@ -25,7 +25,9 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurtyConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(11);
+
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -34,35 +36,45 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-                 http.csrf().disable();
 
 
-               http.formLogin()
-               .loginPage("/SessionLogin")
-                       .loginProcessingUrl("/LoginProcess")
-                       .defaultSuccessUrl("/user");
+
+
 
 
 
 
         AuthenFilter authenFilter = new AuthenFilter(authenticationManagerBean());
 
-        authenFilter.setFilterProcessesUrl("/SessionLogin");
+
+
+
+
         http.csrf().disable();
+        //http.authorizeRequests();
+
+       // authenFilter.setFilterProcessesUrl("/login");
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/login/**", "/token/refresh/**").permitAll();
-        http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority(USER);
+        http.authorizeRequests();
+        http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
+
+        //http.authorizeRequests().antMatchers("/SessionLogin","/LoginProcess" ,"/login/**", "/token/refresh/**", "/swagger-ui.html#/**").permitAll();
+
+        http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority(USER,ADMIN);
         http.authorizeRequests().antMatchers(POST, "/user/save/**").hasAnyAuthority(ADMIN);
         http.authorizeRequests().antMatchers(POST, "/GroupManager/save/**").hasAnyAuthority(ADMIN);
+        http.authorizeRequests().antMatchers(POST, "/GroupManager").hasAnyAuthority(ALL_ROLES.split(splitter));
         http.authorizeRequests().antMatchers(POST, "/IssueDashboard/save/**").hasAnyAuthority( ALL_ROLES.split(splitter));
         http.authorizeRequests().antMatchers(POST, "/admin/**").hasAnyAuthority(ADMIN);
         http.authorizeRequests().anyRequest().authenticated();
 
         http.addFilter(authenFilter);
         http.addFilterBefore(new AuthoFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.formLogin()
+                .defaultSuccessUrl("/user");
 
 
-                                                                //******************   //Authoriz.
+        //******************   //Authoriz.
                                                                 /// ///// HERE
 
     }

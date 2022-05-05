@@ -61,7 +61,7 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
         log.info("Roles are  {}", AuthRoles);
         APIUser user = new APIUser((Long) null,((UserDetails)authResult.getPrincipal()).getUsername(),
                                                 ((UserDetails)authResult.getPrincipal()).getPassword(),
-                                                    AuthRoles, new ArrayList<>() , new ArrayList<>(),null,null);
+                                                    AuthRoles , new ArrayList<>(),null,null);
 
 
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
