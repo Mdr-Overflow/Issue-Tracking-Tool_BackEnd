@@ -52,7 +52,7 @@ public class IssueDashboard {
 
 
     @ResponseBody
-    @GetMapping("IssueDashboard/get")
+    @PostMapping("IssueDashboard/get")
     public ResponseEntity<Issue> getIssue(@RequestBody String IssueName) {
 
         return ResponseEntity.ok().body(issueService.getIssue(IssueName));
@@ -69,7 +69,7 @@ public class IssueDashboard {
     }
 
     @ResponseBody
-    @GetMapping("IssueDashboard/getTime")
+    @PostMapping("IssueDashboard/getTime")
     public ResponseEntity<Date> getTimeIssue(@RequestBody String IssueName) {
 
         return ResponseEntity.ok().body(issueService.getTimestamp(IssueName));

@@ -40,10 +40,10 @@ public class LoginSessionPointApplication {
 			userService.saveRole(new Role(2L, "ROLE_ADMIN",null,null));
 			userService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",null,null));
 
-			userService.saveUser(new APIUser(1L, "John Travolta", "1234", new ArrayList<>(),  new ArrayList<>(),null,null));
-			userService.saveUser(new APIUser(2L, "Will Smith","1234",new ArrayList<>(), new ArrayList<>(),null,null));
-			userService.saveUser(new APIUser(3L, "Jim Carry", "1234", new ArrayList<>(), new ArrayList<>(),null,null));
-			userService.saveUser(new APIUser(4L, "Arnold Schwarzenegger", "1234", new ArrayList<>(), new ArrayList<>(),null,null));
+			userService.saveUser(new APIUser(1L, "John Travolta", "1234","Jt@asdas.com","John", new ArrayList<>(),  new ArrayList<>(),null,null));
+			userService.saveUser(new APIUser(2L, "Will Smith","1234","w@asdas.com","Will",new ArrayList<>(), new ArrayList<>(),null,null));
+			userService.saveUser(new APIUser(3L, "Jim Carry", "1234", "fg@asdas.com","Jim",new ArrayList<>(), new ArrayList<>(),null,null));
+			userService.saveUser(new APIUser(4L, "Arnold Schwarzenegger", "1234","sd@asdas.com","Arnold", new ArrayList<>(), new ArrayList<>(),null,null));
              // IF NAME NOT IN DB  -> CRASH
 			userService.addRoleToUser("John Travolta","ROLE_USER");
 			userService.addRoleToUser("Jim Carry", "ROLE_ADMIN");
