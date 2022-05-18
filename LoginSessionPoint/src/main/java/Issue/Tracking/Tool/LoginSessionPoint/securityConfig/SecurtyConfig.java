@@ -38,27 +38,22 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-
-
-
-
-
-
-
+         http.cors();
         AuthenFilter authenFilter = new AuthenFilter(authenticationManagerBean());
-
-
+        //security.httpBasic().disable();
+        http.httpBasic().disable();
 
 
 
         http.csrf().disable();
         //http.authorizeRequests();
-        http.cors(cors -> cors.disable());
+
        // authenFilter.setFilterProcessesUrl("/login");
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests();
@@ -76,8 +71,9 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilter(authenFilter);
         http.addFilterBefore(new AuthoFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.formLogin()
-                .defaultSuccessUrl("/user");
+
+       // http.formLogin()
+               // .defaultSuccessUrl("/user");
 
 
         //******************   //Authoriz.
