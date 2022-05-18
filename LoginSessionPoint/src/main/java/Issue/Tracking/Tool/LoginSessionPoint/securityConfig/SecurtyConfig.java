@@ -14,6 +14,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.*;
 import static org.springframework.http.HttpMethod.GET;
@@ -52,7 +58,7 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         //http.authorizeRequests();
-
+        http.cors(cors -> cors.disable());
        // authenFilter.setFilterProcessesUrl("/login");
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests();
@@ -85,4 +91,16 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
         return  super.authenticationManagerBean();
 
     }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+
 }
