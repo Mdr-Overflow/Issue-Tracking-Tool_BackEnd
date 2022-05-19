@@ -30,49 +30,49 @@ public class apiKeyPairServiceImpl implements apiKeyPairService {
 
 
     @Override
-    public boolean validate(String apiKey) throws NoSuchPaddingException, NoSuchAlgorithmException {
-
-
-        for (apiKeyPair  key : keyPairRepo.findAll()){
-
-            String[] secret = kPSImplem.GenerateKeyPair();
-
-            String secretMessage = secret[0];  // API key
-
-            Cipher encryptCipher = Cipher.getInstance("RSA");
-            encryptCipher.init(Cipher.ENCRYPT_MODE, apiKey);
-
-            byte[] secretMessageBytes = secretMessage.getBytes(StandardCharsets.UTF_8);
-            byte[] encryptedMessageBytes = encryptCipher.doFinal(secretMessageBytes);
-
-            String encodedMessage = Base64.getEncoder().encodeToString(encryptedMessageBytes);
-            key.getSecretKey();
-
-
+    public boolean validate(String apiKey) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException {
+        for (apiKeyPair key : keyPairRepo.findAll()) {
+            return apiKey.equals(key.getApiKey());
         }
-
+        return false;
     }
+
+
+
+
+
+
+
 
     @Override
     public void generate() {
 
-        KeyPairGenerator generator = null;
+       // KeyPairGenerator generator = null;
         try {
-            generator = KeyPairGenerator.getInstance("RSA");
-            generator.initialize(2048);
-            KeyPair pair = generator.generateKeyPair();
+            KeyPairGenerator dsaKeyGen = KeyPairGenerator.getInstance("SHA256withDSA");
+            dsaKeyGen.initialize(1024);
+            KeyPair pair = dsaKeyGen.generateKeyPair();
+
+         //   generator = KeyPairGenerator.getInstance("RSA");
+          //  generator.initialize(1024);
+           // KeyPair pair = generator.generateKeyPair();
 
             PrivateKey secretKey = pair.getPrivate();
             PublicKey ApiKey = pair.getPublic();
+            //String[] secret = kPSImplem.GenerateKeyPair();
+
+            // Cipher encryptCipher = Cipher.getInstance("RSA");
+            // encryptCipher.init(Cipher.ENCRYPT_MODE, ApiKey);
 
 
+           //   byte[] secretMessageBytes = secret[0].getBytes(StandardCharsets.UTF_8);
+            //  byte[] encryptedMessageBytes = encryptCipher.doFinal(secretMessageBytes);
+
+          //  String encodedMessage = Base64.getEncoder().encodeToString(encryptedMessageBytes);
 
             keyPairRepo.save(new apiKeyPair(1, ApiKey.toString(), secretKey.toString(), null, null)); // auto assigned by hibernate
 
         } catch (NoSuchAlgorithmException e) {
             log.error("ENCRYPTION FAILED", e);
-        }
 
-}
-
-}
+    }}}

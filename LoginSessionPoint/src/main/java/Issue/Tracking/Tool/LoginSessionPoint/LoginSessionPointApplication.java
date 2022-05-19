@@ -4,9 +4,11 @@ package Issue.Tracking.Tool.LoginSessionPoint;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserService;
+import Issue.Tracking.Tool.LoginSessionPoint.service.apiKeyPairService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 
-@SpringBootApplication
+@SpringBootApplication(exclude={SecurityAutoConfiguration.class})
 @RestController
 
 public class LoginSessionPointApplication {
@@ -34,7 +36,7 @@ public class LoginSessionPointApplication {
 
 	@Bean
 
-	CommandLineRunner run(UserService userService) {
+	CommandLineRunner run(UserService userService, apiKeyPairService apiKeyPairService) {
 		return args -> {
 			userService.saveRole(new Role(1L, "ROLE_USER",null,null));
 			userService.saveRole(new Role(2L, "ROLE_ADMIN",null,null));
@@ -50,6 +52,9 @@ public class LoginSessionPointApplication {
 			userService.addRoleToUser("Arnold Schwarzenegger", "ROLE_SUPER_ADMIN");
 			userService.addRoleToUser("Arnold Schwarzenegger", "ROLE_ADMIN");
 			userService.addRoleToUser("Arnold Schwarzenegger", "ROLE_USER");
+
+			apiKeyPairService.generate();
+
 		};
 	}
 
