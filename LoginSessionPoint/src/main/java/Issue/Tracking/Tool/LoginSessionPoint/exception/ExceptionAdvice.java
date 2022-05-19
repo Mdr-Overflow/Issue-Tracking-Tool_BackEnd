@@ -31,7 +31,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         body.put("timestamp", LocalDateTime.now());
         body.put("message", "Invalid Credentials");
 
-        return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(NoSuchElementException.class)

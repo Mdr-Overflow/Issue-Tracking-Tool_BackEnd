@@ -7,7 +7,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -91,12 +93,16 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
-
 /*
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        super.unsuccessfulAuthentication(request, response, failed);
-    }
-  */  // for catching failed auth request  -> block acc. , etc
+       // super.unsuccessfulAuthentication(request, response, failed);
+        log.info("Illegal Credentials");
 
+
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                "Authentication Failed");
+
+        // for catching failed auth request  -> block acc. , etc
+    }*/
 }
