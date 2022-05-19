@@ -10,5 +10,6 @@ import java.util.List;
 public interface UserRepo  extends JpaRepository<APIUser,Long> {
     APIUser findByUsername(String username);
     List<Role> findAllByUsername(String username);
+    void deleteByUsername(String username);
 
  }

@@ -3,6 +3,7 @@ package Issue.Tracking.Tool.LoginSessionPoint;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
+import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.apiKeyPairService;
 import org.springframework.boot.CommandLineRunner;
@@ -36,11 +37,11 @@ public class LoginSessionPointApplication {
 
 	@Bean
 
-	CommandLineRunner run(UserService userService, apiKeyPairService apiKeyPairService) {
+	CommandLineRunner run(UserService userService, apiKeyPairService apiKeyPairService, RoleService roleService) {
 		return args -> {
-			userService.saveRole(new Role(1L, "ROLE_USER",null,null));
-			userService.saveRole(new Role(2L, "ROLE_ADMIN",null,null));
-			userService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",null,null));
+			roleService.saveRole(new Role(1L, "ROLE_USER",null,null));
+			roleService.saveRole(new Role(2L, "ROLE_ADMIN",null,null));
+			roleService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",null,null));
 
 			userService.saveUser(new APIUser(1L, "John Travolta", "1234","Jt@asdas.com","John", new ArrayList<>(),  new ArrayList<>(),null,null));
 			userService.saveUser(new APIUser(2L, "Will Smith","1234","w@asdas.com","Will",new ArrayList<>(), new ArrayList<>(),null,null));

@@ -1,16 +1,15 @@
 package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Issue;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
+import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -36,6 +35,27 @@ public class GroupManager {
         return ResponseEntity.ok().body(userGroupService.getGroups());
 
     }
+
+
+
+
+    @ResponseBody
+    @PutMapping("/GroupManager/update/{name}")
+    public String replaceGroup(@RequestBody UserGroup group, @PathVariable String name) {
+
+        UserGroup groupOld = userGroupService.getGroup(name);
+        if(groupOld != null) {
+
+
+            if (group.getName() != null) groupOld.setName(group.getName());
+            if (group.getUsers() != null) groupOld.setUsers(group.getUsers());
+
+            group.setLastUpdated(group.getCreatedAt());
+            return "updated";
+        }
+        else throw new NoDataFoundException();
+    }
+
 
 
     @ResponseBody

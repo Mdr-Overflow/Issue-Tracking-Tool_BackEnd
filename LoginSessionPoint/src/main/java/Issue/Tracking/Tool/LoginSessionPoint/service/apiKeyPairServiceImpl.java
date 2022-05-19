@@ -47,15 +47,15 @@ public class apiKeyPairServiceImpl implements apiKeyPairService {
     @Override
     public void generate() {
 
-       // KeyPairGenerator generator = null;
+        KeyPairGenerator generator = null;
         try {
-            KeyPairGenerator dsaKeyGen = KeyPairGenerator.getInstance("SHA256withDSA");
-            dsaKeyGen.initialize(1024);
-            KeyPair pair = dsaKeyGen.generateKeyPair();
+           // KeyPairGenerator dsaKeyGen = KeyPairGenerator.getInstance("SHA256withDSA");
+           // dsaKeyGen.initialize(1024);
+           // KeyPair pair = dsaKeyGen.generateKeyPair();
 
-         //   generator = KeyPairGenerator.getInstance("RSA");
-          //  generator.initialize(1024);
-           // KeyPair pair = generator.generateKeyPair();
+          generator = KeyPairGenerator.getInstance("RSA");
+           generator.initialize(1024);
+           KeyPair pair = generator.generateKeyPair();
 
             PrivateKey secretKey = pair.getPrivate();
             PublicKey ApiKey = pair.getPublic();
