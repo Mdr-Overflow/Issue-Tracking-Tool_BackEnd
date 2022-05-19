@@ -2,6 +2,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Issue;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
+
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
+
 
 import static org.springframework.http.ResponseEntity.created;
 
@@ -37,6 +39,12 @@ public class GroupManager {
 
     }
 
+    @DeleteMapping("/GroupManager/delete/{name}")
+    public void deleteGroup(@PathVariable String name) {
+        if(userGroupService.getGroup(name) != null)
+        userGroupService.deleteByName(name);
+        else throw new NoDataFoundException();
+    }
 
 
 

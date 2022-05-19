@@ -51,6 +51,11 @@ public class UserGroupServiceImpl implements UserGroupService {
     }
 
     @Override
+    public void deleteByName(String name) {
+        userGroupRepo.deleteByName(name);
+    }
+
+    @Override
     public Date getTimestamp(String GroupName) {
         return userGroupRepo.findTimestampByName(GroupName);
     }

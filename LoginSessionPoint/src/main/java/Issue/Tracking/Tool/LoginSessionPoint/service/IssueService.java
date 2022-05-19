@@ -23,6 +23,7 @@ public interface IssueService {
     void AddUser(APIUser user, String issueName);
     void AddGroup(UserGroup userGroup, String issueName);
 
+    void deleteByName(String name);
 
     java.util.Date getTimestamp(String IssueName);
 

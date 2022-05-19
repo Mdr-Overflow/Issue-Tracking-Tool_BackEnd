@@ -10,7 +10,7 @@ public interface UserGroupService {
     List<UserGroup> getGroups();
 
     void AddUserToGroup(String username, String groupName);
-
+    void deleteByName(String name);
 
     java.util.Date getTimestamp(String IssueName);
 

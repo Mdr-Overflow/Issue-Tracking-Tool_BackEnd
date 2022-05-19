@@ -9,4 +9,6 @@ public interface UserGroupRepo extends JpaRepository<UserGroup,Long> {
 
     @Query("SELECT g.createdAt FROM UserGroup g where g.name = :name")
     java.util.Date findTimestampByName(String name) ;
+
+    void deleteByName(String name);
 }

@@ -73,6 +73,14 @@ public class IssueDashboard {
         else throw new NoDataFoundException();
     }
 
+    @DeleteMapping("/IssueDashboard/delete/{name}")
+    public void deleteIssue(@PathVariable String name) {
+        if(issueService.getIssue(name) != null)
+            issueService.deleteByName(name);
+        else throw new NoDataFoundException();
+    }
+
+
 
     @ResponseBody
     @PostMapping("IssueDashboard/get")
