@@ -6,6 +6,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
+import Issue.Tracking.Tool.LoginSessionPoint.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ import static org.springframework.http.ResponseEntity.created;
 @RequiredArgsConstructor
 public class GroupManager {
 
-    private final Issue.Tracking.Tool.LoginSessionPoint.service.UserService userService;
+    private final UserService userService;
     private final UserGroupService userGroupService;
     private final IssueService issueService;
     private final SolutionService solutionService;
