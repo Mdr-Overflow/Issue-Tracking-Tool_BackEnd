@@ -43,13 +43,7 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
         return userRepo.save(user);
     }
 
-    @Override
-    public Role saveRole(Role role) {
-        log.info("Saving role {} to DB",role.getName());
-        ALL_ROLES += splitter + role.getName();
-        return roleRepo.save(role);
 
-    }
 
     @Override
     public void addRoleToUser(String username, String roleName) {
@@ -84,16 +78,12 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
         return userRepo.findAllByUsername();
     }*/
 
+
+
     @Override
-    public List<Role> getALLRoles() {
-        log.info("Getting all roles ");
-        List<Role> roles = roleRepo.findAll();
-        if(roles.isEmpty())
-            throw new NoDataFoundException();
-        return roles;
+    public void deleteByUsername(String username) {
+        userRepo.deleteByUsername(username);
     }
-
-
 
 
     @Override

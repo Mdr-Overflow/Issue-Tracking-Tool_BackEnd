@@ -22,7 +22,9 @@ public class apiKeyPair {
             generator = "apiKeyPair_Id_seq"
     )
     private long id;//PK
+    @Column(length = 1025)
     private String ApiKey;
+    @Column(length = 1025)
     private String SecretKey;
 
     @CreationTimestamp
