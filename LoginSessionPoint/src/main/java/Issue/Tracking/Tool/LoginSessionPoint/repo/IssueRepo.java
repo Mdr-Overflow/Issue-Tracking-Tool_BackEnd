@@ -24,4 +24,6 @@ public interface IssueRepo extends JpaRepository <Issue,Long>{
 
     @Query("SELECT i.createdAt FROM Issue i where i.name = :name")
     java.util.Date findTimestampByName(String name) ;
+
+    void deleteByName(String name);
 }

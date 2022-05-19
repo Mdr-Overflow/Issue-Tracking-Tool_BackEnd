@@ -27,4 +27,5 @@ public interface IssueService {
     java.util.Date getTimestamp(String IssueName);
 
 
+    void deleteByName(String name);
 }

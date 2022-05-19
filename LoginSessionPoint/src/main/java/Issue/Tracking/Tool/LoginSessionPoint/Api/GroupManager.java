@@ -57,7 +57,12 @@ public class GroupManager {
         else throw new NoDataFoundException();
     }
 
-
+    @DeleteMapping("/GroupManager/delete/{name}")
+    public void deleteGroup(@PathVariable String name) {
+        if(userGroupService.getGroup(name) != null)
+            userGroupService.deleteByName(name);
+        else throw new NoDataFoundException();
+    }
 
     @ResponseBody
     @PostMapping("GroupManager/save")
