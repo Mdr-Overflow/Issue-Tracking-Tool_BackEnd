@@ -22,6 +22,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.*;
 
@@ -39,8 +45,17 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurtyConfig extends WebSecurityConfigurerAdapter {
 
 
+<<<<<<< HEAD
+=======
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+
+    }
+>>>>>>> cec9bd6474726f4926e787d2601eb2e9e24f17fe
 
 
+<<<<<<< HEAD
     @Configuration
     @Order(1)
     public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
@@ -77,6 +92,12 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                 AuthenFilter authenFilter = new AuthenFilter(authenticationManagerBean());
                 http.cors();
 
+=======
+         http.cors();
+        AuthenFilter authenFilter = new AuthenFilter(authenticationManagerBean());
+        //security.httpBasic().disable();
+        http.httpBasic().disable();
+>>>>>>> cec9bd6474726f4926e787d2601eb2e9e24f17fe
 
                 http.csrf().disable();
                 // authenFilter.setFilterProcessesUrl("/login");
@@ -104,9 +125,17 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
         }
 
 
+<<<<<<< HEAD
         @Bean
         @Override
         public AuthenticationManager authenticationManagerBean() throws Exception {
+=======
+        http.addFilter(authenFilter);
+        http.addFilterBefore(new AuthoFilter(), UsernamePasswordAuthenticationFilter.class);
+
+       // http.formLogin()
+               // .defaultSuccessUrl("/user");
+>>>>>>> cec9bd6474726f4926e787d2601eb2e9e24f17fe
 
             return super.authenticationManagerBean();
 
@@ -115,3 +144,19 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
 
 
     }
+<<<<<<< HEAD
+=======
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+
+}
+>>>>>>> cec9bd6474726f4926e787d2601eb2e9e24f17fe

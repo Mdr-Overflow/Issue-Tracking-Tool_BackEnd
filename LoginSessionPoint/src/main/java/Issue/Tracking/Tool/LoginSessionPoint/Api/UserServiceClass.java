@@ -43,6 +43,7 @@ public class UserServiceClass {
 
 
     @ResponseBody
+    @CrossOrigin(origins = "localhost:4200")
     @GetMapping("/user/{username}")
     public EntityModel<APIUser> getUserByName(@PathVariable("username") String username) {
         APIUser user = userService.getUser(username);
