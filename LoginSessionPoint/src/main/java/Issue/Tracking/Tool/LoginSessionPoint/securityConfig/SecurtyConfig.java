@@ -45,17 +45,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurtyConfig extends WebSecurityConfigurerAdapter {
 
 
-<<<<<<< HEAD
-=======
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-
-    }
->>>>>>> cec9bd6474726f4926e787d2601eb2e9e24f17fe
 
 
-<<<<<<< HEAD
     @Configuration
     @Order(1)
     public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
@@ -92,12 +83,9 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                 AuthenFilter authenFilter = new AuthenFilter(authenticationManagerBean());
                 http.cors();
 
-=======
-         http.cors();
-        AuthenFilter authenFilter = new AuthenFilter(authenticationManagerBean());
+
         //security.httpBasic().disable();
         http.httpBasic().disable();
->>>>>>> cec9bd6474726f4926e787d2601eb2e9e24f17fe
 
                 http.csrf().disable();
                 // authenFilter.setFilterProcessesUrl("/login");
@@ -125,17 +113,12 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
         }
 
 
-<<<<<<< HEAD
+
         @Bean
         @Override
         public AuthenticationManager authenticationManagerBean() throws Exception {
-=======
-        http.addFilter(authenFilter);
-        http.addFilterBefore(new AuthoFilter(), UsernamePasswordAuthenticationFilter.class);
 
-       // http.formLogin()
-               // .defaultSuccessUrl("/user");
->>>>>>> cec9bd6474726f4926e787d2601eb2e9e24f17fe
+
 
             return super.authenticationManagerBean();
 
@@ -143,9 +126,8 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
 
 
 
-    }
-<<<<<<< HEAD
-=======
+
+
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -159,4 +141,3 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
 
 
 }
->>>>>>> cec9bd6474726f4926e787d2601eb2e9e24f17fe
