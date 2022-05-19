@@ -53,7 +53,7 @@ public class AuthoFilter extends OncePerRequestFilter {
                         authorities.add(new SimpleGrantedAuthority(role));
 
                     });
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, roles, authorities);
 
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);

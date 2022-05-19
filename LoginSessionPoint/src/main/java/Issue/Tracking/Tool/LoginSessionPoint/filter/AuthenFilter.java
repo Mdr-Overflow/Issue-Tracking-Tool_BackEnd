@@ -82,6 +82,7 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))  // Token Expiress at 30 mins
                 .withIssuer(request.getRequestURL().toString())
+                .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                 .sign(algorithm);
 
         /*response.setHeader("access_token", access_token);
