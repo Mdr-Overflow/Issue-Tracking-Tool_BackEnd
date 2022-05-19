@@ -6,6 +6,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
 @Slf4j
+
 public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
 
     private  final  AuthenticationManager  authenticationManager;
@@ -60,8 +62,8 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
         } );
         log.info("Roles are  {}", AuthRoles);
         APIUser user = new APIUser((Long) null,((UserDetails)authResult.getPrincipal()).getUsername(),
-                                                ((UserDetails)authResult.getPrincipal()).getPassword(),
-                                                    AuthRoles , new ArrayList<>(),null,null);
+                                                ((UserDetails)authResult.getPrincipal()).getPassword(), null,null,
+                                                    AuthRoles  ,new ArrayList<>(),null,null);
 
 
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());

@@ -1,8 +1,10 @@
 package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Issue;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Solution;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
+import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
@@ -10,10 +12,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -50,9 +49,33 @@ public class IssueDashboard {
         return created(uri).body("Nice");
     }
 
+    @ResponseBody
+    @PutMapping("/IssueDashboard/update/{name}")
+    public String replaceIssue(@RequestBody Issue issue, @PathVariable String name) {
+
+       Issue issueOld = issueService.getIssue(name);
+
+        if(issueOld != null) {
+
+
+            if (issue.getName() != null) issueOld.setName(issue.getName());
+            if (issue.getSolutions()  != null) issueOld.setSolutions(issue.getSolutions());
+            if (issue.getUsers() != null) issueOld.setUsers(issue.getUsers());
+            if (issue.getUserGroups() != null) issueOld.setUserGroups(issue.getUserGroups());
+            if (issue.getDetails() != null) issueOld.setDetails(issue.getDetails());
+            if (issue.getStatus() != null) issueOld.setStatus(issue.getStatus());
+            if (issue.getPriority() != null) issueOld.setPriority(issue.getPriority());
+
+
+            issue.setLastUpdated(issue.getCreatedAt());
+            return "updated";
+        }
+        else throw new NoDataFoundException();
+    }
+
 
     @ResponseBody
-    @GetMapping("IssueDashboard/get")
+    @PostMapping("IssueDashboard/get")
     public ResponseEntity<Issue> getIssue(@RequestBody String IssueName) {
 
         return ResponseEntity.ok().body(issueService.getIssue(IssueName));
@@ -68,8 +91,11 @@ public class IssueDashboard {
 
     }
 
+
+
+
     @ResponseBody
-    @GetMapping("IssueDashboard/getTime")
+    @PostMapping("IssueDashboard/getTime")
     public ResponseEntity<Date> getTimeIssue(@RequestBody String IssueName) {
 
         return ResponseEntity.ok().body(issueService.getTimestamp(IssueName));

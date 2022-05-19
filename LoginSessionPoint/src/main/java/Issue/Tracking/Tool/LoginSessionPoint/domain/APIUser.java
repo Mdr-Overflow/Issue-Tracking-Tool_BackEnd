@@ -35,6 +35,9 @@ public class APIUser {
     private Long id;
     private String username;
     private String password;
+    private String email;
+    private String Name;
+
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Collection <Role> roles = new ArrayList<>();
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
