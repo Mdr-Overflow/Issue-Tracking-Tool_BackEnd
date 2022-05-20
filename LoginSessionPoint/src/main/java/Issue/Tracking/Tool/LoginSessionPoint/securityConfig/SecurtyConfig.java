@@ -35,8 +35,7 @@ import java.util.List;
 
 import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.*;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 
@@ -97,9 +96,13 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                 http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
                 http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority(USER, ADMIN);
                 http.authorizeRequests().antMatchers(POST, "/user/save/**").hasAnyAuthority(ADMIN);
-                http.authorizeRequests().antMatchers(POST, "/GroupManager/save/**").hasAnyAuthority(ADMIN);
-                http.authorizeRequests().antMatchers(POST, "/GroupManager").hasAnyAuthority(ALL_ROLES.split(splitter));
-                http.authorizeRequests().antMatchers(POST, "/IssueDashboard/save/**").hasAnyAuthority(ALL_ROLES.split(splitter));
+                http.authorizeRequests().antMatchers(POST, "/GroupManager/save/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(POST, "/GroupManager").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(POST, "/IssueDashboard/save/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(PUT,"/user/**").hasAnyAuthority(ADMIN);
+                http.authorizeRequests().antMatchers(PUT,"/GroupManager/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/**").hasAnyAuthority(ADMIN);
+
                 http.authorizeRequests().antMatchers(POST, "/admin/**").hasAnyAuthority(ADMIN);
                 http.authorizeRequests().anyRequest().authenticated();
 

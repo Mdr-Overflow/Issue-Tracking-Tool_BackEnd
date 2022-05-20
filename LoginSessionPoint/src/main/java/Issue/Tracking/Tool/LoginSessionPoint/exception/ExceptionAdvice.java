@@ -73,7 +73,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         body.put("timestamp", LocalDateTime.now());
         body.put("message", "No data found");
 
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(body, HttpStatus.I_AM_A_TEAPOT);
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
