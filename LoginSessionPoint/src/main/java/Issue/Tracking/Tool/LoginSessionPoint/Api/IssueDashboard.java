@@ -50,7 +50,7 @@ public class IssueDashboard {
     }
 
     @ResponseBody
-    @PutMapping("/IssueDashboard/update/{name}")
+    @PutMapping("/IssueDashboard/admin/update/{name}")
     public String replaceIssue(@RequestBody Issue issue, @PathVariable String name) {
 
        Issue issueOld = issueService.getIssue(name);
@@ -72,6 +72,52 @@ public class IssueDashboard {
         }
         else throw new NoDataFoundException();
     }
+
+    @ResponseBody
+    @PutMapping("/IssueDashboard/user/update/{name}")
+    public String replaceIssueUSER(@RequestBody Issue issue, @PathVariable String name) {
+
+        Issue issueOld = issueService.getIssue(name);
+
+        if(issueOld != null) {
+
+
+            if (issue.getName() != null) issueOld.setName(issue.getName());
+            if (issue.getDetails() != null) issueOld.setDetails(issue.getDetails());
+
+            issue.setLastUpdated(issue.getCreatedAt());
+            return "updated";
+        }
+        else throw new NoDataFoundException();
+    }
+
+
+    @ResponseBody
+    @PutMapping("/IssueDashboard/leader/update/{name}")
+    public String replaceIssueLEADER(@RequestBody Issue issue, @PathVariable String name) {
+
+        Issue issueOld = issueService.getIssue(name);
+
+        if(issueOld != null) {
+
+
+            if (issue.getName() != null) issueOld.setName(issue.getName());
+
+
+            if (issue.getUsers() != null) issueOld.setUsers(issue.getUsers());
+            if (issue.getDetails() != null) issueOld.setDetails(issue.getDetails());
+            if (issue.getStatus() != null) issueOld.setStatus(issue.getStatus());
+            if (issue.getPriority() != null) issueOld.setPriority(issue.getPriority());
+            if (issue.getSolutions()  != null) issueOld.setSolutions(issue.getSolutions());
+
+
+            issue.setLastUpdated(issue.getCreatedAt());
+            return "updated";
+        }
+        else throw new NoDataFoundException();
+    }
+
+
 
     @DeleteMapping("/IssueDashboard/delete/{name}")
     public void deleteIssue(@PathVariable String name) {

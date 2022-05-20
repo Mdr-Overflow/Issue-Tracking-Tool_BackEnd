@@ -35,6 +35,8 @@ public class UserGroup {
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Collection<APIUser> users = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private APIUser Leader;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)

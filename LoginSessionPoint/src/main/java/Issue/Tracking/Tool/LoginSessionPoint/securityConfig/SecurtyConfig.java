@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
@@ -94,14 +95,27 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                 http.sessionManagement().sessionCreationPolicy(STATELESS);
                 http.authorizeRequests();
                 http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
-                http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority(USER, ADMIN);
+                http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority(USER, ADMIN,GROUP_LEADER);
                 http.authorizeRequests().antMatchers(POST, "/user/save/**").hasAnyAuthority(ADMIN);
+                http.authorizeRequests().antMatchers(PUT,"/user/update/**").hasAnyAuthority(ADMIN);
+                http.authorizeRequests().antMatchers(PUT,"/user/changePass/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(DELETE,"/user/delete/**").hasAnyAuthority(ADMIN);
+                http.authorizeRequests().antMatchers(GET,"/user/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER);
+
                 http.authorizeRequests().antMatchers(POST, "/GroupManager/save/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
                 http.authorizeRequests().antMatchers(POST, "/GroupManager").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(GET, "/GroupManager").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(GET,"/GroupManager/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER);
+                http.authorizeRequests().antMatchers(DELETE,"/GroupManager/delete/**").hasAnyAuthority(ADMIN);
+                http.authorizeRequests().antMatchers(POST, "/GroupManager/addUser").hasAnyAuthority(ADMIN,GROUP_LEADER);
+
+
                 http.authorizeRequests().antMatchers(POST, "/IssueDashboard/save/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
-                http.authorizeRequests().antMatchers(PUT,"/user/**").hasAnyAuthority(ADMIN);
-                http.authorizeRequests().antMatchers(PUT,"/GroupManager/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
-                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/**").hasAnyAuthority(ADMIN);
+                http.authorizeRequests().antMatchers(DELETE, "/IssueDashboard/delete/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/admin/update/**").hasAnyAuthority(ADMIN);
+                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/user/update/**").hasAnyAuthority(USER);
+                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/leader/update/**").hasAnyAuthority(GROUP_LEADER);
+                http.authorizeRequests().antMatchers(GET,"/IssueDashboard/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER);
 
                 http.authorizeRequests().antMatchers(POST, "/admin/**").hasAnyAuthority(ADMIN);
                 http.authorizeRequests().anyRequest().authenticated();

@@ -47,7 +47,12 @@ public class LoginSessionPointApplication {
 			userService.saveUser(new APIUser(2L, "Will Smith","1234","w@asdas.com","Will",new ArrayList<>(), new ArrayList<>(),null,null));
 			userService.saveUser(new APIUser(3L, "Jim Carry", "1234", "fg@asdas.com","Jim",new ArrayList<>(), new ArrayList<>(),null,null));
 			userService.saveUser(new APIUser(4L, "Arnold Schwarzenegger", "1234","sd@asdas.com","Arnold", new ArrayList<>(), new ArrayList<>(),null,null));
-             // IF NAME NOT IN DB  -> CRASH
+
+			// IF NAME NOT IN DB  -> CRASH
+
+
+
+
 			userService.addRoleToUser("John Travolta","ROLE_USER");
 			userService.addRoleToUser("Jim Carry", "ROLE_ADMIN");
 			userService.addRoleToUser("Arnold Schwarzenegger", "ROLE_SUPER_ADMIN");

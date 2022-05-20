@@ -1,6 +1,7 @@
 package Issue.Tracking.Tool.LoginSessionPoint.service;
 
 
+import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserGroupRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
@@ -41,6 +42,16 @@ public class UserGroupServiceImpl implements UserGroupService {
         log.info("Getting all groups ");
         org.springframework.data.domain.Pageable givenPage =  PageRequest.of(0, 1, Sort.unsorted()); // Page has overhead cost (determines how many beforehand)
         return (userGroupRepo.findAll(givenPage)).getContent();
+    }
+
+    @Override
+    public List<APIUser> getUsers(String name) {
+        return (userGroupRepo.getALLUsers(name));
+    }
+
+    @Override
+    public APIUser getLeader(String name) {
+        return (userGroupRepo.findLeader(name));
     }
 
     @Override

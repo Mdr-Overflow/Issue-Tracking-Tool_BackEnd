@@ -1,5 +1,6 @@
 package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
+import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Issue;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
 
@@ -58,6 +59,8 @@ public class GroupManager {
 
             if (group.getName() != null) groupOld.setName(group.getName());
             if (group.getUsers() != null) groupOld.setUsers(group.getUsers());
+            if (group.getUsers() != null) groupOld.setLeader(group.getLeader());
+
 
             group.setLastUpdated(group.getCreatedAt());
             return "updated";
@@ -92,12 +95,21 @@ public class GroupManager {
 
     }
 
+    @ResponseBody
+    @GetMapping("GroupManager/getLeader")
+    public ResponseEntity<APIUser> getGroupLeader(@RequestBody String groupName) {
+
+        return ResponseEntity.ok().body(userGroupService.getLeader(groupName));
+
+    }
+
+
 
     @ResponseBody
-    @GetMapping("GroupManager/getAll")
-    public ResponseEntity<List<UserGroup>> saveGroup() {
+    @GetMapping("GroupManager/getAllUsers")
+    public ResponseEntity<List<APIUser>> getUsersOfGroup(@RequestBody String groupName) {
 
-        return ResponseEntity.ok().body(userGroupService.getGroups());
+        return ResponseEntity.ok().body(userGroupService.getUsers(groupName));
 
     }
 

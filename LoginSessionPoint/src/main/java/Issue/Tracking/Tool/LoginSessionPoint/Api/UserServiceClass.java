@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -50,6 +52,27 @@ public class UserServiceClass {
         return APIUserAssembler.toModel(user);
         // use fastAPIUser
     }
+
+
+    @ResponseBody
+    @PutMapping("/user/changePass")
+    public void replaceAPIUser(@PathVariable String username, @RequestBody String newPass  , @RequestBody String oldPass) {
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(11);
+
+
+        APIUser userOld = userService.getUser(username);
+        if (userOld != null ){
+            if ( encoder.matches(oldPass, userOld.getPassword()))
+            userOld.setPassword(encoder.encode(newPass));
+            else throw new BadCredentialsException("Wrong Password");
+        }
+
+        else throw new NoDataFoundException();
+
+    }
+
+
 
     @ResponseBody
     @PutMapping("/user/update/{username}")
