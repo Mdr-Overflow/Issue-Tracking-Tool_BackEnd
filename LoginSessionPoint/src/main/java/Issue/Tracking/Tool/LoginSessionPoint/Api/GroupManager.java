@@ -63,6 +63,11 @@ public class GroupManager {
 
 
             group.setLastUpdated(group.getCreatedAt());
+
+
+            userGroupService.saveGroup(groupOld);
+
+
             return "updated";
         }
         else throw new NoDataFoundException();

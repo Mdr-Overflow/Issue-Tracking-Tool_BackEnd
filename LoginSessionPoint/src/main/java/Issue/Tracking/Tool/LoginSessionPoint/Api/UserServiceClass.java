@@ -10,6 +10,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -21,6 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,15 +61,21 @@ public class UserServiceClass {
 
     @ResponseBody
     @PutMapping("/user/changePass")
-    public void replaceAPIUser(@PathVariable String username, @RequestBody String newPass  , @RequestBody String oldPass) {
+    public void replacePassword(@RequestBody PasswordInput passwordInput) {
+
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(11);
 
 
-        APIUser userOld = userService.getUser(username);
+        APIUser userOld = userService.getUser(passwordInput.getUsername());
         if (userOld != null ){
-            if ( encoder.matches(oldPass, userOld.getPassword()))
-            userOld.setPassword(encoder.encode(newPass));
+            if ( encoder.matches(passwordInput.getOldPass() , userOld.getPassword())) {
+                userOld.setPassword(encoder.encode(passwordInput.getNewPass()));
+                userOld.setLastUpdated(Date.from(Instant.now()));
+
+
+                userService.saveUser(userOld);
+            }
             else throw new BadCredentialsException("Wrong Password");
         }
 
@@ -87,6 +98,9 @@ public class UserServiceClass {
              if (user.getEmail() != null) userOld.setEmail(user.getEmail());
              if (user.getName() != null) userOld.setName(user.getName());
              userOld.setLastUpdated(user.getCreatedAt());
+
+             userService.saveUser(userOld);
+
              return "updated";
          }
         else throw new NoDataFoundException();
@@ -145,6 +159,9 @@ public class UserServiceClass {
         if(roleOld != null) {
             if (role.getName() != null) roleOld.setName(role.getName());
             roleOld.setLastUpdated(role.getCreatedAt());
+
+
+            roleService.saveRole(roleOld);
             return "updated";
         }
         else throw new NoDataFoundException();
@@ -182,6 +199,13 @@ public class UserServiceClass {
 
 }
 
+
+@Data
+class PasswordInput {
+    private String username;
+    private String oldPass;
+    private String newPass;
+}
 
 
 

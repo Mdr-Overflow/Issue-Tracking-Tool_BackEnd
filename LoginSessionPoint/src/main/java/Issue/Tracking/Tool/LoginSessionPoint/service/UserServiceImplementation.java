@@ -3,6 +3,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.service;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 //import Issue.Tracking.Tool.LoginSessionPoint.Repo.RoleRepo;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.apiKeyPair;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.RoleRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -71,6 +72,13 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
 
         return users;
     }
+
+   // @Override
+   // public void updateUser(APIUser userOld, APIUser userNew) {
+   //     userRepo.UpdateUser(userOld.getUsername(), userNew.getUsername(), userNew.getCreatedAt(), (List<apiKeyPair>) userNew.getApiKeys()
+   //             , userNew.getEmail(), userNew.getLastUpdated(), userNew.getName(), userNew.getPassword(), (List<Role>) userNew.getRoles());
+
+   // }
 
    /* @Override
     public List<Role> getRoles() {

@@ -68,6 +68,10 @@ public class IssueDashboard {
 
 
             issue.setLastUpdated(issue.getCreatedAt());
+
+
+            issueService.saveIssue(issueOld);
+
             return "updated";
         }
         else throw new NoDataFoundException();
@@ -86,6 +90,10 @@ public class IssueDashboard {
             if (issue.getDetails() != null) issueOld.setDetails(issue.getDetails());
 
             issue.setLastUpdated(issue.getCreatedAt());
+
+
+            issueService.saveIssue(issueOld);
+
             return "updated";
         }
         else throw new NoDataFoundException();
@@ -111,7 +119,12 @@ public class IssueDashboard {
             if (issue.getSolutions()  != null) issueOld.setSolutions(issue.getSolutions());
 
 
+
             issue.setLastUpdated(issue.getCreatedAt());
+
+
+            issueService.saveIssue(issueOld);
+
             return "updated";
         }
         else throw new NoDataFoundException();

@@ -12,7 +12,7 @@ public interface UserService {
     void addRoleToUser(String username, String roleName );
     APIUser getUser(String username);
     List<APIUser> getUsers();   //load n amount
-
+    //void updateUser(APIUser userOld, APIUser userNew);
 
 
     //List<Role> getRoles();

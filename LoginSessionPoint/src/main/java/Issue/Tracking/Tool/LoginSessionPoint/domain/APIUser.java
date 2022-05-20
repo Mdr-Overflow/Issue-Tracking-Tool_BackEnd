@@ -14,6 +14,7 @@ import java.util.Collection;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
+
 public class APIUser {
 
    /* @Transient
@@ -40,6 +41,7 @@ public class APIUser {
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Collection <Role> roles = new ArrayList<>();
+
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Collection <apiKeyPair> apiKeys=new ArrayList();
 
