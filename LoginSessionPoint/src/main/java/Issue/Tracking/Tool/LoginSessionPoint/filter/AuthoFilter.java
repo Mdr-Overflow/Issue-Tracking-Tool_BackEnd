@@ -48,6 +48,7 @@ public class AuthoFilter extends OncePerRequestFilter {
                     String username = decodedJWT.getSubject();
 
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
+                    log.info("Getting roles {} ", (Object) roles);
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
                     stream(roles).forEach(role -> {
                         authorities.add(new SimpleGrantedAuthority(role));

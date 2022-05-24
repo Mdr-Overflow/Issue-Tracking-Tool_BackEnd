@@ -70,13 +70,13 @@ public class UserServiceClass {
         APIUser userOld = userService.getUser(passwordInput.getUsername());
         if (userOld != null ){
             if ( encoder.matches(passwordInput.getOldPass() , userOld.getPassword())) {
-                userOld.setPassword(encoder.encode(passwordInput.getNewPass()));
+                userOld.setPassword(passwordInput.getNewPass());
                 userOld.setLastUpdated(Date.from(Instant.now()));
 
 
                 userService.saveUser(userOld);
             }
-            else throw new BadCredentialsException("Wrong Password");
+            else throw new BadCredentialsException("Wrong Password" );
         }
 
         else throw new NoDataFoundException();

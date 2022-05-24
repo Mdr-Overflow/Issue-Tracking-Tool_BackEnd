@@ -69,9 +69,9 @@ public class SecurityAPI {
 
                 String access_token = JWT.create()
                         .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))  // Token Expiress at 10 mins
+                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 2000))  // Token Expiress at 20 mins
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("Role", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                        .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                         .sign(algorithm);
                 Map<String, String> tokens = new HashMap<>();
 
@@ -84,7 +84,7 @@ public class SecurityAPI {
             }catch (Exception exception) {
 
                 response.setHeader("error", exception.getMessage());
-                response.setStatus(FORBIDDEN.value());
+                response.setStatus(1000);
 
                 //response.sendError(FORBIDDEN.value());
                 Map<String, String> error = new HashMap<>();
