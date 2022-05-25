@@ -14,7 +14,7 @@ public interface UserService {
     List<APIUser> getUsers();   //load n amount
     //void updateUser(APIUser userOld, APIUser userNew);
 
-
+    List<String> getAllUsernames();
     //List<Role> getRoles();
 
 

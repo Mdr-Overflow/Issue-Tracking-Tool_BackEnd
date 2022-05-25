@@ -73,7 +73,12 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
         return users;
     }
 
-   // @Override
+    @Override
+    public List<String> getAllUsernames() {
+        return userRepo.getALLUsernames();
+    }
+
+    // @Override
    // public void updateUser(APIUser userOld, APIUser userNew) {
    //     userRepo.UpdateUser(userOld.getUsername(), userNew.getUsername(), userNew.getCreatedAt(), (List<apiKeyPair>) userNew.getApiKeys()
    //             , userNew.getEmail(), userNew.getLastUpdated(), userNew.getName(), userNew.getPassword(), (List<Role>) userNew.getRoles());

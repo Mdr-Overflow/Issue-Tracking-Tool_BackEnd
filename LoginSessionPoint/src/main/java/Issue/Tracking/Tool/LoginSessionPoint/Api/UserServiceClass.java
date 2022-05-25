@@ -4,6 +4,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.domainAssamblers.APIUserModelAssembler;
 import Issue.Tracking.Tool.LoginSessionPoint.domainAssamblers.RoleModelAssembler;
+import Issue.Tracking.Tool.LoginSessionPoint.exception.AlreadyExistsException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.IllegalDefaultException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.PasswordMissingException;
@@ -11,6 +12,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
+import Issue.Tracking.Tool.LoginSessionPoint.util.RoleUtils;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -27,6 +29,8 @@ import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -190,6 +194,11 @@ public class UserServiceClass {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/save").toUriString());
         if(user.getPassword() == null || user.getUsername() == null || user.getName() == null || user.getEmail() == null)
             throw new PasswordMissingException();
+        if(userService.getAllUsernames().contains(user.getUsername()))
+            throw new AlreadyExistsException(APIUser.class);
+
+
+        RoleUtils.giveRole("ROLE_USER",user);
         return created(uri).body(userService.saveUser(user));
     }
 

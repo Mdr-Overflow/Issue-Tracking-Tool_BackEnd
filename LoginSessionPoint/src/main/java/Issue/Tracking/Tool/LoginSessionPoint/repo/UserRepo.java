@@ -18,6 +18,9 @@ public interface UserRepo  extends JpaRepository<APIUser,Long> {
     List<Role> findAllByUsername(String username);
     void deleteByUsername(String username);
 
+    @Query("SELECT u.username FROM APIUser u ")
+    List<String> getALLUsernames();
+
  /*   @Modifying
     @Query(value = "update APIUser u set u.username = ?2, u.createdAt = ?3, u.apiKeys = ?4 , u.email = ?5 , u.lastUpdated = ?6, u.Name = ?7, u.password = ?8, u.roles = ?9 where u.username = ?1")
     void UpdateUser(String username, String newUsername, Date createdAt,

@@ -109,5 +109,16 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<Object> handlePasswordAlreadyExistsException(
+            AlreadyExistsException ex, WebRequest request) {
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    }
+
 
 }
