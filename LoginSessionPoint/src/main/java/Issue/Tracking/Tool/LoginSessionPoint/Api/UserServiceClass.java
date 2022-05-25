@@ -9,6 +9,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.exception.IllegalDefaultException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.PasswordMissingException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
+import Issue.Tracking.Tool.LoginSessionPoint.util.PageableInput;
 import Issue.Tracking.Tool.LoginSessionPoint.util.RoleUtils;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -126,13 +127,16 @@ public class UserServiceClass {
 
 
     @ResponseBody
-    @GetMapping("/user")
-    public CollectionModel<EntityModel<APIUser>> getUsers() {
-        List<EntityModel<APIUser>> users = userService.getUsers().stream() //
+    @GetMapping("/users/{PageIndex}&{PageSize}&{SortBy}&{SortDirection}")
+    public CollectionModel<EntityModel<APIUser>> getUsers( @PathVariable Integer PageIndex , @PathVariable Integer PageSize ,
+                                                           @PathVariable String SortBy , @PathVariable Integer SortDirection  ) {
+        List<EntityModel<APIUser>> users = userService.getUsers(PageIndex,PageSize
+                        ,SortBy,SortDirection).stream() //
                 .map(APIUserAssembler::toModel) //
                 .collect(Collectors.toList());
 
-        return CollectionModel.of(users, linkTo(methodOn(UserServiceClass.class).getUsers()).withSelfRel());
+        return CollectionModel.of(users, linkTo(methodOn(UserServiceClass.class).getUsers(PageIndex,PageSize
+                ,SortBy,SortDirection)).withSelfRel());
 
 
     }
@@ -284,6 +288,4 @@ class PasswordInput {
     private String oldPass;
     private String newPass;
 }
-
-
 

@@ -3,12 +3,13 @@ package Issue.Tracking.Tool.LoginSessionPoint.service;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 //import Issue.Tracking.Tool.LoginSessionPoint.Repo.RoleRepo;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.apiKeyPair;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.RoleRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -24,9 +25,6 @@ import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.ALL_ROLES;
-import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.splitter;
 
 @Service @RequiredArgsConstructor  @Transactional
 @Slf4j
@@ -61,12 +59,21 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
         return userRepo.findByUsername(username);
     }
 
-    @Override
-    public List<APIUser> getUsers() {
+    @Override                                                                   // 0 - asc , 1 - desc
+    public List<APIUser> getUsers(Integer PageIndex, Integer PageSize, String SortBy, Integer SortDirection)  {
         log.info("Getting all users ");
 
-        org.springframework.data.domain.Pageable givenPage =  PageRequest.of(0, 5, Sort.unsorted()); // Page has overhead cost (determines how many beforehand)
-        List<APIUser> users = (userRepo.findAll(givenPage)).getContent();
+
+
+        Pageable givenPage = null;
+        if(SortDirection == 0) {
+           givenPage = PageRequest.of(PageIndex, PageSize, Sort.by(SortBy).ascending()); // Page has overhead cost (determines how many beforehand)
+        }
+        else  {
+            givenPage = PageRequest.of(PageIndex, PageSize, Sort.by(SortBy).descending()); // Page has overhead cost (determines how many beforehand)
+        }
+
+        List<APIUser> users = (userRepo.findAll(givenPage)).getContent();   // 20 max for one
         if(users.isEmpty())
             throw new NoDataFoundException();
 
