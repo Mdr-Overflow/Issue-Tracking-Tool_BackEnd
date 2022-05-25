@@ -3,6 +3,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -33,6 +34,7 @@ public class Role  {
             strategy = GenerationType.SEQUENCE,
             generator = "Role_Id_seq"
     )
+
     private Long id;
     private String name;
 

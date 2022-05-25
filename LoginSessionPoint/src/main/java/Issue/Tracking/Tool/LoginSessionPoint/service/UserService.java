@@ -17,7 +17,7 @@ public interface UserService {
 
     // 0 - asc , 1 - desc
     List<APIUser> getUsers(Integer PageIndex, Integer PageSize, String SortBy, Integer SortDirection);
-
+    List<APIUser> getUsersALL();
     List<String> getAllUsernames();
     //List<Role> getRoles();
 

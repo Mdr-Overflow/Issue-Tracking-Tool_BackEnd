@@ -81,6 +81,17 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
     }
 
     @Override
+    public List<APIUser> getUsersALL() {
+
+        List<APIUser> users = userRepo.findAll() ;  // 20 max for one
+        if(users.isEmpty())
+            throw new NoDataFoundException();
+
+        return users;
+    }
+
+
+    @Override
     public List<String> getAllUsernames() {
         return userRepo.getALLUsernames();
     }

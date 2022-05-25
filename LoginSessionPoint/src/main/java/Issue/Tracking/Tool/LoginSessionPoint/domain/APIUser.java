@@ -3,6 +3,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -39,11 +40,11 @@ public class APIUser {
     private String email;
     private String Name;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private Collection <Role> roles = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL  ,fetch = FetchType.LAZY)
+    private Collection <Role> roles = new ArrayList<Role>();
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private Collection <apiKeyPair> apiKeys=new ArrayList();
+    @ManyToMany(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
+    private Collection <apiKeyPair> apiKeys=new ArrayList<apiKeyPair>();
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

@@ -127,7 +127,7 @@ public class UserServiceClass {
 
 
     @ResponseBody
-    @GetMapping("/users/{PageIndex}&{PageSize}&{SortBy}&{SortDirection}")
+    @GetMapping("/users/Index={PageIndex}&Size={PageSize}&By={SortBy}&Direction={SortDirection}")
     public CollectionModel<EntityModel<APIUser>> getUsers( @PathVariable Integer PageIndex , @PathVariable Integer PageSize ,
                                                            @PathVariable String SortBy , @PathVariable Integer SortDirection  ) {
         List<EntityModel<APIUser>> users = userService.getUsers(PageIndex,PageSize
@@ -140,6 +140,19 @@ public class UserServiceClass {
 
 
     }
+
+    @ResponseBody
+    @GetMapping("/users")
+    public CollectionModel<EntityModel<APIUser>> getUsersALL() {
+        List<EntityModel<APIUser>> users = userService.getUsersALL().stream() //
+                .map(APIUserAssembler::toModel) //
+                .collect(Collectors.toList());
+
+        return CollectionModel.of(users, linkTo(methodOn(UserServiceClass.class).getUsersALL()).withSelfRel());
+
+
+    }
+
 
 
     //testing only

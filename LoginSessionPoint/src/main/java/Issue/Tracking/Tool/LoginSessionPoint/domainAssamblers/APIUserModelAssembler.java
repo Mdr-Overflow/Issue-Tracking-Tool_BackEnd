@@ -24,7 +24,8 @@ public class APIUserModelAssembler implements RepresentationModelAssembler<APIUs
 
         return EntityModel.of(user, //
                 linkTo(methodOn(UserServiceClass.class).getUserByName(user.getUsername())).withSelfRel(),
-                linkTo(methodOn(UserServiceClass.class).getUsers(PageIndex,PageSize,SortBy,SortDirection)).withRel("user")
+                linkTo(methodOn(UserServiceClass.class).getUsers(PageIndex,PageSize,SortBy,SortDirection)).withRel("users/"),
+                linkTo(methodOn(UserServiceClass.class).getUsersALL()).withRel("users/")
         );
     }
 
