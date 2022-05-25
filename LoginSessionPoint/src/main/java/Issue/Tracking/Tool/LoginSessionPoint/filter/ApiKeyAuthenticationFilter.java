@@ -1,16 +1,10 @@
 package Issue.Tracking.Tool.LoginSessionPoint.filter;
 
-import Issue.Tracking.Tool.LoginSessionPoint.repo.keyPairRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.securityConfig.ApiKeyAuthenticationToken;
 import Issue.Tracking.Tool.LoginSessionPoint.service.apiKeyPairService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.web.AbstractRequestMatcherRegistry;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -38,7 +32,8 @@ public class ApiKeyAuthenticationFilter implements Filter {
             if(apiKey != null) {
                 try {
                     if((apiKeyPairService.validate(apiKey))) {
-                        ApiKeyAuthenticationToken apiToken = new ApiKeyAuthenticationToken(apiKey, AuthorityUtils.NO_AUTHORITIES);
+
+                        ApiKeyAuthenticationToken apiToken = new ApiKeyAuthenticationToken(apiKey, AuthorityUtils.createAuthorityList("ROLE_USER"));
                         SecurityContextHolder.getContext().setAuthentication(apiToken);
                     } else {
                         HttpServletResponse httpResponse = (HttpServletResponse) response;

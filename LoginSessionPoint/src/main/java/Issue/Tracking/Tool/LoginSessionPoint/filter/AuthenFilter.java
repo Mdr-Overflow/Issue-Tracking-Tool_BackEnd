@@ -72,7 +72,7 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
 
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 2000))  // Token Expiress at 20 mins
+                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 6000 * 20))  // Token Expiress at 20 mins
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                 .sign(algorithm);
@@ -80,7 +80,7 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
 
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 6000))  // Token Expiress at 60 mins
+                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 6000 * 60))  // Token Expiress at 60 mins
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                 .sign(algorithm);

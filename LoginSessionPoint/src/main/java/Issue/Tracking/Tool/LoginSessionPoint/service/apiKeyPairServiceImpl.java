@@ -53,7 +53,7 @@ public class apiKeyPairServiceImpl implements apiKeyPairService {
            // dsaKeyGen.initialize(1024);
            // KeyPair pair = dsaKeyGen.generateKeyPair();
 
-          generator = KeyPairGenerator.getInstance("RSA");
+           generator = KeyPairGenerator.getInstance("RSA");
            generator.initialize(1024);
            KeyPair pair = generator.generateKeyPair();
 

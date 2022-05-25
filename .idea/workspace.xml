@@ -8,13 +8,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/Api/SecurityAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/Api/SecurityAPI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/Api/UserServiceClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/Api/UserServiceClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/LoginSessionPointApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/LoginSessionPointApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/filter/ApiKeyAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/filter/ApiKeyAuthenticationFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/filter/AuthenFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/filter/AuthenFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/filter/AuthoFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/filter/AuthoFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/securityConfig/SecurtyConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/securityConfig/SecurtyConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/apiKeyPairServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/apiKeyPairServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/Api/RoleToUserForm.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/Api/RoleToUserForm.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/Api/SecurityAPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/Api/SecurityAPI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/Api/UserServiceClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/Api/UserServiceClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/securityConfig/SecurtyConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/securityConfig/SecurtyConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/filter/AuthenFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/filter/AuthenFilter.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +23,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -160,7 +159,8 @@
       <workItem from="1651750187902" duration="1570000" />
       <workItem from="1651751798824" duration="287000" />
       <workItem from="1652977870935" duration="224000" />
-      <workItem from="1653409269247" duration="6583000" />
+      <workItem from="1653409269247" duration="10157000" />
+      <workItem from="1653459897943" duration="140000" />
     </task>
     <servers />
   </component>

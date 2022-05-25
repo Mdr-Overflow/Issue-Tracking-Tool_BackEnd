@@ -69,11 +69,14 @@ public class SecurityAPI {
 
                 String access_token = JWT.create()
                         .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 2000))  // Token Expiress at 20 mins
+                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 6000 * 20))  // Token Expiress at 20 mins
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                         .sign(algorithm);
                 Map<String, String> tokens = new HashMap<>();
+
+
+
 
                 tokens.put("access_token", access_token);
                 tokens.put("refresh_token", refresh_token);
