@@ -12,8 +12,7 @@ public class RoleUtils {
     public static void giveRole(String roleName, APIUser user){
 
         Role role = new Role(null,roleName,null,null);
-        ArrayList<Role> roles = new ArrayList<Role>();
-        user.setRoles(roles);
+        user.getRoles().add(role);
 
     }
 

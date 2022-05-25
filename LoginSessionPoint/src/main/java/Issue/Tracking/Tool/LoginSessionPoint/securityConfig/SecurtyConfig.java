@@ -100,7 +100,7 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                 http.authorizeRequests().antMatchers(PUT,"/user/update/**").hasAnyAuthority(ADMIN);
                 http.authorizeRequests().antMatchers(PUT,"/user/changePass/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
 
-                http.authorizeRequests().antMatchers(DELETE,"/user/delete/**").hasAnyAuthority(ADMIN);
+                http.authorizeRequests().antMatchers(DELETE,"/user/delete/**").hasAnyAuthority(ADMIN,USER,GROUP_LEADER);
                 http.authorizeRequests().antMatchers(GET,"/user/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER);
 
                 http.authorizeRequests().antMatchers(POST, "/GroupManager/save/**").hasAnyAuthority(ADMIN,GROUP_LEADER);

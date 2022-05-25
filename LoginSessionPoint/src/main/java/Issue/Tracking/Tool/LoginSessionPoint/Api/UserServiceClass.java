@@ -9,29 +9,35 @@ import Issue.Tracking.Tool.LoginSessionPoint.exception.IllegalDefaultException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.PasswordMissingException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
-import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
-import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
-import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
 import Issue.Tracking.Tool.LoginSessionPoint.util.RoleUtils;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.sql.Date;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -43,12 +49,14 @@ import static org.springframework.http.ResponseEntity.created;
 @Controller
 //@RequestMapping(path = "/LoginSessionPoint")
 @RequiredArgsConstructor
+@Slf4j
 
 public class UserServiceClass {
     private final Issue.Tracking.Tool.LoginSessionPoint.service.UserService userService;
     private final APIUserModelAssembler APIUserAssembler;
     private final RoleModelAssembler roleModelAssembler;
     private final RoleService roleService;
+    private  final  AuthenticationManager  authenticationManager;
 
     //private final SecurityService securityService;
 
@@ -190,8 +198,10 @@ public class UserServiceClass {
 
     @ResponseBody
     @PostMapping("user/register")
-    public ResponseEntity<APIUser> registerUser(@RequestBody APIUser user) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/save").toUriString());
+    public Map<String, String> registerUser(@RequestBody APIUser user, HttpServletRequest request, HttpServletResponse response)  {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/register").toUriString());
+
+
         if(user.getPassword() == null || user.getUsername() == null || user.getName() == null || user.getEmail() == null)
             throw new PasswordMissingException();
         if(userService.getAllUsernames().contains(user.getUsername()))
@@ -199,7 +209,51 @@ public class UserServiceClass {
 
 
         RoleUtils.giveRole("ROLE_USER",user);
-        return created(uri).body(userService.saveUser(user));
+        log.info("ROLES ARE:" + user.getRoles());
+
+
+        String pass = user.getPassword();
+        userService.saveUser(user);
+
+        try {
+
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getUsername(), pass);
+            authToken.setDetails(new WebAuthenticationDetails(request));
+
+            Authentication authentication = authenticationManager.authenticate(authToken);
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
+            Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+
+            String access_token = JWT.create()
+                    .withSubject(user.getUsername())
+                    .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 10 * 6000 * 20))  // Token Expiress at 20 mins
+                    .withIssuer(request.getRequestURL().toString())
+                    .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                    .sign(algorithm);
+
+
+            String refresh_token = JWT.create()
+                    .withSubject(user.getUsername())
+                    .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 10 * 6000 * 60))  // Token Expiress at 60 mins
+                    .withIssuer(request.getRequestURL().toString())
+                    .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                    .sign(algorithm);
+
+        /*response.setHeader("access_token", access_token);
+        response.setHeader("refresh_token", refresh_token);*/
+
+            Map<String, String> tokens = new HashMap<>();
+            tokens.put("access_token", access_token);
+            tokens.put("refresh_token", refresh_token);
+            return tokens;
+        } catch(Exception ex) {
+            log.error(ex.getMessage());
+            return new HashMap<>();
+        }
+
     }
 
 
@@ -217,6 +271,9 @@ public class UserServiceClass {
         userService.addRoleToUser(form.getUsername(), form.getRoleName());
         return ResponseEntity.ok().build();
     }
+
+
+
 
 }
 
