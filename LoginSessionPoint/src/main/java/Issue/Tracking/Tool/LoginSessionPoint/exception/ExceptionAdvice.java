@@ -98,5 +98,16 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(PasswordMissingException.class)
+    public ResponseEntity<Object> handlePasswordMissingException(
+            PasswordMissingException ex, WebRequest request) {
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", "User must provide credentials");
+
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    }
+
 
 }

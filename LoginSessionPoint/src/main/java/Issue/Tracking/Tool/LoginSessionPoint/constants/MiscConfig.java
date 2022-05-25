@@ -26,7 +26,7 @@ public class MiscConfig {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/token/refresh",
-            "user/register",
+            "/user/register",
             "/SessionLogin","/LoginProcess" ,"/login/**", "/token/refresh/**", "/swagger-ui.html#/**"
     };
 

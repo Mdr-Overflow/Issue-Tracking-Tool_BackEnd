@@ -6,6 +6,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.domainAssamblers.APIUserModelAssemb
 import Issue.Tracking.Tool.LoginSessionPoint.domainAssamblers.RoleModelAssembler;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.IllegalDefaultException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
+import Issue.Tracking.Tool.LoginSessionPoint.exception.PasswordMissingException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
@@ -187,6 +188,8 @@ public class UserServiceClass {
     @PostMapping("user/register")
     public ResponseEntity<APIUser> registerUser(@RequestBody APIUser user) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/save").toUriString());
+        if(user.getPassword() == null || user.getUsername() == null || user.getName() == null || user.getEmail() == null)
+            throw new PasswordMissingException();
         return created(uri).body(userService.saveUser(user));
     }
 
