@@ -1,9 +1,6 @@
 package Issue.Tracking.Tool.LoginSessionPoint.service;
 
-import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.Issue;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.Solution;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.*;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserGroupRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.IssueRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
@@ -44,8 +41,8 @@ public class IssueServImpl implements  IssueService {
     @Override
     public List<Issue> getIssues() {
         log.info("Getting all issues ");
-        org.springframework.data.domain.Pageable givenPage =  PageRequest.of(0, 5, Sort.unsorted()); // Page has overhead cost (determines how many beforehand)
-        return (issueRepo.findAll(givenPage)).getContent();
+        //org.springframework.data.domain.Pageable givenPage =  PageRequest.of(0, 100, Sort.unsorted()); // Page has overhead cost (determines how many beforehand)
+        return issueRepo.findAll();
 
     }
 
@@ -90,6 +87,18 @@ public class IssueServImpl implements  IssueService {
     }
 
     @Override
+    public void AddPriority(Priority priority, String IssueName) {
+        Issue issue = issueRepo.findByName(IssueName);
+        issue.setPriority(priority);
+    }
+
+    @Override
+    public void AddStatus(Status status, String IssueName) {
+        Issue issue = issueRepo.findByName(IssueName);
+        issue.setStatus(status);
+    }
+
+    @Override
     public void deleteByName(String name) {
         issueRepo.deleteByName(name);
     }
@@ -97,5 +106,21 @@ public class IssueServImpl implements  IssueService {
     @Override
     public Date getTimestamp(String IssueName) {
         return issueRepo.findTimestampByName(IssueName);
+    }
+
+
+    @Override
+    public String getDetails(Issue issue) {
+       return issue.getDetails();
+    }
+
+    @Override
+    public Status getStatus(Issue issue) {
+        return issue.getStatus();
+    }
+
+    @Override
+    public Priority getPrio(Issue issue) {
+        return issue.getPriority();
     }
 }

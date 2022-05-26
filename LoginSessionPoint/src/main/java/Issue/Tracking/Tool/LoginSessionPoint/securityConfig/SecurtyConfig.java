@@ -99,6 +99,7 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                 http.authorizeRequests().antMatchers(POST, "/user/save/**").hasAnyAuthority(ADMIN);
                 http.authorizeRequests().antMatchers(PUT,"/user/update/**").hasAnyAuthority(ADMIN);
                 http.authorizeRequests().antMatchers(PUT,"/user/changePass/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(PUT,"/users").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
 
                 http.authorizeRequests().antMatchers(DELETE,"/user/delete/**").hasAnyAuthority(ADMIN,USER,GROUP_LEADER);
                 http.authorizeRequests().antMatchers(GET,"/user/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER);
@@ -114,9 +115,17 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                 http.authorizeRequests().antMatchers(POST, "/IssueDashboard/save/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
                 http.authorizeRequests().antMatchers(DELETE, "/IssueDashboard/delete/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
                 http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/admin/update/**").hasAnyAuthority(ADMIN);
-                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/user/update/**").hasAnyAuthority(USER);
-                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/leader/update/**").hasAnyAuthority(GROUP_LEADER);
+                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/user/update/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/leader/update/**").hasAnyAuthority(GROUP_LEADER,ADMIN);
                 http.authorizeRequests().antMatchers(GET,"/IssueDashboard/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER);
+                http.authorizeRequests().antMatchers(GET,"/IssueDashboard/getSol/**").hasAnyAuthority(ADMIN,GROUP_LEADER,USER);
+
+
+                http.authorizeRequests().antMatchers(GET,"/Extras/**/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER);
+                http.authorizeRequests().antMatchers(PUT,"/Extras/**/update").hasAnyAuthority(ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(POST,"/Extras/**/save").hasAnyAuthority(ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(DELETE,"/Extras/**/delete").hasAnyAuthority(ADMIN,GROUP_LEADER);
+
 
                 http.authorizeRequests().antMatchers(POST, "/admin/**").hasAnyAuthority(ADMIN);
                 http.authorizeRequests().anyRequest().authenticated();

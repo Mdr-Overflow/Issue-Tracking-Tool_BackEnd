@@ -21,6 +21,10 @@ public interface UserRepo  extends JpaRepository<APIUser,Long> {
     @Query("SELECT u.username FROM APIUser u ")
     List<String> getALLUsernames();
 
+    List<APIUser> findByUsernameContains(String usernameWILD);
+
+
+
  /*   @Modifying
     @Query(value = "update APIUser u set u.username = ?2, u.createdAt = ?3, u.apiKeys = ?4 , u.email = ?5 , u.lastUpdated = ?6, u.Name = ?7, u.password = ?8, u.roles = ?9 where u.username = ?1")
     void UpdateUser(String username, String newUsername, Date createdAt,

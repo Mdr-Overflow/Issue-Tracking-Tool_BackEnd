@@ -1,9 +1,6 @@
 package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
-import Issue.Tracking.Tool.LoginSessionPoint.domain.Issue;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.Solution;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.*;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -59,12 +57,15 @@ public class IssueDashboard {
 
 
             if (issue.getName() != null) issueOld.setName(issue.getName());
-            if (issue.getSolutions()  != null) issueOld.setSolutions(issue.getSolutions());
+
+            if (issue.getSolutions()  != null)
             if (issue.getUsers() != null) issueOld.setUsers(issue.getUsers());
             if (issue.getUserGroups() != null) issueOld.setUserGroups(issue.getUserGroups());
+
             if (issue.getDetails() != null) issueOld.setDetails(issue.getDetails());
-            if (issue.getStatus() != null) issueOld.setStatus(issue.getStatus());
-            if (issue.getPriority() != null) issueOld.setPriority(issue.getPriority());
+
+            if (issue.getStatus() != null)  issueOld.setStatus(issue.getStatus());
+            if (issue.getPriority() != null)  issueOld.setPriority(issue.getPriority());
 
 
             issue.setLastUpdated(issue.getCreatedAt());
@@ -158,6 +159,87 @@ public class IssueDashboard {
 
     }
 
+    @ResponseBody
+    @GetMapping("IssueDashboard/getSols")
+    public ResponseEntity<List<Solution>> getSols(@RequestBody Issue issue) {
+
+        return ResponseEntity.ok().body(issueService.getSols(issue));
+
+    }
+
+
+    @ResponseBody
+    @GetMapping("IssueDashboard/getSol/name={name_}||owner={ownerName}||description={description_}||content={content_}||type={type_}")
+    public ResponseEntity<List<Solution>> getSol(@PathVariable String name_ , @PathVariable String ownerName, @PathVariable String description_,
+                                           @PathVariable String content_, @PathVariable String type_) {
+
+
+
+        if(solutionService.getSolution(name_)!= null ) {
+            return  ResponseEntity.ok(List.of(solutionService.getSolution(name_)));
+        }
+        if(solutionService.getSolutionByOwner(ownerName)!= null ) {
+            return  ResponseEntity.ok(solutionService.getSolutionByOwner(ownerName));
+        }
+        if(solutionService.getSolutionByDescription(description_)!= null ) {
+            return  ResponseEntity.ok(solutionService.getSolutionByDescription(description_));
+        }
+
+        if(solutionService.getSolutionByContent(content_)!= null ) {
+            return  ResponseEntity.ok(solutionService.getSolutionByContent(content_));
+        }
+
+        if(solutionService.getSolutionByType(type_)!= null ) {
+            return  ResponseEntity.ok(solutionService.getSolutionByType(type_));
+        }
+
+        throw new NoDataFoundException();
+
+
+    }
+
+
+    @ResponseBody
+    @GetMapping("IssueDashboard/getContrib")
+    public ResponseEntity<List<APIUser>> getColabs(@RequestBody Issue issue) {
+
+        return ResponseEntity.ok().body(issueService.getContributors(issue));
+
+    }
+
+    @ResponseBody
+    @GetMapping("IssueDashboard/getGroups")
+    public ResponseEntity<List<UserGroup>> getGroups(@RequestBody Issue issue) {
+
+        return ResponseEntity.ok().body(issueService.getGroups(issue));
+
+    }
+
+
+    @ResponseBody
+    @GetMapping("IssueDashboard/getPriority")
+    public ResponseEntity<Priority> getPrio(@RequestBody Issue issue) {
+
+        return ResponseEntity.ok().body(issueService.getPrio(issue));
+
+    }
+
+    @ResponseBody
+    @GetMapping("IssueDashboard/getStatus")
+    public ResponseEntity<Status> getStatus(@RequestBody Issue issue) {
+
+        return ResponseEntity.ok().body(issueService.getStatus(issue));
+
+    }
+
+
+    @ResponseBody
+    @GetMapping("IssueDashboard/getDetails")
+    public ResponseEntity<String> getDetails(@RequestBody Issue issue) {
+
+        return ResponseEntity.ok().body(issueService.getDetails(issue));
+
+    }
 
 
 

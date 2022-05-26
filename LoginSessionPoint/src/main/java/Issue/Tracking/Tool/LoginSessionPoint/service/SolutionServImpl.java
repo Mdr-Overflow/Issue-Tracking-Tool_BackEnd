@@ -2,15 +2,21 @@ package Issue.Tracking.Tool.LoginSessionPoint.service;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Solution;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Type;
+import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.SolutionRepo;
+import Issue.Tracking.Tool.LoginSessionPoint.repo.TypeRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
+import Issue.Tracking.Tool.LoginSessionPoint.util.RoleUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +28,7 @@ public class SolutionServImpl implements SolutionService {
 
     private final SolutionRepo solutionRepo;
     private final UserRepo userRepo;
+    private final TypeRepo typeRepo;
 
     @Override
     public Solution saveSolution(Solution solution) {
@@ -71,6 +78,64 @@ public class SolutionServImpl implements SolutionService {
     @Override
     public Date getTimestamp(String solname) {
         return solutionRepo.findTimestampByName(solname);
+    }
+
+    @Override
+    public List<Solution> getSolutionByOwner(String ownerName) {
+        List<APIUser> owner = userRepo.findByUsernameContains(ownerName);
+        if (owner != null)
+        {
+            ArrayList<String> names = new ArrayList<String>();
+
+            Stream<APIUser> userStream = RoleUtils.convertListToStream(owner);
+
+            userStream.forEach(user -> names.add(user.getUsername()));
+
+            return solutionRepo.findByOwner_UsernameIn(names);
+
+        }
+        else throw new NoDataFoundException();
+
+    }
+
+    @Override
+    public List<Solution> getSolutionByDescription(String description_) {
+        List<Solution> description = solutionRepo.findByDescriptionContains(description_);
+        if (description != null)
+        {
+            return description;
+
+        }
+        else throw new NoDataFoundException();
+    }
+
+    @Override
+    public List<Solution> getSolutionByContent(String content_) {
+        List<Solution> content = solutionRepo.findByContentContains(content_);
+        if (content != null)
+        {
+            return content;
+
+        }
+        else throw new NoDataFoundException();
+    }
+
+    @Override
+    public List<Solution> getSolutionByType(String type_) {
+        List<Type> types = typeRepo.findAllByNameContains(type_);
+        if (types != null)
+        {
+            ArrayList<String> names = new ArrayList<String>();
+
+            Stream<Type> typeStream = RoleUtils.convertListToStream(types);
+
+            typeStream.forEach(type -> names.add(type.getName()));
+
+            return solutionRepo.findByType_NameIn(names);
+
+        }
+        else throw new NoDataFoundException();
+
     }
 
 

@@ -1,9 +1,6 @@
 package Issue.Tracking.Tool.LoginSessionPoint.service;
 
-import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.Issue;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.Solution;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.*;
 
 import java.util.List;
 
@@ -23,9 +20,17 @@ public interface IssueService {
     void AddUser(APIUser user, String issueName);
     void AddGroup(UserGroup userGroup, String issueName);
 
+    void AddPriority(Priority priority,String name);
+    void AddStatus(Status status, String name);
+
     void deleteByName(String name);
 
     java.util.Date getTimestamp(String IssueName);
 
 
+    String getDetails(Issue issue);
+
+    Status getStatus(Issue issue);
+
+    Priority getPrio(Issue issue);
 }

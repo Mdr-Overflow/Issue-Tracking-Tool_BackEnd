@@ -18,4 +18,11 @@ public interface SolutionService {
     java.util.Date getTimestamp(String solutionName);
 
 
+    List<Solution> getSolutionByOwner(String ownerName);
+
+    List<Solution> getSolutionByDescription(String description_);
+
+    List<Solution> getSolutionByContent(String content_);
+
+    List<Solution> getSolutionByType(String type_);
 }
