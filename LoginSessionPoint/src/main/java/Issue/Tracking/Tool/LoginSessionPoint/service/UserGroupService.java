@@ -19,4 +19,7 @@ public interface UserGroupService {
     java.util.Date getTimestamp(String IssueName);
 
 
+    List<UserGroup> findBy(String toSearch);
+
+    List<UserGroup> findByLeader(String toSearch);
 }

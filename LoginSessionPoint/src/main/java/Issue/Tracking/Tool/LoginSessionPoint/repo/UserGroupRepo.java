@@ -1,6 +1,7 @@
 package Issue.Tracking.Tool.LoginSessionPoint.repo;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Issue;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,17 @@ public interface UserGroupRepo extends JpaRepository<UserGroup,Long> {
     APIUser findLeader(String name);
 
     void deleteByName(String name);
+
+
+ @Query(value = "FROM UserGroup as g WHERE (:inputString is null or g.name like " + ":inputString)"
+ )
+    List<UserGroup> findBy(String inputString);
+
+
+    @Query(value = "select distinct g from UserGroup g\n" +
+            "    join g.Leader u \n" +
+            "    where u.Name like :toSearch\n"
+    )
+
+    List<UserGroup> findByLeader_NameContains(String toSearch);
 }

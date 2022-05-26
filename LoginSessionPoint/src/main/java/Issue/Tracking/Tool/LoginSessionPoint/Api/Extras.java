@@ -25,7 +25,7 @@ public class Extras {
 
 
     @ResponseBody
-    @GetMapping("Extras/Priority/getAll")
+    @GetMapping("/Extras/Priority/getAll")
     public ResponseEntity<List<Priority>> getPrios() {
 
         return ResponseEntity.ok().body(priorityService.getPrios());
@@ -34,7 +34,7 @@ public class Extras {
 
 
     @ResponseBody
-    @GetMapping("Extras/Priority/get/{name}")
+    @GetMapping("/Extras/Priority/get/{name}")
     public ResponseEntity<Priority> getPrios(@PathVariable String name) {
 
         return ResponseEntity.ok().body(priorityService.getPrio(name));
@@ -42,12 +42,12 @@ public class Extras {
     }
 
     @ResponseBody
-    @PostMapping("Extras/Priority/save")
-    public String savePrio(@RequestBody Priority priority) {
+    @PostMapping("/Extras/Priority/save")
+    public ResponseEntity<Priority> savePrio(@RequestBody Priority priority) {
 
        priorityService.SavePriority(priority);
 
-       return "Saved";
+       return ResponseEntity.ok().body(priority);
 
     }
 
@@ -56,8 +56,8 @@ public class Extras {
 
 
     @ResponseBody
-    @PutMapping("Extras/Priority/update/{name}")
-    public String updatePrios(@PathVariable String name, @RequestBody Priority priority) {
+    @PutMapping("/Extras/Priority/update/{name}")
+    public ResponseEntity<Priority> updatePrios(@PathVariable String name, @RequestBody Priority priority) {
 
 
         Priority priorityOld = priorityService.getPrio(name);
@@ -73,14 +73,15 @@ public class Extras {
 
             priorityService.SavePriority(priorityOld);
 
-            return "updated";
+            return ResponseEntity.ok().body(priorityOld);
+
         } else throw new NoDataFoundException();
     }
 
 
     @ResponseBody
-    @DeleteMapping("Extras/Priority/delete/{name}")
-    public String DelPrios(@PathVariable String name) {
+    @DeleteMapping("/Extras/Priority/delete/{name}")
+    public ResponseEntity<Priority> DelPrios(@PathVariable String name) {
 
        Priority priority =  priorityService.getPrio(name);
 
@@ -92,12 +93,17 @@ public class Extras {
 
        else  throw  new NoDataFoundException();
 
-        return "Deleted";
+        return ResponseEntity.ok().body(null);
     }
 
 
+
+
+
+
+
     @ResponseBody
-    @GetMapping("Extras/Status/getAll")
+    @GetMapping("/Extras/Status/getAll")
     public ResponseEntity<List<Status>> getStatuses() {
 
         return ResponseEntity.ok().body(statusService.getStatuses());
@@ -106,7 +112,7 @@ public class Extras {
 
 
     @ResponseBody
-    @GetMapping("Extras/Status/get/{name}")
+    @GetMapping("/Extras/Status/get/{name}")
     public ResponseEntity<Status> getStatus(@PathVariable String name) {
 
         return ResponseEntity.ok().body(statusService.getStatus(name));
@@ -115,8 +121,8 @@ public class Extras {
 
 
     @ResponseBody
-    @PutMapping("Extras/Status/update/{name}")
-    public String updateStatus(@PathVariable String name, @RequestBody Status status) {
+    @PutMapping("/Extras/Status/update/{name}")
+    public ResponseEntity<Status> updateStatus(@PathVariable String name, @RequestBody Status status) {
 
 
         Status statusOld = statusService.getStatus(name);
@@ -132,14 +138,14 @@ public class Extras {
 
             statusService.SaveStatus(statusOld);
 
-            return "updated";
+            return ResponseEntity.ok().body(statusOld);
         } else throw new NoDataFoundException();
     }
 
 
     @ResponseBody
-    @DeleteMapping("Extras/Status/delete/{name}")
-    public String DelStatuses(@PathVariable String name) {
+    @DeleteMapping("/Extras/Status/delete/{name}")
+    public ResponseEntity<Status> DelStatuses(@PathVariable String name) {
 
         Status status =  statusService.getStatus(name);
 
@@ -151,17 +157,17 @@ public class Extras {
 
         else  throw  new NoDataFoundException();
 
-        return "Deleted";
+        return ResponseEntity.ok().body(null);
     }
 
 
     @ResponseBody
-    @PostMapping("Extras/Status/save")
-    public String saveStatus(@RequestBody Status status) {
+    @PostMapping("/Extras/Status/save")
+    public ResponseEntity<Status> saveStatus(@RequestBody Status status) {
 
         statusService.SaveStatus(status);
 
-        return "Saved";
+        return ResponseEntity.ok().body(status);
 
     }
 

@@ -104,9 +104,10 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                 http.authorizeRequests().antMatchers(DELETE,"/user/delete/**").hasAnyAuthority(ADMIN,USER,GROUP_LEADER);
                 http.authorizeRequests().antMatchers(GET,"/user/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER);
 
-                http.authorizeRequests().antMatchers(POST, "/GroupManager/save/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
+
                 http.authorizeRequests().antMatchers(POST, "/GroupManager").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
-                http.authorizeRequests().antMatchers(GET, "/GroupManager").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(GET, "/GroupManager/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(POST, "/GroupManager/save/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
                 http.authorizeRequests().antMatchers(GET,"/GroupManager/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER);
                 http.authorizeRequests().antMatchers(DELETE,"/GroupManager/delete/**").hasAnyAuthority(ADMIN);
                 http.authorizeRequests().antMatchers(POST, "/GroupManager/addUser").hasAnyAuthority(ADMIN,GROUP_LEADER);
@@ -115,7 +116,7 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                 http.authorizeRequests().antMatchers(PUT, "/GroupManager/AddUser/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
                 http.authorizeRequests().antMatchers(DELETE, "/GroupManager/DelUser/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
 
-
+                http.authorizeRequests().antMatchers(GET, "/IssueDashboard/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
                 http.authorizeRequests().antMatchers(POST, "/IssueDashboard/save/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
                 http.authorizeRequests().antMatchers(DELETE, "/IssueDashboard/delete/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
                 http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/admin/update/**").hasAnyAuthority(ADMIN);

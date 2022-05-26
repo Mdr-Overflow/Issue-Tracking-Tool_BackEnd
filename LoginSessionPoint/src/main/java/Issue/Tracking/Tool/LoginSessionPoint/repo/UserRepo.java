@@ -6,6 +6,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.apiKeyPair;
 import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,7 +14,8 @@ import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
 
-public interface UserRepo  extends JpaRepository<APIUser,Long> {
+public interface UserRepo  extends JpaRepository<APIUser,Long> , JpaSpecificationExecutor<APIUser>
+{
     APIUser findByUsername(String username);
     List<Role> findAllByUsername(String username);
     void deleteByUsername(String username);
@@ -22,6 +24,12 @@ public interface UserRepo  extends JpaRepository<APIUser,Long> {
     List<String> getALLUsernames();
 
     List<APIUser> findByUsernameContains(String usernameWILD);
+
+    @Query(value = "FROM APIUser as u WHERE (:inputString is null or u.username like " + ":inputString" + " ) or " +
+            "(:inputString is null or u.Name  like "  + ":inputString" + " ) or " +
+            " (:inputString is null or u.email  like "  + ":inputString"+")"
+    )
+    List<APIUser> findBy(String inputString);
 
 
 

@@ -40,6 +40,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<Role> findBy(String name) {
+        return roleRepo.findByNameContaining(name);
+    }
+
+    @Override
     public Role saveRole(Role role) {
         log.info("Saving role {} to DB",role.getName());
         ALL_ROLES += splitter + role.getName();

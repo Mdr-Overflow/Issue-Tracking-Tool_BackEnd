@@ -24,5 +24,7 @@ public interface UserService {
 
 
     void deleteByUsername(String username);
+
+    List<APIUser> findBy(String toSearch);
     //APIUser returnThis();
 }

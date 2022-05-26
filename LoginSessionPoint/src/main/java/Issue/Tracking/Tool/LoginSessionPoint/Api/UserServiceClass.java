@@ -9,11 +9,9 @@ import Issue.Tracking.Tool.LoginSessionPoint.exception.IllegalDefaultException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.PasswordMissingException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
-import Issue.Tracking.Tool.LoginSessionPoint.util.PageableInput;
 import Issue.Tracking.Tool.LoginSessionPoint.util.RoleUtils;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +23,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
@@ -40,6 +37,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.DEFAULT_ROLES;
@@ -98,10 +96,44 @@ public class UserServiceClass {
     }
 
 
+    public void ifContains(List<APIUser> UserPool , APIUser user , List<Role> roles){
+
+        if(user.getRoles().stream().anyMatch(roles::contains)){
+            UserPool.add(user);
+        }
+
+    }
+
+    @ResponseBody
+    @GetMapping("/user/searchBy={ToSearch}")
+    public List<APIUser> FindBy(@PathVariable String ToSearch) {
+
+        List<APIUser> users = userService.findBy(ToSearch);
+
+        log.info(users.toString() + " BY " + ToSearch);
+
+        List<Role> roles = roleService.findBy(ToSearch);
+
+        List<APIUser> All_users = userService.getUsersALL();
+
+        if(roles != null) {
+            Stream<APIUser> userStream = RoleUtils.convertListToStream(All_users);
+
+            userStream.forEach(user -> ifContains(users, user, roles));
+        }
+
+        return users;
+
+
+    }
+
+
+
+
 
     @ResponseBody
     @PutMapping("/user/update/{username}")
-    public String replaceAPIUser(@RequestBody APIUser user, @PathVariable String username) {
+    public ResponseEntity<APIUser> replaceAPIUser(@RequestBody APIUser user, @PathVariable String username) {
 
          APIUser userOld = userService.getUser(username);
          if(userOld != null) {
@@ -115,7 +147,7 @@ public class UserServiceClass {
 
              userService.saveUser(userOld);
 
-             return "updated";
+             return ResponseEntity.ok().body(userOld);
          }
         else throw new NoDataFoundException();
     }
@@ -183,7 +215,7 @@ public class UserServiceClass {
 
     @ResponseBody
     @PutMapping("/role/update/{name}")
-    public String replaceRole(@RequestBody Role role, @PathVariable String name) {
+    public ResponseEntity<Role> replaceRole(@RequestBody Role role, @PathVariable String name) {
 
         Role roleOld = roleService.getRole(name);
         if(roleOld != null) {
@@ -192,7 +224,7 @@ public class UserServiceClass {
 
 
             roleService.saveRole(roleOld);
-            return "updated";
+            return ResponseEntity.ok().body(roleOld);
         }
         else throw new NoDataFoundException();
     }

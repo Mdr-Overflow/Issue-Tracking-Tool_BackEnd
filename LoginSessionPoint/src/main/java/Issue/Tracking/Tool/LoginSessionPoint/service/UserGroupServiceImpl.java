@@ -70,4 +70,14 @@ public class UserGroupServiceImpl implements UserGroupService {
     public Date getTimestamp(String GroupName) {
         return userGroupRepo.findTimestampByName(GroupName);
     }
+
+    @Override
+    public List<UserGroup> findBy(String toSearch) {
+        return userGroupRepo.findBy(toSearch);
+    }
+
+    @Override
+    public List<UserGroup> findByLeader(String toSearch) {
+        return userGroupRepo.findByLeader_NameContains("%" + toSearch + "%");
+    }
 }

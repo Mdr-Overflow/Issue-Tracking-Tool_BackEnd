@@ -33,4 +33,12 @@ public interface IssueService {
     Status getStatus(Issue issue);
 
     Priority getPrio(Issue issue);
+
+    List<Issue> findBy(String toSearch);
+
+
+
+    List<Issue> findByPrio(String toSearch);
+
+    List<Issue> findByStatus(String toSearch);
 }

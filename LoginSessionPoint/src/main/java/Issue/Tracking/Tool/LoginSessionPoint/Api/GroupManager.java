@@ -1,7 +1,6 @@
 package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.Issue;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
 
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
@@ -51,7 +50,7 @@ public class GroupManager {
 
     @ResponseBody
     @PutMapping("/GroupManager/update/{name}")
-    public String replaceGroup(@RequestBody UserGroup group, @PathVariable String name) {
+    public ResponseEntity<UserGroup> replaceGroup(@RequestBody UserGroup group, @PathVariable String name) {
 
         UserGroup groupOld = userGroupService.getGroup(name);
         if(groupOld != null) {
@@ -68,10 +67,33 @@ public class GroupManager {
             userGroupService.saveGroup(groupOld);
 
 
-            return "updated";
+            return ResponseEntity.ok().body(groupOld);
         }
         else throw new NoDataFoundException();
     }
+
+
+
+    @ResponseBody
+    @GetMapping("/GroupManager/searchBy={ToSearch}")
+    public List<UserGroup> FindBy(@PathVariable String ToSearch) {
+
+        List<UserGroup> groups = userGroupService.findBy(ToSearch);
+
+        List<UserGroup> groupL  = userGroupService.findByLeader(ToSearch);
+
+
+
+        if(groupL != null) {
+            groups.addAll(groupL);
+        }
+
+
+        return groups;
+
+
+    }
+
 
 
 
@@ -94,26 +116,31 @@ public class GroupManager {
 
     @ResponseBody
     @PutMapping("/GroupManager/changeLeader/{GroupName}")
-    public String saveLeader(@RequestBody APIUser leader, @PathVariable String GroupName) {
+    public ResponseEntity<UserGroup> saveLeader(@RequestBody APIUser leader, @PathVariable String GroupName) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/changeLeader").toUriString());
 
-        if(userService.getUser(leader.getUsername()) != null)
-        userGroupService.getGroup(GroupName).setLeader(leader);
+        UserGroup userGroup = null;
+        if(userService.getUser(leader.getUsername()) != null) {
+            userGroup = userGroupService.getGroup(GroupName);
+            userGroup.setLeader(leader);
+            userGroupService.saveGroup(userGroup);
+        }
         else {
             throw new NoDataFoundException();
         }
 
-        return "Updated";
+        return ResponseEntity.ok().body(userGroup);
 
     }
 
     @ResponseBody
     @PutMapping("/GroupManager/AddUser/{GroupName}")
-    public String AddUser(@RequestBody APIUser user, @PathVariable String GroupName) {
+    public ResponseEntity<UserGroup> AddUser(@RequestBody APIUser user, @PathVariable String GroupName) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/AddUser/{GroupName}").toUriString());
 
+        UserGroup group = null;
         if(userService.getUser(user.getUsername()) != null) {
-            UserGroup group = userGroupService.getGroup(GroupName);
+            group = userGroupService.getGroup(GroupName);
             group.getUsers().add(user);
             userGroupService.saveGroup(group);
         }
@@ -121,17 +148,18 @@ public class GroupManager {
             throw new NoDataFoundException();
         }
 
-        return "Updated";
+        return  ResponseEntity.ok().body(group);
 
     }
 
     @ResponseBody
     @DeleteMapping("/GroupManager/DelUser/{GroupName}")
-    public String DelUser(@RequestBody APIUser user, @PathVariable String GroupName) {
+    public ResponseEntity<UserGroup> DelUser(@RequestBody APIUser user, @PathVariable String GroupName) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("GroupManager/DelUser/{GroupName}").toUriString());
 
+        UserGroup group = null;
         if(userService.getUser(user.getUsername()) != null) {
-            UserGroup group = userGroupService.getGroup(GroupName);
+            group = userGroupService.getGroup(GroupName);
             group.getUsers().remove(user);
             userGroupService.saveGroup(group);
         }
@@ -139,7 +167,7 @@ public class GroupManager {
             throw new NoDataFoundException();
         }
 
-        return "Updated";
+        return ResponseEntity.ok().body(group);
 
     }
 

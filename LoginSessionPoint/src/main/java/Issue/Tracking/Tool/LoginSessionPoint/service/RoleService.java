@@ -9,4 +9,5 @@ public interface RoleService {
     List<Role> getALLRoles();
     Role getRole(String name);
     void deleteByName(String name);
+    List<Role> findBy(String name);
 }

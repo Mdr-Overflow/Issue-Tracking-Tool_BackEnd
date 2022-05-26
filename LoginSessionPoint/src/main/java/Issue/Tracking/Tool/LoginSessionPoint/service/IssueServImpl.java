@@ -6,8 +6,6 @@ import Issue.Tracking.Tool.LoginSessionPoint.repo.IssueRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -122,5 +120,20 @@ public class IssueServImpl implements  IssueService {
     @Override
     public Priority getPrio(Issue issue) {
         return issue.getPriority();
+    }
+
+    @Override
+    public List<Issue> findBy(String toSearch) {
+        return  issueRepo.findBy("%" + toSearch + "%");
+    }
+
+    @Override
+    public List<Issue> findByPrio(String toSearch) {
+        return issueRepo.findAllByPriority_NameContains("%" + toSearch + "%");
+    }
+
+    @Override
+    public List<Issue> findByStatus(String toSearch) {
+        return issueRepo.findAllByStatus_NameContains("%" + toSearch + "%");
     }
 }

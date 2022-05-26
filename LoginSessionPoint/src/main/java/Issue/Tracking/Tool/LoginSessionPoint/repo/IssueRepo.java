@@ -26,5 +26,22 @@ public interface IssueRepo extends JpaRepository <Issue,Long>{
     java.util.Date findTimestampByName(String name) ;
 
 
+    @Query(value = "FROM Solution as s WHERE (:inputString is null or s.name like " + ":inputString" + " ) or " +
+            "(:inputString is null or s.content  like "  + ":inputString" + " ) or " +
+            " (:inputString is null or s.description  like "  + ":inputString"+")"
+    )
+    List<Issue> findBy(String inputString);
+
+
+
+    @Query(value = "FROM Issue as i join i.priority p WHERE p.name like :name")
+    List<Issue> findAllByPriority_NameContains(String name);
+
+    @Query(value = "FROM Issue as i join i.status p WHERE p.name like :name")
+    List<Issue> findAllByStatus_NameContains(String name);
+
     void deleteByName(String name);
+
+
+
 }

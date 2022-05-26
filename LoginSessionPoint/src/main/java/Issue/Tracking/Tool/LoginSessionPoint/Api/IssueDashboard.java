@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class IssueDashboard {
 
     @ResponseBody
     @PutMapping("/IssueDashboard/admin/update/{name}")
-    public String replaceIssue(@RequestBody Issue issue, @PathVariable String name) {
+    public ResponseEntity<Issue> replaceIssue(@RequestBody Issue issue, @PathVariable String name) {
 
        Issue issueOld = issueService.getIssue(name);
 
@@ -73,14 +72,14 @@ public class IssueDashboard {
 
             issueService.saveIssue(issueOld);
 
-            return "updated";
+            return ResponseEntity.ok().body(issueOld);
         }
         else throw new NoDataFoundException();
     }
 
     @ResponseBody
     @PutMapping("/IssueDashboard/user/update/{name}")
-    public String replaceIssueUSER(@RequestBody Issue issue, @PathVariable String name) {
+    public ResponseEntity<Issue> replaceIssueUSER(@RequestBody Issue issue, @PathVariable String name) {
 
         Issue issueOld = issueService.getIssue(name);
 
@@ -95,7 +94,7 @@ public class IssueDashboard {
 
             issueService.saveIssue(issueOld);
 
-            return "updated";
+            return ResponseEntity.ok().body(issueOld);
         }
         else throw new NoDataFoundException();
     }
@@ -103,7 +102,7 @@ public class IssueDashboard {
 
     @ResponseBody
     @PutMapping("/IssueDashboard/leader/update/{name}")
-    public String replaceIssueLEADER(@RequestBody Issue issue, @PathVariable String name) {
+    public ResponseEntity<Issue> replaceIssueLEADER(@RequestBody Issue issue, @PathVariable String name) {
 
         Issue issueOld = issueService.getIssue(name);
 
@@ -126,7 +125,7 @@ public class IssueDashboard {
 
             issueService.saveIssue(issueOld);
 
-            return "updated";
+            return ResponseEntity.ok().body(issueOld);
         }
         else throw new NoDataFoundException();
     }
@@ -173,10 +172,14 @@ public class IssueDashboard {
     public ResponseEntity<List<Solution>> getSol(@PathVariable String name_ , @PathVariable String ownerName, @PathVariable String description_,
                                            @PathVariable String content_, @PathVariable String type_) {
 
+        // one atribute to search for or many ?????
 
+        //many -> add all to a list then find most common 3 -> send most common 3
 
+        //one // if path empty -> @ instead
         if(solutionService.getSolution(name_)!= null ) {
             return  ResponseEntity.ok(List.of(solutionService.getSolution(name_)));
+
         }
         if(solutionService.getSolutionByOwner(ownerName)!= null ) {
             return  ResponseEntity.ok(solutionService.getSolutionByOwner(ownerName));
@@ -193,7 +196,36 @@ public class IssueDashboard {
             return  ResponseEntity.ok(solutionService.getSolutionByType(type_));
         }
 
+      //  return ResponseEntity.ok(
+
         throw new NoDataFoundException();
+
+
+    }
+
+
+
+    @ResponseBody
+    @GetMapping("/IssueDashboard/searchBy={ToSearch}")
+    public List<Issue> FindBy(@PathVariable String ToSearch) {
+
+        List<Issue>issues = issueService.findBy(ToSearch);
+
+        List<Issue> issuesPrio = issueService.findByPrio(ToSearch);
+
+        List<Issue> issuesStatus = issueService.findByStatus(ToSearch);
+
+
+
+        if(issuesPrio != null) {
+            issues.addAll(issuesPrio);
+        }
+
+        if(issuesStatus != null) {
+            issues.addAll(issuesStatus);
+        }
+
+        return issues;
 
 
     }

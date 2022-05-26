@@ -51,6 +51,8 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
 
         Role role = roleRepo.findByName(roleName);
     user.getRoles().add(role);
+
+    userRepo.save(user);
     }
 
     @Override
@@ -114,6 +116,12 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
     @Override
     public void deleteByUsername(String username) {
         userRepo.deleteByUsername(username);
+    }
+
+
+    @Override
+    public List<APIUser> findBy(String toSearch) {
+         return userRepo.findBy("%" + toSearch + "%");
     }
 
 
