@@ -5,35 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35a3aac5-dc22-4a81-b809-722c9b4cfb0d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/Api/Extras.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/repo/PriorityRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/repo/StatusRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/repo/TypeRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/PriorityService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/PriorityServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/StatusService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/StatusServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/TypeService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/TypeServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/Api/IssueDashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/Api/IssueDashboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/repo/IssueRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/repo/IssueRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/repo/SolutionRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/repo/SolutionRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/repo/UserRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/repo/UserRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/Api/GroupManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/Api/GroupManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/securityConfig/SecurtyConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/securityConfig/SecurtyConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/IssueServImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/IssueServImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/IssueService.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/IssueService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/SolutionServImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/SolutionServImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/SolutionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/SolutionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/util/RoleUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/util/RoleUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/Api/IssueDashboard.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/Api/IssueDashboard.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/repo/UserRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/repo/UserRepo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/securityConfig/SecurtyConfig$FormLoginWebSecurityConfigurerAdapter.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/securityConfig/SecurtyConfig$FormLoginWebSecurityConfigurerAdapter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/securityConfig/SecurtyConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/securityConfig/SecurtyConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/service/IssueServImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/service/IssueServImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/service/IssueService.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/service/IssueService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/service/SolutionServImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/service/SolutionServImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/util/RoleUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/util/RoleUtils.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,7 +155,8 @@
       <workItem from="1652977870935" duration="224000" />
       <workItem from="1653409269247" duration="10157000" />
       <workItem from="1653459897943" duration="3671000" />
-      <workItem from="1653499396126" duration="24331000" />
+      <workItem from="1653499396126" duration="24522000" />
+      <workItem from="1653588672297" duration="1360000" />
     </task>
     <servers />
   </component>

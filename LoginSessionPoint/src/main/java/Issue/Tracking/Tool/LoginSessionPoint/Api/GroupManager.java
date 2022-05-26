@@ -76,12 +76,76 @@ public class GroupManager {
 
 
     @ResponseBody
-    @PostMapping("GroupManager/save")
+    @PostMapping("/GroupManager/save")
     public ResponseEntity<UserGroup> saveGroup(@RequestBody UserGroup userGroup) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/save").toUriString());
+        if(userService.getUser(userGroup.getLeader().getUsername()) == null)
+            throw new NoDataFoundException();
+        for(APIUser user : userGroup.getUsers())
+        {
+            if (userService.getUser(user.getUsername()) == null)
+                throw new NoDataFoundException();
+        }
+
         return created(uri).body(userGroupService.saveGroup(userGroup));
 
     }
+
+
+    @ResponseBody
+    @PutMapping("/GroupManager/changeLeader/{GroupName}")
+    public String saveLeader(@RequestBody APIUser leader, @PathVariable String GroupName) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/changeLeader").toUriString());
+
+        if(userService.getUser(leader.getUsername()) != null)
+        userGroupService.getGroup(GroupName).setLeader(leader);
+        else {
+            throw new NoDataFoundException();
+        }
+
+        return "Updated";
+
+    }
+
+    @ResponseBody
+    @PutMapping("/GroupManager/AddUser/{GroupName}")
+    public String AddUser(@RequestBody APIUser user, @PathVariable String GroupName) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/AddUser/{GroupName}").toUriString());
+
+        if(userService.getUser(user.getUsername()) != null) {
+            UserGroup group = userGroupService.getGroup(GroupName);
+            group.getUsers().add(user);
+            userGroupService.saveGroup(group);
+        }
+        else {
+            throw new NoDataFoundException();
+        }
+
+        return "Updated";
+
+    }
+
+    @ResponseBody
+    @DeleteMapping("/GroupManager/DelUser/{GroupName}")
+    public String DelUser(@RequestBody APIUser user, @PathVariable String GroupName) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("GroupManager/DelUser/{GroupName}").toUriString());
+
+        if(userService.getUser(user.getUsername()) != null) {
+            UserGroup group = userGroupService.getGroup(GroupName);
+            group.getUsers().remove(user);
+            userGroupService.saveGroup(group);
+        }
+        else {
+            throw new NoDataFoundException();
+        }
+
+        return "Updated";
+
+    }
+
+
+
+
 
     @ResponseBody
     @PostMapping("GroupManager/addUser")

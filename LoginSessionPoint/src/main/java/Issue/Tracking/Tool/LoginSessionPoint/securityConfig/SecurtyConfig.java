@@ -111,6 +111,10 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                 http.authorizeRequests().antMatchers(DELETE,"/GroupManager/delete/**").hasAnyAuthority(ADMIN);
                 http.authorizeRequests().antMatchers(POST, "/GroupManager/addUser").hasAnyAuthority(ADMIN,GROUP_LEADER);
 
+                http.authorizeRequests().antMatchers(PUT, "/GroupManager/changeLeader/**").hasAnyAuthority(ADMIN);
+                http.authorizeRequests().antMatchers(PUT, "/GroupManager/AddUser/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
+                http.authorizeRequests().antMatchers(DELETE, "/GroupManager/DelUser/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
+
 
                 http.authorizeRequests().antMatchers(POST, "/IssueDashboard/save/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER);
                 http.authorizeRequests().antMatchers(DELETE, "/IssueDashboard/delete/**").hasAnyAuthority(ADMIN,GROUP_LEADER);
