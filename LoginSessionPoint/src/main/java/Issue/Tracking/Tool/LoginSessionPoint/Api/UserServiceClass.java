@@ -112,15 +112,15 @@ public class UserServiceClass {
 
         log.info(users.toString() + " BY " + ToSearch);
 
-        List<Role> roles = roleService.findBy(ToSearch);
+       // List<Role> roles = roleService.findBy(ToSearch);
 
-        List<APIUser> All_users = userService.getUsersALL();
+        //List<APIUser> All_users = userService.getUsersALL();
 
-        if(roles != null) {
-            Stream<APIUser> userStream = RoleUtils.convertListToStream(All_users);
+       // if(roles != null) {
+          //  Stream<APIUser> userStream = RoleUtils.convertListToStream(All_users);
 
-            userStream.forEach(user -> ifContains(users, user, roles));
-        }
+         //   userStream.forEach(user -> ifContains(users, user, roles));
+       // }
 
         return users;
 

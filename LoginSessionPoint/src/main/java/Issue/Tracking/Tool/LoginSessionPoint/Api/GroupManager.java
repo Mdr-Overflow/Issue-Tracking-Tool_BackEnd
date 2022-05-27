@@ -78,18 +78,8 @@ public class GroupManager {
     @GetMapping("/GroupManager/searchBy={ToSearch}")
     public List<UserGroup> FindBy(@PathVariable String ToSearch) {
 
-        List<UserGroup> groups = userGroupService.findBy(ToSearch);
 
-        List<UserGroup> groupL  = userGroupService.findByLeader(ToSearch);
-
-
-
-        if(groupL != null) {
-            groups.addAll(groupL);
-        }
-
-
-        return groups;
+        return userGroupService.findBy(ToSearch);
 
 
     }

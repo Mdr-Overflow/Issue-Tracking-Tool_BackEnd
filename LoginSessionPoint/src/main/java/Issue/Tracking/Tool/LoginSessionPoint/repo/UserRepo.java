@@ -25,7 +25,7 @@ public interface UserRepo  extends JpaRepository<APIUser,Long> , JpaSpecificatio
 
     List<APIUser> findByUsernameContains(String usernameWILD);
 
-    @Query(value = "FROM APIUser as u WHERE (:inputString is null or u.username like " + ":inputString" + " ) or " +
+    @Query(value = "SELECT DISTINCT u FROM APIUser as u join u.roles r  WHERE (:inputString is null or r.name like :inputString ) and  (:inputString is null or u.username like " + ":inputString" + " ) or " +
             "(:inputString is null or u.Name  like "  + ":inputString" + " ) or " +
             " (:inputString is null or u.email  like "  + ":inputString"+")"
     )

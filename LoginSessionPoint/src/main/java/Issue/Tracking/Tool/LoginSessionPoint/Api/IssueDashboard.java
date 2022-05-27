@@ -209,23 +209,8 @@ public class IssueDashboard {
     @GetMapping("/IssueDashboard/searchBy={ToSearch}")
     public List<Issue> FindBy(@PathVariable String ToSearch) {
 
-        List<Issue>issues = issueService.findBy(ToSearch);
 
-        List<Issue> issuesPrio = issueService.findByPrio(ToSearch);
-
-        List<Issue> issuesStatus = issueService.findByStatus(ToSearch);
-
-
-
-        if(issuesPrio != null) {
-            issues.addAll(issuesPrio);
-        }
-
-        if(issuesStatus != null) {
-            issues.addAll(issuesStatus);
-        }
-
-        return issues;
+        return issueService.findBy(ToSearch);
 
 
     }

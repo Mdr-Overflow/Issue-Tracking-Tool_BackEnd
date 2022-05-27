@@ -23,7 +23,7 @@ public interface UserGroupRepo extends JpaRepository<UserGroup,Long> {
     void deleteByName(String name);
 
 
- @Query(value = "FROM UserGroup as g WHERE (:inputString is null or g.name like " + ":inputString)"
+ @Query(value = " SELECT DISTINCT g FROM UserGroup as g join g.Leader l WHERE (:inputString is null or l.username like :inputString) and  (:inputString is null or g.name like " + ":inputString)"
  )
     List<UserGroup> findBy(String inputString);
 
