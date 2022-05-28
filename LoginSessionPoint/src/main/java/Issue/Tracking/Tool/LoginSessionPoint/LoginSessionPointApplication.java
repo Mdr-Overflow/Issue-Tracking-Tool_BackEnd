@@ -2,12 +2,11 @@ package Issue.Tracking.Tool.LoginSessionPoint;
 
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
-import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
-import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
-import Issue.Tracking.Tool.LoginSessionPoint.service.UserService;
-import Issue.Tracking.Tool.LoginSessionPoint.service.apiKeyPairService;
+import Issue.Tracking.Tool.LoginSessionPoint.repo.PrivRepo;
+import Issue.Tracking.Tool.LoginSessionPoint.service.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,14 +14,17 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication(exclude={SecurityAutoConfiguration.class})
 @RestController
 
 public class LoginSessionPointApplication {
+
 
 	public static void main(String[] args) {
 
@@ -39,12 +41,24 @@ public class LoginSessionPointApplication {
 
 	@Bean
 
-	CommandLineRunner run(UserService userService, apiKeyPairService apiKeyPairService, RoleService roleService, UserGroupService userGroupService) {
+	CommandLineRunner run(UserService userService, apiKeyPairService apiKeyPairService, RoleService roleService, UserGroupService userGroupService, PrivService privService) {
 		return args -> {
+			/*
+			roleService.saveRole(new Role(1L, "ROLE_USER", List.of(privService.findByName("ROLE_USER")),null,null));
+			roleService.saveRole(new Role(2L, "ROLE_ADMIN",List.of(privService.findByName("ROLE_ADMIN")),null,null));
+			roleService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",List.of(privService.findByName("ROLE_SUPER_ADMIN")),null,null));
+*/
+			/*
+			roleService.saveRole(new Role(1L, "ROLE_USER", List.of(privService.createPrivilegeIfNotFound("ROLE_USER")),null,null));
+			roleService.saveRole(new Role(2L, "ROLE_ADMIN",List.of(privService.createPrivilegeIfNotFound("ROLE_ADMIN")),null,null));
+			roleService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",List.of(privService.createPrivilegeIfNotFound("ROLE_SUPER_ADMIN")),null,null));
+			roleService.saveRole(new Role(4L, "ROLE_USER2",List.of(privService.findByName("GET_USER")),null,null));
+*/
+
 			roleService.saveRole(new Role(1L, "ROLE_USER",null,null));
 			roleService.saveRole(new Role(2L, "ROLE_ADMIN",null,null));
 			roleService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",null,null));
-
+			roleService.saveRole(new Role(4L, "ROLE_USER2",null,null));
 
 			//userGroupService.saveGroup(new UserGroup(1L,"DEFAULT",null,new ArrayList<APIUser>(),new APIUser(),null));
 /*
@@ -79,5 +93,6 @@ public class LoginSessionPointApplication {
 
 		};
 	}
+
 
 }

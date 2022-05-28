@@ -1,6 +1,7 @@
 package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.domainAssamblers.APIUserModelAssembler;
 import Issue.Tracking.Tool.LoginSessionPoint.domainAssamblers.RoleModelAssembler;
@@ -8,6 +9,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.exception.AlreadyExistsException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.IllegalDefaultException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.PasswordMissingException;
+import Issue.Tracking.Tool.LoginSessionPoint.service.PrivService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
 import Issue.Tracking.Tool.LoginSessionPoint.util.RoleUtils;
 import com.auth0.jwt.JWT;
@@ -55,7 +57,7 @@ public class UserServiceClass {
     private final RoleModelAssembler roleModelAssembler;
     private final RoleService roleService;
     private  final  AuthenticationManager  authenticationManager;
-
+    private  final PrivService privService;
     //private final SecurityService securityService;
 
 
@@ -206,6 +208,10 @@ public class UserServiceClass {
 
     // @GetMapping
 
+
+
+
+
     @ResponseBody
     @PutMapping("/role/update/{name}")
     public ResponseEntity<Role> replaceRole(@RequestBody Role role, @PathVariable String name) {
@@ -301,13 +307,32 @@ public class UserServiceClass {
     }
 
 
+    @ResponseBody
+    @GetMapping("role/privs")
+    public ResponseEntity<List<Privilege>> getALLPrivs() {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("role/privs").toUriString());
+
+
+        return created(uri).body(privService.getAll());
+
+    }
+
+
 
     @ResponseBody
     @PostMapping("role/save")
     public ResponseEntity<Role> saveRole(@RequestBody Role role) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/save").toUriString());
+
+       // for(Privilege p : role.getPrivileges())
+       //     if(privService.findByName(p.getName()) == null)
+         //       throw new NoDataFoundException();
+
+
         return created(uri).body(roleService.saveRole(role));
     }
+
+
 
     @ResponseBody
     @PostMapping("role/addtouser")

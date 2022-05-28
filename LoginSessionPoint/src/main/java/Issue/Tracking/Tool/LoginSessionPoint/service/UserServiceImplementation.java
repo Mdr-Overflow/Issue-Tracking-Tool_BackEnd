@@ -55,7 +55,7 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
 
 
         Role role = roleRepo.findByName(roleName);
-        log.info(roleName + " ___________" + role);
+        //log.info(roleName + " ___________" + role);
 
         if(roleRepo.findByName(roleName) == null) throw new NoDataFoundException();
     user.getRoles().add(role);
@@ -157,6 +157,12 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
         } else {
             log.info("User found in the database: {}", username);
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            List<Role> roles = (List<Role>) user.getRoles();
+
+            //for (Role role : roles)
+              //  role.getPrivileges()
+         //   user.getRoles().forEach(role -> log.info(role.getPrivileges().toString()));
+
             user.getRoles().forEach(role -> {
                 authorities.add(new SimpleGrantedAuthority(role.getName()));
             }); // look for each role to check

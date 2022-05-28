@@ -1,5 +1,6 @@
 package Issue.Tracking.Tool.LoginSessionPoint.repo;
 
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 ;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
@@ -20,5 +21,8 @@ public interface RoleRepo  extends JpaRepository<Role,Long> {
             "WHERE (:inputString is null or r.id = :inputInt) or (:inputString is null or r.name like :inputString)"
     )
     List<Role> findBy(String inputString, Long inputInt);
+
+   // @Query("SELECT DISTINCT r.privileges FROM  Role r where r.name = :name ")
+  //  List<Privilege> getAllPrivs(String name);
 
 }

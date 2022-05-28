@@ -17,6 +17,12 @@ public class MiscConfig {
     public final static String GROUP_LEADER = "ROLE_GROUP_LEADER";
     public final static String splitter = ",";
 
+
+    public final static String GETs = "GET_";
+    public final static String POSTs = "POST_";
+    public final static String DELETEs = "DELETE_";
+    public final static String PUTs = "PUT_";
+
     public final static Integer TOKEN_EXPIRATION_TIME_MINS = 600;
     public final static Integer REFRESH_TOKEN_EXPIRATION_TIME_MINS = 600;
 
