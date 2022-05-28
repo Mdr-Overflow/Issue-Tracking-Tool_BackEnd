@@ -138,5 +138,11 @@ public class SolutionServImpl implements SolutionService {
 
     }
 
+    @Override
+    public void deleteSol(Solution sol) {
+
+        solutionRepo.delete(sol);
+    }
+
 
 }

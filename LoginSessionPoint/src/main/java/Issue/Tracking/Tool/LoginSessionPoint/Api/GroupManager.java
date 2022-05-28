@@ -180,16 +180,16 @@ public class GroupManager {
 
 
     @ResponseBody
-    @GetMapping("GroupManager/get")
-    public ResponseEntity<UserGroup> getGroup(@RequestBody String groupName) {
+    @GetMapping("GroupManager/get/{groupName}")
+    public ResponseEntity<UserGroup> getGroup(@PathVariable String groupName) {
 
         return ResponseEntity.ok().body(userGroupService.getGroup(groupName));
 
     }
 
     @ResponseBody
-    @GetMapping("GroupManager/getLeader")
-    public ResponseEntity<APIUser> getGroupLeader(@RequestBody String groupName) {
+    @GetMapping("GroupManager/getLeader/{groupName}")
+    public ResponseEntity<APIUser> getGroupLeader(@PathVariable String groupName) {
 
         return ResponseEntity.ok().body(userGroupService.getLeader(groupName));
 
@@ -198,16 +198,16 @@ public class GroupManager {
 
 
     @ResponseBody
-    @GetMapping("GroupManager/getAllUsers")
-    public ResponseEntity<List<APIUser>> getUsersOfGroup(@RequestBody String groupName) {
+    @GetMapping("GroupManager/getAllUsers/{groupName}")
+    public ResponseEntity<List<APIUser>> getUsersOfGroup(@PathVariable String groupName) {
 
         return ResponseEntity.ok().body(userGroupService.getUsers(groupName));
 
     }
 
     @ResponseBody
-    @GetMapping("GroupManager/getTime")
-    public ResponseEntity<Date> getTimeGroup(@RequestBody String groupName) {
+    @GetMapping("GroupManager/getTime/{groupName}")
+    public ResponseEntity<Date> getTimeGroup(@PathVariable String groupName) {
 
         return ResponseEntity.ok().body(userGroupService.getTimestamp(groupName));
 

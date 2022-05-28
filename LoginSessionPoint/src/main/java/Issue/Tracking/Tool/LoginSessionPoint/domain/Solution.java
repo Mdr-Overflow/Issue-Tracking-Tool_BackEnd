@@ -46,10 +46,10 @@ public class Solution {
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date lastUpdated;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST })
     private APIUser owner;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST })
     private Collection <APIUser> collaborators ;
 
 

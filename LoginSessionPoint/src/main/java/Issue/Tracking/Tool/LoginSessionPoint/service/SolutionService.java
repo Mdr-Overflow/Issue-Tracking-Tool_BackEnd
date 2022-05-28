@@ -25,4 +25,6 @@ public interface SolutionService {
     List<Solution> getSolutionByContent(String content_);
 
     List<Solution> getSolutionByType(String type_);
+
+    void deleteSol(Solution sol);
 }

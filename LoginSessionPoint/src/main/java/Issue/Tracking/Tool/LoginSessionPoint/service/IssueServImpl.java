@@ -1,6 +1,7 @@
 package Issue.Tracking.Tool.LoginSessionPoint.service;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.*;
+import Issue.Tracking.Tool.LoginSessionPoint.repo.SolutionRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserGroupRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.IssueRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,12 +23,47 @@ public class IssueServImpl implements  IssueService {
     private final UserRepo userRepo;
     private final UserGroupRepo userGroupRepo;
     private final IssueRepo issueRepo;
+    private final SolutionRepo solutionRepo;
     //private final Priority userRepo;
     //private final Status   userRepo;
 
     @Override
     public Issue saveIssue(Issue issue) {
         log.info("Saving  Issue  {} to DB",issue.getName());
+
+        List<APIUser> users = new ArrayList<APIUser>();
+        for (APIUser user: issue.getUsers())
+            if(userRepo.findByUsername(user.getUsername()) != null){
+                users.add(userRepo.findByUsername(user.getUsername()));
+            }
+
+
+        List<UserGroup> groups = new ArrayList<UserGroup>();
+        for (UserGroup userG: issue.getUserGroups())
+            if(userGroupRepo.findByName(userG.getName()) != null){
+                groups.add(userGroupRepo.findByName(userG.getName()));
+            }
+
+        List<Solution> sols = new ArrayList<Solution>();
+        for (Solution sol: issue.getSolutions())
+            if(solutionRepo.findByName(sol.getName()) != null){
+                sols.add(solutionRepo.findByName(sol.getName()));
+            }
+
+
+       // log.info(users.toString());
+        issue.getUsers().clear();
+        issue.getUserGroups().clear();
+        issue.getSolutions().clear();
+
+        issue.setUsers(users);
+        issue.setUserGroups(groups);
+        issue.setSolutions(sols);
+
+       // log.info(userGroup.getUsers().toString());
+
+
+
         return issueRepo.save(issue);
     }
 
