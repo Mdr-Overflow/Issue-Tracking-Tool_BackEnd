@@ -40,10 +40,12 @@ public class GroupManager {
     }
 
     @DeleteMapping("/GroupManager/delete/{name}")
-    public void deleteGroup(@PathVariable String name) {
+    public ResponseEntity<UserGroup> deleteGroup(@PathVariable String name) {
         if(userGroupService.getGroup(name) != null)
         userGroupService.deleteByName(name);
         else throw new NoDataFoundException();
+
+        return ResponseEntity.ok().body(null);
     }
 
 
@@ -91,6 +93,8 @@ public class GroupManager {
     @PostMapping("/GroupManager/save")
     public ResponseEntity<UserGroup> saveGroup(@RequestBody UserGroup userGroup) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/save").toUriString());
+
+
         if(userService.getUser(userGroup.getLeader().getUsername()) == null)
             throw new NoDataFoundException();
         for(APIUser user : userGroup.getUsers())
@@ -99,6 +103,7 @@ public class GroupManager {
                 throw new NoDataFoundException();
         }
 
+       // userGroup.setLeader(get);
         return created(uri).body(userGroupService.saveGroup(userGroup));
 
     }

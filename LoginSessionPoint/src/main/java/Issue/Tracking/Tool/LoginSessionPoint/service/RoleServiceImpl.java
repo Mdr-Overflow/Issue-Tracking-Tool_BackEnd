@@ -1,8 +1,10 @@
 package Issue.Tracking.Tool.LoginSessionPoint.service;
 
+import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.RoleRepo;
+import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.splitte
 @Slf4j
 public class RoleServiceImpl implements RoleService {
     private final RoleRepo roleRepo;
+    private final UserRepo userRepo;
 
     @Override
     public List<Role> getALLRoles() {
@@ -36,7 +39,15 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void deleteByName(String name) {
-        roleRepo.deleteByName(name);
+        if(roleRepo.findByName(name) != null) {
+
+            List<APIUser> users = userRepo.findAllByRoles_Name(name);
+
+           users.forEach(user -> user.getRoles().remove(roleRepo.findByName(name)));
+        userRepo.saveAll(users);
+        roleRepo.removeByName(name);
+        }
+        else throw new NoDataFoundException();
     }
 
     @Override

@@ -121,4 +121,18 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     }
 
 
+    @ExceptionHandler({org.springframework.dao.DataIntegrityViolationException.class,org.hibernate.exception.ConstraintViolationException.class,
+            org.hibernate.exception.ConstraintViolationException.class})
+    public ResponseEntity<Object> handleDataIntegrityException(
+            Exception ex, WebRequest request) {
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", "Duplicate something");
+        body.put("message verbose", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+
 }

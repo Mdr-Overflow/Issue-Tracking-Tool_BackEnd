@@ -31,6 +31,8 @@ public interface UserRepo  extends JpaRepository<APIUser,Long> , JpaSpecificatio
     )
     List<APIUser> findBy(String inputString);
 
+    @Query(value = "SELECT DISTINCT u FROM APIUser as u join u.roles r  WHERE :name = r.name ")
+    List<APIUser> findAllByRoles_Name(String name);
 
 
  /*   @Modifying

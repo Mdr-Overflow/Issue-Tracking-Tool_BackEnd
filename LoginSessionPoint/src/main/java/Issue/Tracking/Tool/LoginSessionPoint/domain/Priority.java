@@ -27,6 +27,7 @@ public class Priority {
     )
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     @CreationTimestamp

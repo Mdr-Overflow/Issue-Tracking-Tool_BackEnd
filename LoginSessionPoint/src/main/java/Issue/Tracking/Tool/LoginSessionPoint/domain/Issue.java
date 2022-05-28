@@ -28,15 +28,16 @@ public class Issue {
             generator = "Issue_Id_seq"
     )
     private Long id;
+    @Column(unique = true)
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     private Status status;
 
 
     private String details;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     private Priority priority;
 
     @CreationTimestamp

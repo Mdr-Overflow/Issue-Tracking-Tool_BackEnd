@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +29,23 @@ public class UserGroupServiceImpl implements UserGroupService {
     @Override
     public UserGroup saveGroup(UserGroup userGroup) {
         log.info("Saving  UserGroup  {} to DB", userGroup.getName());
+        List<APIUser> users = new ArrayList<APIUser>();
+        for (APIUser user: userGroup.getUsers())
+             if(userRepo.findByUsername(user.getUsername()) != null){
+                 users.add(userRepo.findByUsername(user.getUsername()));
+             }
+        if(userRepo.findByUsername(userGroup.getLeader().getUsername()) != null)
+        {
+            userGroup.setLeader(userRepo.findByUsername(userGroup.getLeader().getUsername()));
+        }
+
+        log.info(users.toString());
+        userGroup.getUsers().clear();
+
+        userGroup.setUsers(users);
+
+        log.info(userGroup.getUsers().toString());
+
         return  userGroupRepo.save(userGroup);
     }
 
@@ -40,8 +58,8 @@ public class UserGroupServiceImpl implements UserGroupService {
     @Override
     public List<UserGroup> getGroups() {
         log.info("Getting all groups ");
-        org.springframework.data.domain.Pageable givenPage =  PageRequest.of(0, 1, Sort.unsorted()); // Page has overhead cost (determines how many beforehand)
-        return (userGroupRepo.findAll(givenPage)).getContent();
+      //  org.springframework.data.domain.Pageable givenPage =  PageRequest.of(0, 1, Sort.unsorted()); // Page has overhead cost (determines how many beforehand)
+        return userGroupRepo.findAll();
     }
 
     @Override

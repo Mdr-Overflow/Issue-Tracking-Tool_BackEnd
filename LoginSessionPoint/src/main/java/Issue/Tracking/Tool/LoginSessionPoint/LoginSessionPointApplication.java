@@ -3,7 +3,9 @@ package Issue.Tracking.Tool.LoginSessionPoint;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
 import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
+import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.apiKeyPairService;
 import org.springframework.boot.CommandLineRunner;
@@ -37,18 +39,32 @@ public class LoginSessionPointApplication {
 
 	@Bean
 
-	CommandLineRunner run(UserService userService, apiKeyPairService apiKeyPairService, RoleService roleService) {
+	CommandLineRunner run(UserService userService, apiKeyPairService apiKeyPairService, RoleService roleService, UserGroupService userGroupService) {
 		return args -> {
 			roleService.saveRole(new Role(1L, "ROLE_USER",null,null));
 			roleService.saveRole(new Role(2L, "ROLE_ADMIN",null,null));
 			roleService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",null,null));
 
+
+			//userGroupService.saveGroup(new UserGroup(1L,"DEFAULT",null,new ArrayList<APIUser>(),new APIUser(),null));
+/*
+			userService.saveUser(new APIUser(1L, "John Travolta", "1234","Jt@asdas.com","John", new ArrayList<>(),  new ArrayList<>(),new UserGroup(), new UserGroup(),null,null));
+			userService.saveUser(new APIUser(2L, "Will Smith","1234","w@asdas.com","Will",new ArrayList<>(), new ArrayList<>(),new UserGroup(),new UserGroup(),null,null));
+			userService.saveUser(new APIUser(3L, "Jim Carry", "1234", "fg@asdas.com","Jim",new ArrayList<>(), new ArrayList<>(),new UserGroup(),new UserGroup(),null,null));
+			userService.saveUser(new APIUser(4L, "Arnold Schwarzenegger", "1234","sd@asdas.com","Arnold", new ArrayList<>(), new ArrayList<>(),new UserGroup(),null,null,null));
+			userService.saveUser(new APIUser(5L, "admin", "1234","Jt@asdas.com","sd", new ArrayList<>(),  new ArrayList<>(),new UserGroup(),new UserGroup(),null,null));
+			*/
+
+
 			userService.saveUser(new APIUser(1L, "John Travolta", "1234","Jt@asdas.com","John", new ArrayList<>(),  new ArrayList<>(),null,null));
 			userService.saveUser(new APIUser(2L, "Will Smith","1234","w@asdas.com","Will",new ArrayList<>(), new ArrayList<>(),null,null));
 			userService.saveUser(new APIUser(3L, "Jim Carry", "1234", "fg@asdas.com","Jim",new ArrayList<>(), new ArrayList<>(),null,null));
-			userService.saveUser(new APIUser(4L, "Arnold Schwarzenegger", "1234","sd@asdas.com","Arnold", new ArrayList<>(), new ArrayList<>(),null,null));
-			userService.saveUser(new APIUser(5L, "admin", "1234","Jt@asdas.com","sd", new ArrayList<>(),  new ArrayList<>(),null,null));
+			userService.saveUser(new APIUser(4L, "Arnold Schwarzenegger", "1234","sd@asdas.com","Arnold", new ArrayList<>(),new ArrayList<>(),null,null));
+			userService.saveUser(new APIUser(5L, "admin", "1234","Jtyyy@asdas.com","sd", new ArrayList<>(),  new ArrayList<>(),null,null));
+
+
 			// IF NAME NOT IN DB  -> CRASH
+
 
 
 

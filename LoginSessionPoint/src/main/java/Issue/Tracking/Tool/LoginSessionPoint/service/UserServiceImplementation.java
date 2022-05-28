@@ -49,7 +49,11 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
         log.info("Saving role {} to user {}",roleName,username);
             APIUser user = userRepo.findByUsername(username);
 
+
         Role role = roleRepo.findByName(roleName);
+        log.info(roleName + " ___________" + role);
+
+        if(roleRepo.findByName(roleName) == null) throw new NoDataFoundException();
     user.getRoles().add(role);
 
     userRepo.save(user);

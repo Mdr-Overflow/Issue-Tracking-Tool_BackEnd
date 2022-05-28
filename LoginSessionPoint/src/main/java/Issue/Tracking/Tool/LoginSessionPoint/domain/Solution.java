@@ -26,7 +26,9 @@ public class Solution {
             generator = "Solution_Id_seq"
     )
     private Long id;
+    @Column(unique = true)
     private String name;
+
     private String description;
     private boolean isFinal;
     private boolean isAccepted;
@@ -44,7 +46,7 @@ public class Solution {
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date lastUpdated;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
     private APIUser owner;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

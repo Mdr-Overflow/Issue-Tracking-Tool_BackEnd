@@ -133,10 +133,12 @@ public class IssueDashboard {
 
 
     @DeleteMapping("/IssueDashboard/delete/{name}")
-    public void deleteIssue(@PathVariable String name) {
+    public ResponseEntity<Issue> deleteIssue(@PathVariable String name) {
         if(issueService.getIssue(name) != null)
             issueService.deleteByName(name);
         else throw new NoDataFoundException();
+
+        return ResponseEntity.ok().body(null);
     }
 
 

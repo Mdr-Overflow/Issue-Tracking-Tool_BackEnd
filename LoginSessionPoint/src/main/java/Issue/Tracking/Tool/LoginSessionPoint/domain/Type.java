@@ -29,6 +29,7 @@ public class Type {
     )
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
 

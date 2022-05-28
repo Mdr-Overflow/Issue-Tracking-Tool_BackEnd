@@ -11,6 +11,7 @@ import java.util.List;
 public interface UserGroupRepo extends JpaRepository<UserGroup,Long> {
    UserGroup findByName(String name);
 
+
     @Query("SELECT g.createdAt FROM UserGroup g where g.name = :name")
     java.util.Date findTimestampByName(String name) ;
 
@@ -21,6 +22,7 @@ public interface UserGroupRepo extends JpaRepository<UserGroup,Long> {
     APIUser findLeader(String name);
 
     void deleteByName(String name);
+
 
 
  @Query(value = " SELECT DISTINCT g FROM UserGroup as g join g.Leader l WHERE (:inputString is null or l.username like :inputString) and  (:inputString is null or g.name like " + ":inputString)"

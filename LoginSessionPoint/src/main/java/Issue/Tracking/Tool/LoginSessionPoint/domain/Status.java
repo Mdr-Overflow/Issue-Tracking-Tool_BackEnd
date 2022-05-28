@@ -28,6 +28,7 @@ public class Status {
     )
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     @CreationTimestamp

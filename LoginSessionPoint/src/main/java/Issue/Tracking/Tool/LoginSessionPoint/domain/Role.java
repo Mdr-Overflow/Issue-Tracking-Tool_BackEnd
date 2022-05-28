@@ -36,6 +36,8 @@ public class Role  {
     )
 
     private Long id;
+
+ //@Column(unique = true) Duplicate entry 'ROLE_USER' for key 'role.UK_8sewwnpamngi6b1dwaa88askk' ////
     private String name;
 
     @CreationTimestamp

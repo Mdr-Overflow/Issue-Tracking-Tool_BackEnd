@@ -231,10 +231,12 @@ public class UserServiceClass {
 
 
     @DeleteMapping("/role/delete/{name}")
-    public void deleteRole(@PathVariable String name) {
+    public ResponseEntity<Role> deleteRole(@PathVariable String name) {
         if (!DEFAULT_ROLES.contains(name))
         roleService.deleteByName(name);
         else throw new IllegalDefaultException();
+
+        return  ResponseEntity.ok().body(null);
     }
 
     //testing only
