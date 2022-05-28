@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.persistence.PreRemove;
 import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,10 @@ public interface UserRepo  extends JpaRepository<APIUser,Long> , JpaSpecificatio
 {
     APIUser findByUsername(String username);
     List<Role> findAllByUsername(String username);
+
+
+
+
     void deleteByUsername(String username);
 
     @Query("SELECT u.username FROM APIUser u ")

@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 
 //import javax.transaction.Transactional;
+import javax.persistence.PreRemove;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -118,8 +119,18 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
 
 
     @Override
+    @PreRemove
     public void deleteByUsername(String username) {
-        userRepo.deleteByUsername(username);
+
+        if(userRepo.findByUsername(username) != null)
+        {
+
+
+
+            userRepo.deleteByUsername(username);
+        }
+
+
     }
 
 

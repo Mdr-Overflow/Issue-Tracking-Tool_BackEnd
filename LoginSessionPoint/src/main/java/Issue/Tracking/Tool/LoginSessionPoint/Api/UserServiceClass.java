@@ -153,8 +153,10 @@ public class UserServiceClass {
     }
 
     @DeleteMapping("/user/delete/{username}")
-    void deleteUser(@PathVariable String username) {
+    public ResponseEntity<APIUser> deleteUser(@PathVariable String username) {
         userService.deleteByUsername(username);
+
+        return ResponseEntity.ok().body(null);
     }
 
 

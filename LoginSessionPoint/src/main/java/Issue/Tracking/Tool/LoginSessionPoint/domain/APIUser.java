@@ -50,7 +50,8 @@ public class APIUser {
 
  private String Name;
 
- @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+
+ @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
  private Collection<Role> roles = new ArrayList<>();
 
 
