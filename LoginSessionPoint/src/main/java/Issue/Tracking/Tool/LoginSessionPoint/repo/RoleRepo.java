@@ -2,6 +2,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.repo;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 ;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,5 +16,9 @@ public interface RoleRepo  extends JpaRepository<Role,Long> {
 
    List<Role> findByNameContaining(String toSearch);
 
+    @Query(value = " SELECT DISTINCT r FROM Role as r  " +
+            "WHERE (:inputString is null or r.id = :inputInt) or (:inputString is null or r.name like :inputString)"
+    )
+    List<Role> findBy(String inputString, Long inputInt);
 
 }

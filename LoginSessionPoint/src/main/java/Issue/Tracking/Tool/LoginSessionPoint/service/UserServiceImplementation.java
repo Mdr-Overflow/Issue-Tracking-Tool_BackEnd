@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 
@@ -27,7 +29,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Service @RequiredArgsConstructor  @Transactional
+@Service @RequiredArgsConstructor
+@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class, isolation = Isolation.DEFAULT)
 @Slf4j
 
 public class UserServiceImplementation implements  UserService , UserDetailsService {
@@ -136,7 +139,12 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
 
     @Override
     public List<APIUser> findBy(String toSearch) {
-         return userRepo.findBy("%" + toSearch + "%");
+
+        long intValue = 0L;
+        try { intValue = Integer.parseInt(toSearch);}
+            catch (NumberFormatException ignored){}
+
+         return userRepo.findBy("%" + toSearch + "%",intValue);
     }
 
 

@@ -9,5 +9,6 @@ public interface TypeService {
     void SaveType(Type type);
     List<Type> findALL();
 
+    List<Type> findBy(String toSearch);
 
 }

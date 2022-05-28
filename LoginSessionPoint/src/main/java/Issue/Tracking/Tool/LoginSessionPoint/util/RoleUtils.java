@@ -22,5 +22,7 @@ public class RoleUtils {
     {
         return list.stream();
     }
-
+    public static Boolean StringToBoolean(String s){
+        return s.equals("true");
+    }
 }

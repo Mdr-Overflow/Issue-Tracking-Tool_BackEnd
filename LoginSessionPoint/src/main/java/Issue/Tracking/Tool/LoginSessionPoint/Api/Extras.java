@@ -6,6 +6,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.domain.Status;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 @Controller
 //@RequestMapping(path = "/LoginSessionPoint")
 @RequiredArgsConstructor
+@Slf4j
 public class Extras {
     private final UserService userService;
     private final UserGroupService userGroupService;
@@ -96,6 +98,21 @@ public class Extras {
         return ResponseEntity.ok().body(null);
     }
 
+    @ResponseBody
+    @GetMapping("/Extras/Priority/searchBy={ToSearch}")
+    public List<Priority> PFindBy(@PathVariable String ToSearch) {
+
+        List<Priority> priorities = priorityService.findBy(ToSearch);
+
+        log.info(priorities.toString() + " BY " + ToSearch);
+
+
+
+        return priorities;
+
+
+    }
+
 
 
 
@@ -170,6 +187,22 @@ public class Extras {
         return ResponseEntity.ok().body(status);
 
     }
+
+    @ResponseBody
+    @GetMapping("/Extras/Status/searchBy={ToSearch}")
+    public List<Status> RFindBy(@PathVariable String ToSearch) {
+
+        List<Status> statuses= statusService.findBy(ToSearch);
+
+        log.info(statuses.toString() + " BY " + ToSearch);
+
+
+
+        return statuses;
+
+
+    }
+
 
 
 

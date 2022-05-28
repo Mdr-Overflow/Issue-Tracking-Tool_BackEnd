@@ -7,6 +7,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import static org.springframework.http.ResponseEntity.created;
 @Controller
 //@RequestMapping(path = "/LoginSessionPoint")
 @RequiredArgsConstructor
+@Slf4j
 public class IssueDashboard {
 
     private final UserService userService;
@@ -264,6 +266,22 @@ public class IssueDashboard {
 
 
         return issueService.findBy(ToSearch);
+
+
+    }
+
+
+    @ResponseBody
+    @GetMapping("/IssueDashboard/Solution/searchBy={ToSearch}")
+    public List<Solution> SOLFindBy(@PathVariable String ToSearch) {
+
+        List<Solution> solutions = solutionService.findBy(ToSearch);
+
+        log.info(solutions.toString() + " BY " + ToSearch);
+
+
+
+        return solutions;
 
 
     }

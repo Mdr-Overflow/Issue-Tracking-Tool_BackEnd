@@ -28,4 +28,13 @@ public class TypeServiceImpl implements TypeService{
     public List<Type> findALL() {
       return  typeRepo.findAll();
     }
+
+    @Override
+    public List<Type> findBy(String toSearch) {
+        long intValue = 0L;
+        try { intValue = Integer.parseInt(toSearch);}
+        catch (NumberFormatException ignored){}
+
+        return typeRepo.findBy(toSearch,intValue);
+    }
 }

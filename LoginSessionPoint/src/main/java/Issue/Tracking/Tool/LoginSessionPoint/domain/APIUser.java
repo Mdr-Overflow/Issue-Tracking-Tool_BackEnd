@@ -51,11 +51,11 @@ public class APIUser {
  private String Name;
 
 
- @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+ @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
  private Collection<Role> roles = new ArrayList<>();
 
 
- @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH}, fetch = FetchType.LAZY, orphanRemoval = true)
+ @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, fetch = FetchType.LAZY)
  private Collection<apiKeyPair> apiKeys = new ArrayList<apiKeyPair>();
 
  /*

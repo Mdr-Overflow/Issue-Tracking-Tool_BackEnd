@@ -35,4 +35,15 @@ public class StatusServiceImpl  implements  StatusService{
     public void deleteStatus(String name) {
         statusRepo.deleteByName(name);
     }
+
+
+    @Override
+    public List<Status> findBy(String toSearch) {
+        long intValue = 0L;
+        try { intValue = Integer.parseInt(toSearch);}
+        catch (NumberFormatException ignored){}
+
+        return  statusRepo.findBy(toSearch,intValue);
+    }
+
 }

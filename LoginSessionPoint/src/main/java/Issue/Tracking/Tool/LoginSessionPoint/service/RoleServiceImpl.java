@@ -63,5 +63,15 @@ public class RoleServiceImpl implements RoleService {
 
     }
 
+    @Override
+    public List<Role> findByTerm(String toSearch) {
+        long intValue = 0L;
+        try { intValue = Integer.parseInt(toSearch);}
+        catch (NumberFormatException ignored){}
+
+        log.info(Integer.parseInt(toSearch) + " ___VAL");
+        return roleRepo.findBy(toSearch,intValue);
+    }
+
 
 }

@@ -27,4 +27,6 @@ public interface SolutionService {
     List<Solution> getSolutionByType(String type_);
 
     void deleteSol(Solution sol);
+
+    List<Solution> findBy(String toSearch);
 }

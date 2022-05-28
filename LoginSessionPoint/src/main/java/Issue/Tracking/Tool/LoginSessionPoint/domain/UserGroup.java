@@ -25,14 +25,15 @@ public class UserGroup  implements Serializable {
     @JsonDeserialize
 
     @Id
-    @SequenceGenerator(
+   /* @SequenceGenerator(
             name = "Group_Id_seq",
             sequenceName = "Group_Id_seq",
             allocationSize = 1
-    )
+    )*/
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "Group_Id_seq"
+            strategy = GenerationType.TABLE
+            //generator = "Group_Id_seq"
+
     )
     @Column(name = "id")
     private Long id;
@@ -46,7 +47,7 @@ public class UserGroup  implements Serializable {
 
     @OneToMany(
 
-            cascade = {CascadeType.MERGE , CascadeType.PERSIST },
+            cascade = {CascadeType.MERGE , CascadeType.PERSIST , CascadeType.REFRESH},
 
             fetch = FetchType.LAZY
     )
@@ -56,7 +57,7 @@ public class UserGroup  implements Serializable {
 
     @OneToOne(
 
-            cascade = {CascadeType.MERGE , CascadeType.PERSIST },
+            cascade = {CascadeType.MERGE , CascadeType.PERSIST , CascadeType.REFRESH },
 
             fetch = FetchType.LAZY)
 

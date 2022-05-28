@@ -10,4 +10,6 @@ public interface RoleService {
     Role getRole(String name);
     void deleteByName(String name);
     List<Role> findBy(String name);
+
+    List<Role> findByTerm(String toSearch);
 }

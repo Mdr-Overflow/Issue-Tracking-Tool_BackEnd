@@ -91,7 +91,12 @@ public class UserGroupServiceImpl implements UserGroupService {
 
     @Override
     public List<UserGroup> findBy(String toSearch) {
-        return userGroupRepo.findBy(toSearch);
+
+        long intValue = 0L;
+        try { intValue = Integer.parseInt(toSearch);}
+        catch (NumberFormatException ignored){}
+
+        return userGroupRepo.findBy(toSearch,intValue);
     }
 
     @Override

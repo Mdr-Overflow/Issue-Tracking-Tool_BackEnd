@@ -1,6 +1,7 @@
 package Issue.Tracking.Tool.LoginSessionPoint.service;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Priority;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Type;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.PriorityRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,4 +38,14 @@ public class PriorityServiceImpl implements PriorityService {
         priorityRepo.deleteByName(name);
 
     }
+
+    @Override
+    public List<Priority> findBy(String toSearch) {
+        long intValue = 0L;
+        try { intValue = Integer.parseInt(toSearch);}
+        catch (NumberFormatException ignored){}
+
+        return priorityRepo.findBy(toSearch,intValue);
+    }
+
 }

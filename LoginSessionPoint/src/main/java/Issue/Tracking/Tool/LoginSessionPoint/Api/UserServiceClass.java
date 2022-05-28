@@ -37,10 +37,9 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
-import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.DEFAULT_ROLES;
+import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.http.ResponseEntity.created;
@@ -112,15 +111,7 @@ public class UserServiceClass {
 
         log.info(users.toString() + " BY " + ToSearch);
 
-       // List<Role> roles = roleService.findBy(ToSearch);
 
-        //List<APIUser> All_users = userService.getUsersALL();
-
-       // if(roles != null) {
-          //  Stream<APIUser> userStream = RoleUtils.convertListToStream(All_users);
-
-         //   userStream.forEach(user -> ifContains(users, user, roles));
-       // }
 
         return users;
 
@@ -282,7 +273,7 @@ public class UserServiceClass {
 
             String access_token = JWT.create()
                     .withSubject(user.getUsername())
-                    .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 10 * 6000 * 20))  // Token Expiress at 20 mins
+                    .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 10L * 6000 * TOKEN_EXPIRATION_TIME_MINS))  // Token Expiress at 20 mins
                     .withIssuer(request.getRequestURL().toString())
                     .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                     .sign(algorithm);
@@ -290,7 +281,7 @@ public class UserServiceClass {
 
             String refresh_token = JWT.create()
                     .withSubject(user.getUsername())
-                    .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 10 * 6000 * 60))  // Token Expiress at 60 mins
+                    .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 10L * 6000 * REFRESH_TOKEN_EXPIRATION_TIME_MINS))  // Token Expiress at 60 mins
                     .withIssuer(request.getRequestURL().toString())
                     .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                     .sign(algorithm);
@@ -325,7 +316,20 @@ public class UserServiceClass {
         return ResponseEntity.ok().build();
     }
 
+    @ResponseBody
+    @GetMapping("/role/searchBy={ToSearch}")
+    public List<Role> RFindBy(@PathVariable String ToSearch) {
 
+        List<Role> roles = roleService.findByTerm(ToSearch);
+
+        log.info(roles.toString() + " BY " + ToSearch);
+
+
+
+        return roles;
+
+
+    }
 
 
 }

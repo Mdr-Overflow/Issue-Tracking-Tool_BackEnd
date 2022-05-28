@@ -161,7 +161,13 @@ public class IssueServImpl implements  IssueService {
 
     @Override
     public List<Issue> findBy(String toSearch) {
-        return  issueRepo.findBy("%" + toSearch + "%");
+
+        long intValue = 0L;
+        try { intValue = Integer.parseInt(toSearch);}
+        catch (NumberFormatException ignored){}
+
+
+        return  issueRepo.findBy("%" + toSearch + "%",intValue);
     }
 
     @Override

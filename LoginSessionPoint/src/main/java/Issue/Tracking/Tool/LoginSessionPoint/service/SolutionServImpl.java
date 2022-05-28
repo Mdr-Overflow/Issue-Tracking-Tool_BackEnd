@@ -18,6 +18,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.CUSTOM_SEARCH_TERMS;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -142,6 +144,21 @@ public class SolutionServImpl implements SolutionService {
     public void deleteSol(Solution sol) {
 
         solutionRepo.delete(sol);
+    }
+
+    @Override
+    public List<Solution> findBy(String toSearch) {
+
+        if(CUSTOM_SEARCH_TERMS.containsKey(toSearch))
+            return solutionRepo.findByFinalOrAccepted(CUSTOM_SEARCH_TERMS.get(toSearch));
+
+            long intValue = 0L;
+        try { intValue = Integer.parseInt(toSearch);}
+        catch (NumberFormatException ignored){}
+
+
+
+        return  solutionRepo.findBy(toSearch,intValue);
     }
 
 
