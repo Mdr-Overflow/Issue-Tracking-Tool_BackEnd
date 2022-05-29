@@ -5,10 +5,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.domainAssamblers.APIUserModelAssembler;
 import Issue.Tracking.Tool.LoginSessionPoint.domainAssamblers.RoleModelAssembler;
-import Issue.Tracking.Tool.LoginSessionPoint.exception.AlreadyExistsException;
-import Issue.Tracking.Tool.LoginSessionPoint.exception.IllegalDefaultException;
-import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
-import Issue.Tracking.Tool.LoginSessionPoint.exception.PasswordMissingException;
+import Issue.Tracking.Tool.LoginSessionPoint.exception.*;
 import Issue.Tracking.Tool.LoginSessionPoint.service.PrivService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
 import Issue.Tracking.Tool.LoginSessionPoint.util.RoleUtils;
@@ -256,6 +253,11 @@ public class UserServiceClass {
             throw new PasswordMissingException();
         if(userService.getAllUsernames().contains(user.getUsername()))
             throw new AlreadyExistsException(APIUser.class);
+
+        if(!user.getEmail().matches("/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/"))
+            throw  new InvalidMailException();
+
+
 
 
         RoleUtils.giveRole("ROLE_USER",user);
