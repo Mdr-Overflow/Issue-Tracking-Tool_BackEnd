@@ -26,7 +26,7 @@ public interface UserGroupRepo extends JpaRepository<UserGroup,Long> {
 
 
  @Query(value = " SELECT DISTINCT g FROM UserGroup as g join g.Leader l join g.users us WHERE (:inputString is null or g.id = :inputInt) or (:inputString is null or l.username like :inputString) " +
-         "or  (:inputString is null or g.name like " + ":inputString)  or (:inputString is null or us.username like :inputString)"
+         "or  (:inputString is null or g.name like " + ":inputString) "
  )
     List<UserGroup> findBy(String inputString, Long inputInt);
 
