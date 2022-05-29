@@ -8,6 +8,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.domainAssamblers.RoleModelAssembler
 import Issue.Tracking.Tool.LoginSessionPoint.exception.*;
 import Issue.Tracking.Tool.LoginSessionPoint.service.PrivService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
+import Issue.Tracking.Tool.LoginSessionPoint.service.apiKeyPairService;
 import Issue.Tracking.Tool.LoginSessionPoint.util.RoleUtils;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -47,6 +48,7 @@ import static org.springframework.http.ResponseEntity.created;
 //@RequestMapping(path = "/LoginSessionPoint")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(origins = "localhost:4200")
 
 public class UserServiceClass {
     private final Issue.Tracking.Tool.LoginSessionPoint.service.UserService userService;
@@ -55,12 +57,14 @@ public class UserServiceClass {
     private final RoleService roleService;
     private  final  AuthenticationManager  authenticationManager;
     private  final PrivService privService;
+    private  final Issue.Tracking.Tool.LoginSessionPoint.service.apiKeyPairService apiKeyPairService;
+
     //private final SecurityService securityService;
 
 
 
     @ResponseBody
-    @CrossOrigin(origins = "localhost:4200")
+
     @GetMapping("/user/{username}")
     public APIUser getUserByName(@PathVariable("username") String username) {
 
@@ -129,8 +133,17 @@ public class UserServiceClass {
          if(userOld != null) {
              if (user.getUsername() != null) userOld.setUsername(user.getUsername());
              if (user.getPassword() != null) userOld.setPassword(user.getPassword());
-             if (user.getRoles() != null) userOld.setRoles(user.getRoles());
-             if (user.getApiKeys() != null) userOld.setApiKeys(user.getApiKeys());
+             if (user.getRoles() != null) {
+
+                 userOld.getRoles().clear();
+                 user.getRoles().forEach(role -> userOld.getRoles().add(roleService.getRole(role.getName())));
+             }
+          /*   if (user.getApiKeys() != null) {
+                 userOld.getApiKeys().clear();
+                 userOld.getApiKeys().forEach(apiKeyPair -> user.getApiKeys().add(apiKeyPairService.generate()));
+             }*/ // should not be updatable like this
+
+
              if (user.getEmail() != null) userOld.setEmail(user.getEmail());
              if (user.getName() != null) userOld.setName(user.getName());
              userOld.setLastUpdated(user.getCreatedAt());
@@ -218,6 +231,11 @@ public class UserServiceClass {
             if (role.getName() != null) roleOld.setName(role.getName());
             roleOld.setLastUpdated(role.getCreatedAt());
 
+            if(role.getPrivileges() != null){
+                roleOld.getPrivileges().clear();
+                role.getPrivileges().forEach(privilege -> roleOld.getPrivileges().add(privService.findByName(privilege.getName())));
+
+            }
 
             roleService.saveRole(roleOld);
             return ResponseEntity.ok().body(roleOld);
@@ -326,9 +344,9 @@ public class UserServiceClass {
     public ResponseEntity<Role> saveRole(@RequestBody Role role) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/save").toUriString());
 
-       // for(Privilege p : role.getPrivileges())
-       //     if(privService.findByName(p.getName()) == null)
-         //       throw new NoDataFoundException();
+        for(Privilege p : role.getPrivileges())
+            if(privService.findByName(p.getName()) == null)
+                throw new NoDataFoundException();
 
 
         return created(uri).body(roleService.saveRole(role));

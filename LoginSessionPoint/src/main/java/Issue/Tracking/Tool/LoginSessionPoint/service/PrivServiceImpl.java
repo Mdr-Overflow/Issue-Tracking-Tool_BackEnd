@@ -30,7 +30,7 @@ public class PrivServiceImpl implements PrivService{
 
         if(privRepo.findByName(p) != null)
         return privRepo.findByName(p);
-        else throw new  IllegalArgumentException("aaaaaaaaaaaaaaaa");
+        else return null;
     }
 
     @Override

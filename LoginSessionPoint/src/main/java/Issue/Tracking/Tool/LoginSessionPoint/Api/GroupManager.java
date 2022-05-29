@@ -3,6 +3,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.Api;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
 
+import Issue.Tracking.Tool.LoginSessionPoint.exception.LeaderNOTinGroupException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
@@ -96,6 +97,13 @@ public class GroupManager {
     }
 
 
+    public boolean isIN(UserGroup userGroup){
+
+        for( APIUser user : userGroup.getUsers() )
+            if(userGroup.getLeader().getUsername().equals(user.getUsername()))
+                return true;
+        return false;
+    }
 
 
     @ResponseBody
@@ -103,6 +111,8 @@ public class GroupManager {
     public ResponseEntity<UserGroup> saveGroup(@RequestBody UserGroup userGroup) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/save").toUriString());
 
+        if(!isIN(userGroup))
+            throw new LeaderNOTinGroupException();
 
         if(userService.getUser(userGroup.getLeader().getUsername()) == null)
             throw new NoDataFoundException();
@@ -110,6 +120,8 @@ public class GroupManager {
         {
             if (userService.getUser(user.getUsername()) == null)
                 throw new NoDataFoundException();
+
+
         }
 
        // userGroup.setLeader(get);
@@ -124,7 +136,7 @@ public class GroupManager {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/changeLeader").toUriString());
 
         UserGroup userGroup = null;
-        if(userService.getUser(leader.getUsername()) != null) {
+        if(userService.getUser(leader.getUsername()) != null && userGroupService.getGroup(GroupName) != null) {
             userGroup = userGroupService.getGroup(GroupName);
             userGroup.setLeader(userService.getUser(leader.getUsername()));
             userGroupService.saveGroup(userGroup);
@@ -143,7 +155,7 @@ public class GroupManager {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/AddUser/{GroupName}").toUriString());
 
         UserGroup group = null;
-        if(userService.getUser(user.getUsername()) != null) {
+        if(userService.getUser(user.getUsername()) != null && userGroupService.getGroup(GroupName) != null) {
             group = userGroupService.getGroup(GroupName);
             group.getUsers().add(userService.getUser(user.getUsername()));
             userGroupService.saveGroup(group);
@@ -162,7 +174,7 @@ public class GroupManager {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("GroupManager/DelUser/{GroupName}").toUriString());
 
         UserGroup group = null;
-        if(userService.getUser(user.getUsername()) != null) {
+        if(userService.getUser(user.getUsername()) != null && userGroupService.getGroup(GroupName) != null) {
             group = userGroupService.getGroup(GroupName);
             group.getUsers().remove(user);
             userGroupService.saveGroup(group);
@@ -186,6 +198,20 @@ public class GroupManager {
         userGroupService.AddUserToGroup(Username, GroupName);
         return created(uri).body("Nice");
     }
+
+
+
+    @ResponseBody
+    @GetMapping("GroupManager/user/{username}")
+    public ResponseEntity<UserGroup> getGroupUsername(@PathVariable String username) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("GroupManager/user/{username}").toUriString());
+
+
+        return created(uri).body(userGroupService.findByUsernameOFUser(username));
+    }
+
+
+
 
 
     @ResponseBody

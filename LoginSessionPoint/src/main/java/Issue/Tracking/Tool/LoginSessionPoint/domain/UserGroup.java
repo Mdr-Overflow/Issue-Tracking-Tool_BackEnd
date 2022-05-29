@@ -55,7 +55,7 @@ public class UserGroup extends AbstractPersistentObject implements Serializable 
     @OneToMany(
 
 
-            cascade = CascadeType.ALL,
+            cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH},
             fetch = FetchType.LAZY
     )
     @JoinColumn(name= "user_group",insertable = false, updatable = true)
@@ -65,7 +65,7 @@ public class UserGroup extends AbstractPersistentObject implements Serializable 
 
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})
     @Fetch( FetchMode.SELECT)
     @JoinColumn(name= "user_group_id",referencedColumnName = "id", insertable = true, updatable = true)
     private APIUser Leader;

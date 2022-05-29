@@ -1,9 +1,12 @@
 package Issue.Tracking.Tool.LoginSessionPoint.filter;
 
+import Issue.Tracking.Tool.LoginSessionPoint.constants.SetupDataLoader;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
+import Issue.Tracking.Tool.LoginSessionPoint.repo.PrivRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.RoleRepo;
+import Issue.Tracking.Tool.LoginSessionPoint.service.PrivService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -92,7 +95,7 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
         WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
 
         RoleService roleService = webApplicationContext.getBean(RoleService.class);
-
+        PrivService privService = webApplicationContext.getBean(PrivService.class);
 
         Collection<Role> AuthRoles = new ArrayList<>();
 
@@ -111,19 +114,27 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
         log.info("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 
+        List<String> claims = AuthRoles.stream().map(role -> role.getPrivileges().stream().map(Privilege::getName).collect(Collectors.joining(",")))
+                .collect(Collectors.toList());
+
+        List<String>  claimsActual =  AuthRoles.stream().map(Role::getName).collect(Collectors.toList());  ; //claims.stream().filter(string -> privService.findByName(string) != null).collect(Collectors.toList());
+
+
+
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 10L * 6000 * TOKEN_EXPIRATION_TIME_MINS))  // Token Expiress at 20 mins
                 .withIssuer(request.getRequestURL().toString())
-                .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                .withClaim("roles", claimsActual)
                 .sign(algorithm);
 
+///user.getRoles().stream().map(Role-> Role.getPrivileges().stream().map(Privilege::getName)).collect(Collectors.toList()))
 
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 10L * 6000 * REFRESH_TOKEN_EXPIRATION_TIME_MINS))  // Token Expiress at 60 mins
                 .withIssuer(request.getRequestURL().toString())
-                .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                .withClaim("roles", claimsActual)
                 .sign(algorithm);
 
         /*response.setHeader("access_token", access_token);

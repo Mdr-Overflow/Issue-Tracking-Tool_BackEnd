@@ -121,4 +121,11 @@ public class UserGroupServiceImpl implements UserGroupService {
     public List<UserGroup> findByLeader(String toSearch) {
         return userGroupRepo.findByLeader_NameContains("%" + toSearch + "%");
     }
+
+    @Override
+    public UserGroup findByUsernameOFUser(String username) {
+        return userGroupRepo.findByUsernameOFUser(username);
+
+
+    }
 }

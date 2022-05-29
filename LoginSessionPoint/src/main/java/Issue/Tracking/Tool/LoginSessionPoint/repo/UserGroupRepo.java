@@ -37,4 +37,8 @@ public interface UserGroupRepo extends JpaRepository<UserGroup,Long> {
     )
 
     List<UserGroup> findByLeader_NameContains(String toSearch);
+
+
+    @Query("FROM UserGroup g join g.users us WHERE us.username = :username ")
+    UserGroup findByUsernameOFUser(String username);
 }

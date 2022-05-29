@@ -22,4 +22,6 @@ public interface UserGroupService {
     List<UserGroup> findBy(String toSearch);
 
     List<UserGroup> findByLeader(String toSearch);
+
+    UserGroup  findByUsernameOFUser(String username);
 }

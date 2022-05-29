@@ -27,7 +27,7 @@ import java.util.*;
 @Data
 @Table(name = "apiuser")
 @JsonSerialize(using = UserSerializer.class)
-@JsonDeserialize(using = UserDeserializer.class)
+//@JsonDeserialize(using = UserDeserializer.class)
 public class APIUser extends  AbstractPersistentObject {
 
    /* @Transient
