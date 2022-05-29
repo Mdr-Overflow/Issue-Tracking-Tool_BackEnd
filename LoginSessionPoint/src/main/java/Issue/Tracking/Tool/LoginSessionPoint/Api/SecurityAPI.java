@@ -1,6 +1,7 @@
 package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
@@ -21,9 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.TOKEN_EXPIRATION_TIME_MINS;
@@ -68,11 +67,15 @@ public class SecurityAPI {
 
                 APIUser user = userService.getUser(username);   // create APIUser object
 
+                List<Role> AuthRoles = (List<Role>) user.getRoles();
+                Set<String> claims = AuthRoles.stream().map(role -> role.getPrivileges().stream().map(Privilege::getName).collect(Collectors.toList())).collect(Collectors.toList()).stream().flatMap(Collection::stream).collect(Collectors.toSet()); //.map(strings -> strings)//.collect(Collectors.joining(","));
+                List<String>  claimsNew = new ArrayList<>(claims);
+
                 String access_token = JWT.create()
                         .withSubject(user.getUsername())
                         .withExpiresAt(new Date(System.currentTimeMillis() + 10L * 6000 * TOKEN_EXPIRATION_TIME_MINS))  // Token Expiress at 20 mins
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                        .withClaim("roles", claimsNew)
                         .sign(algorithm);
                 Map<String, String> tokens = new HashMap<>();
 

@@ -114,18 +114,18 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
         log.info("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 
-        List<String> claims = AuthRoles.stream().map(role -> role.getPrivileges().stream().map(Privilege::getName).collect(Collectors.joining(",")))
-                .collect(Collectors.toList());
+        Set<String> claims = AuthRoles.stream().map(role -> role.getPrivileges().stream().map(Privilege::getName).collect(Collectors.toList())).collect(Collectors.toList()).stream().flatMap(Collection::stream).collect(Collectors.toSet()); //.map(strings -> strings)//.collect(Collectors.joining(","));
 
-        List<String>  claimsActual =  AuthRoles.stream().map(Role::getName).collect(Collectors.toList());  ; //claims.stream().filter(string -> privService.findByName(string) != null).collect(Collectors.toList());
+        List<String>  claimsOld =  AuthRoles.stream().map(Role::getName).collect(Collectors.toList());  ; //claims.stream().filter(string -> privService.findByName(string) != null).collect(Collectors.toList());
 
+        List<String>  claimsNew = new ArrayList<>(claims);
 
 
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 10L * 6000 * TOKEN_EXPIRATION_TIME_MINS))  // Token Expiress at 20 mins
                 .withIssuer(request.getRequestURL().toString())
-                .withClaim("roles", claimsActual)
+                .withClaim("roles", claimsNew)
                 .sign(algorithm);
 
 ///user.getRoles().stream().map(Role-> Role.getPrivileges().stream().map(Privilege::getName)).collect(Collectors.toList()))
@@ -134,7 +134,7 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 10L * 6000 * REFRESH_TOKEN_EXPIRATION_TIME_MINS))  // Token Expiress at 60 mins
                 .withIssuer(request.getRequestURL().toString())
-                .withClaim("roles", claimsActual)
+                .withClaim("roles", claimsNew)
                 .sign(algorithm);
 
         /*response.setHeader("access_token", access_token);

@@ -41,12 +41,13 @@ public class AuthoFilter extends OncePerRequestFilter {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer "))
             {
                 try {
+                    log.info("TRYYYY");
                     String token = authorizationHeader.substring("Bearer ".length());
                     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                     JWTVerifier verifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = verifier.verify(token);
                     String username = decodedJWT.getSubject();
-
+                    log.info("TRYYYY 2");
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                     log.info("Getting roles {} ", (Object) roles);
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();

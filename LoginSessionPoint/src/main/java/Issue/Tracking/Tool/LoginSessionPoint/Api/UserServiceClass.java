@@ -297,6 +297,12 @@ public class UserServiceClass {
 
             Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 
+            /*
+            List<Role> AuthRoles = (List<Role>) user.getRoles();
+            Set<String> claims = AuthRoles.stream().map(role -> role.getPrivileges().stream().map(Privilege::getName).collect(Collectors.toList())).collect(Collectors.toList()).stream().flatMap(Collection::stream).collect(Collectors.toSet()); //.map(strings -> strings)//.collect(Collectors.joining(","));
+            List<String>  claimsNew = new ArrayList<>(claims);
+            */
+
             String access_token = JWT.create()
                     .withSubject(user.getUsername())
                     .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 10L * 6000 * TOKEN_EXPIRATION_TIME_MINS))  // Token Expiress at 20 mins
