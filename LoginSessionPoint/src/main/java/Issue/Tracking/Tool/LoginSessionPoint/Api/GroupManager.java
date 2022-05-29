@@ -154,14 +154,14 @@ public class GroupManager {
     }
 
     @ResponseBody
-    @PutMapping("/GroupManager/AddUser/{GroupName}")
-    public ResponseEntity<UserGroup> AddUser(@RequestBody APIUser user, @PathVariable String GroupName) {
+    @PutMapping("/GroupManager/AddUser/{GroupName}/{username}")
+    public ResponseEntity<UserGroup> AddUser(@PathVariable String username, @PathVariable String GroupName) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/AddUser/{GroupName}").toUriString());
 
         UserGroup group = null;
-        if(userService.getUser(user.getUsername()) != null && userGroupService.getGroup(GroupName) != null) {
+        if(userService.getUser(username) != null && userGroupService.getGroup(GroupName) != null) {
             group = userGroupService.getGroup(GroupName);
-            group.getUsers().add(userService.getUser(user.getUsername()));
+            group.getUsers().add(userService.getUser(username));
             userGroupService.saveGroup(group);
         }
         else {
@@ -173,16 +173,16 @@ public class GroupManager {
     }
 
     @ResponseBody
-    @DeleteMapping("/GroupManager/DelUser/{GroupName}")
-    public ResponseEntity<deletedConfirmation> DelUser(@RequestBody APIUser user, @PathVariable String GroupName) {
+    @DeleteMapping("/GroupManager/DelUser/{GroupName}/{username}")
+    public ResponseEntity<deletedConfirmation> DelUser(@PathVariable String username, @PathVariable String GroupName) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("GroupManager/DelUser/{GroupName}").toUriString());
 
         deletedConfirmation del = new deletedConfirmation();
         UserGroup group = null;
-        if(userService.getUser(user.getUsername()) != null && userGroupService.getGroup(GroupName) != null) {
+        if(userService.getUser(username) != null && userGroupService.getGroup(GroupName) != null) {
             group = userGroupService.getGroup(GroupName);
-            group.getUsers().remove(user);
-             del = new deletedConfirmation(user.getUsername());
+            group.getUsers().remove(userService.getUser(username));
+             del = new deletedConfirmation(username);
             userGroupService.saveGroup(group);
         }
         else {

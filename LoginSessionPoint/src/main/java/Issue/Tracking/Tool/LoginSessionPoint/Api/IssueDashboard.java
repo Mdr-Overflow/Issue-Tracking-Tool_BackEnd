@@ -65,13 +65,13 @@ public class IssueDashboard {
 
 
     @ResponseBody
-    @DeleteMapping("IssueDashboard/solution/remove/{issueName}")  //sol persists
-    public ResponseEntity<Issue> remSolution(@RequestBody Solution solution, @PathVariable String issueName) {
+    @DeleteMapping("IssueDashboard/solution/remove/{issueName}/{solutionName}")  //sol persists
+    public ResponseEntity<Issue> remSolution(@PathVariable String solutionName, @PathVariable String issueName) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/remove/{issueDelete}").toUriString());
         Issue issue = issueService.getIssue(issueName);
 
 
-        Solution sol =  solutionService.getSolution(solution.getName());
+        Solution sol =  solutionService.getSolution(solutionName);
         if(sol == null) throw new NoDataFoundException();
 
 
@@ -82,12 +82,12 @@ public class IssueDashboard {
 
 
     @ResponseBody
-    @DeleteMapping("IssueDashboard/solution/delete/{issueName}")  //sol deletes
-    public ResponseEntity<Issue> delSolution(@RequestBody Solution solution, @PathVariable String issueName) {
+    @DeleteMapping("IssueDashboard/solution/delete/{issueName}/{solutionName}")  //sol deletes
+    public ResponseEntity<Issue> delSolution(@RequestBody String solutionName, @PathVariable String issueName) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/delete/{issueDelete}").toUriString());
 
         Issue issue = issueService.getIssue(issueName);
-        Solution sol =  solutionService.getSolution(solution.getName());
+        Solution sol =  solutionService.getSolution(solutionName);
         if(sol == null) throw new NoDataFoundException();
 
         issue.getSolutions().remove(sol);

@@ -361,9 +361,12 @@ public class UserServiceClass {
     public ResponseEntity<Role> saveRole(@RequestBody Role role) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/save").toUriString());
 
+        log.info(role.getPrivileges().toString());
+
         for(Privilege p : role.getPrivileges())
             if(privService.findByName(p.getName()) == null)
                 throw new NoDataFoundException();
+
 
 
         return created(uri).body(roleService.saveRole(role));

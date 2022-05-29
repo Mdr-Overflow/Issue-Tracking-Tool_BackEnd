@@ -55,10 +55,13 @@ public class AuthoFilter extends OncePerRequestFilter {
                         authorities.add(new SimpleGrantedAuthority(role));
 
                     });
+                    log.info("TRYYYY 3");
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, roles, authorities);
 
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                    log.info("TRYYYY 4");
                     filterChain.doFilter(request, response);
+                    log.info("TRYYYY 5");
                 } catch (Exception exception) {
 
                     log.error("Error logging in : {}", exception.getMessage());

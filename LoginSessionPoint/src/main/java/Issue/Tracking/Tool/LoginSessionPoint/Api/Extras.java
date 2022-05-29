@@ -3,6 +3,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Priority;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Status;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.deletedConfirmation;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.*;
 import lombok.RequiredArgsConstructor;
@@ -83,19 +84,19 @@ public class Extras {
 
     @ResponseBody
     @DeleteMapping("/Extras/Priority/delete/{name}")
-    public ResponseEntity<Priority> DelPrios(@PathVariable String name) {
+    public ResponseEntity<deletedConfirmation> DelPrios(@PathVariable String name) {
 
        Priority priority =  priorityService.getPrio(name);
-
+        deletedConfirmation del = new deletedConfirmation();
        if (priority != null)
        {
            priorityService.deletePrio(priority.getName());
-
+           del = new deletedConfirmation(name);
        }
 
        else  throw  new NoDataFoundException();
 
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().body(del);
     }
 
     @ResponseBody
@@ -162,19 +163,19 @@ public class Extras {
 
     @ResponseBody
     @DeleteMapping("/Extras/Status/delete/{name}")
-    public ResponseEntity<Status> DelStatuses(@PathVariable String name) {
+    public ResponseEntity<deletedConfirmation> DelStatuses(@PathVariable String name) {
 
         Status status =  statusService.getStatus(name);
-
+        deletedConfirmation del = new deletedConfirmation();
         if (status != null)
         {
             statusService.deleteStatus(status.getName());
-
+            del = new deletedConfirmation(name);
         }
 
         else  throw  new NoDataFoundException();
 
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().body(del);
     }
 
 
