@@ -2,10 +2,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.*;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
-import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
-import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
-import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
-import Issue.Tracking.Tool.LoginSessionPoint.service.UserService;
+import Issue.Tracking.Tool.LoginSessionPoint.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +26,8 @@ public class IssueDashboard {
     private final UserGroupService userGroupService;
     private final IssueService issueService;
     private final SolutionService solutionService;
-
+    private final StatusService statusService;
+    private final PriorityService priorityService;
 
     @ResponseBody
     @PostMapping("IssueDashboard/save")
@@ -85,6 +83,7 @@ public class IssueDashboard {
     @DeleteMapping("IssueDashboard/solution/delete/{issueName}")  //sol deletes
     public ResponseEntity<Issue> delSolution(@RequestBody Solution solution, @PathVariable String issueName) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/delete/{issueDelete}").toUriString());
+
         Issue issue = issueService.getIssue(issueName);
         Solution sol =  solutionService.getSolution(solution.getName());
         if(sol == null) throw new NoDataFoundException();
@@ -92,6 +91,7 @@ public class IssueDashboard {
         issue.getSolutions().remove(sol);
         solutionService.deleteSol(sol);
         issueService.saveIssue(issue);
+
         return created(uri).body(issue);
     }
 
@@ -107,17 +107,29 @@ public class IssueDashboard {
 
         if(issueOld != null) {
 
-
             if (issue.getName() != null) issueOld.setName(issue.getName());
 
-            if (issue.getSolutions()  != null)
-            if (issue.getUsers() != null) issueOld.setUsers(issue.getUsers());
-            if (issue.getUserGroups() != null) issueOld.setUserGroups(issue.getUserGroups());
 
+            if (issue.getUsers() != null) {
+                issueOld.getUsers().clear();
+                issue.getUsers().forEach(apiUser -> issueOld.getUsers().add(userService.getUser(apiUser.getUsername())));
+            }
             if (issue.getDetails() != null) issueOld.setDetails(issue.getDetails());
 
-            if (issue.getStatus() != null)  issueOld.setStatus(issue.getStatus());
-            if (issue.getPriority() != null)  issueOld.setPriority(issue.getPriority());
+            if (issue.getStatus() != null) issueOld.setStatus(statusService.getStatus(issue.getStatus().getName()));
+            if (issue.getPriority() != null) issueOld.setPriority(priorityService.getPrio(issue.getPriority().getName()));
+
+            if (issue.getSolutions()  != null) {
+                issueOld.getSolutions().clear();
+                issue.getSolutions().forEach(solution -> issueOld.getSolutions().add(solutionService.getSolution(solution.getName())));
+            }
+
+            if (issue.getUserGroups() != null)
+            {
+                issueOld.getUserGroups().clear();
+                issue.getUserGroups().forEach(userGroup -> issueOld.getUserGroups().add(userGroupService.getGroup(userGroup.getName())));
+            }
+
 
 
             issue.setLastUpdated(issue.getCreatedAt());
@@ -165,12 +177,19 @@ public class IssueDashboard {
             if (issue.getName() != null) issueOld.setName(issue.getName());
 
 
-            if (issue.getUsers() != null) issueOld.setUsers(issue.getUsers());
+            if (issue.getUsers() != null) {
+                issueOld.getUsers().clear();
+                issue.getUsers().forEach(apiUser -> issueOld.getUsers().add(userService.getUser(apiUser.getUsername())));
+            }
             if (issue.getDetails() != null) issueOld.setDetails(issue.getDetails());
-            if (issue.getStatus() != null) issueOld.setStatus(issue.getStatus());
-            if (issue.getPriority() != null) issueOld.setPriority(issue.getPriority());
-            if (issue.getSolutions()  != null) issueOld.setSolutions(issue.getSolutions());
 
+            if (issue.getStatus() != null) issueOld.setStatus(statusService.getStatus(issue.getStatus().getName()));
+            if (issue.getPriority() != null) issueOld.setPriority(priorityService.getPrio(issue.getPriority().getName()));
+
+            if (issue.getSolutions()  != null) {
+                issueOld.getSolutions().clear();
+                issue.getSolutions().forEach(solution -> issueOld.getSolutions().add(solutionService.getSolution(solution.getName())));
+            }
 
 
             issue.setLastUpdated(issue.getCreatedAt());

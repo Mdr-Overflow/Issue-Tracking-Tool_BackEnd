@@ -5,27 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35a3aac5-dc22-4a81-b809-722c9b4cfb0d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/constants/AbstractPersistentObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/constants/IdGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/constants/PersistentObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1df65b3d-146d-4b1e-8e00-64d3538f54bd.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1df65b3d-146d-4b1e-8e00-64d3538f54bd.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/Api/GroupManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/Api/GroupManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/LoginSessionPointApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/LoginSessionPointApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/domain/APIUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/domain/APIUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/domain/UserGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/domain/UserGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/repo/UserRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/repo/UserRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/IssueServImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/IssueServImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/SolutionServImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/SolutionServImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/UserGroupServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/UserGroupServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/UserServiceImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/service/UserServiceImplementation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/Api/GroupManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/Api/GroupManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/domain/APIUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/domain/APIUser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/domain/UserGroup.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/domain/UserGroup.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/service/IssueServImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/service/IssueServImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/service/UserGroupServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/service/UserGroupServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/service/UserServiceImplementation.class" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/target/classes/Issue/Tracking/Tool/LoginSessionPoint/service/UserServiceImplementation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/Api/IssueDashboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/LoginSessionPoint/src/main/java/Issue/Tracking/Tool/LoginSessionPoint/Api/IssueDashboard.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,7 +158,7 @@
       <workItem from="1653588672297" duration="15567000" />
       <workItem from="1653672584787" duration="64185000" />
       <workItem from="1653777321480" duration="999000" />
-      <workItem from="1653778468543" duration="9051000" />
+      <workItem from="1653778468543" duration="9628000" />
     </task>
     <servers />
   </component>
