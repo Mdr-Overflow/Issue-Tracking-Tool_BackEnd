@@ -51,7 +51,7 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
     @Override
     public void addRoleToUser(String username, String roleName) {
         log.info("Saving role {} to user {}",roleName,username);
-            APIUser user = userRepo.findByUsername(username);
+            APIUser user = userRepo.findFirstByUsername(username);
 
 
         Role role = roleRepo.findByName(roleName);
@@ -66,7 +66,7 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
     @Override
     public APIUser getUser(String username) {
         log.info("Getting user {} ",username);
-        return userRepo.findByUsername(username);
+        return userRepo.findFirstByUsername(username);
     }
 
     @Override                                                                   // 0 - asc , 1 - desc
@@ -125,7 +125,7 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
     @PreRemove
     public void deleteByUsername(String username) {
 
-        if(userRepo.findByUsername(username) != null)
+        if(userRepo.findFirstByUsername(username) != null)
         {
 
 
@@ -150,7 +150,7 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        APIUser user = userRepo.findByUsername(username);
+        APIUser user = userRepo.findFirstByUsername(username);
         if(user == null) {
             log.error("User not found in the database");
             throw new UsernameNotFoundException("User not found in the database");

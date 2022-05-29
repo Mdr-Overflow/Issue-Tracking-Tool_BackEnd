@@ -5,6 +5,8 @@ import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.apiKeyPair;
 import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
+import lombok.Synchronized;
+import org.hibernate.annotations.Synchronize;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -17,11 +19,19 @@ import java.util.List;
 
 public interface UserRepo  extends JpaRepository<APIUser,Long> , JpaSpecificationExecutor<APIUser>
 {
-    APIUser findByUsername(String username);
+
+
+
+    APIUser findFirstByUsername(String name);
+
+
     List<Role> findAllByUsername(String username);
 
+//FetchMode.SELECT
 
 
+
+   // void DelDupes();
 
     void deleteByUsername(String username);
 

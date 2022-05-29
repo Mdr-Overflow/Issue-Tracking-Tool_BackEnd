@@ -9,6 +9,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.service.SolutionService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserGroupService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import static org.springframework.http.ResponseEntity.created;
 @Controller
 //@RequestMapping(path = "/LoginSessionPoint")
 @RequiredArgsConstructor
+@Slf4j
 public class GroupManager {
 
     private final UserService userService;
@@ -55,19 +57,26 @@ public class GroupManager {
     public ResponseEntity<UserGroup> replaceGroup(@RequestBody UserGroup group, @PathVariable String name) {
 
         UserGroup groupOld = userGroupService.getGroup(name);
+
         if(groupOld != null) {
 
 
+            log.info("here got group");
             if (group.getName() != null) groupOld.setName(group.getName());
-            if (group.getUsers() != null) groupOld.setUsers(group.getUsers());
-            if (group.getUsers() != null) groupOld.setLeader(group.getLeader());
+            if (group.getUsers() != null) {
+                 groupOld.getUsers().clear();
+                 group.getUsers().forEach(apiUser -> groupOld.getUsers().add(userService.getUser(apiUser.getUsername())));
+            }
+            if (group.getLeader() != null) {
+                groupOld.setLeader(userService.getUser(group.getLeader().getUsername()));
 
+            }
 
             group.setLastUpdated(group.getCreatedAt());
 
-
+          //  userGroupService.deleteByName(groupOld.getName());
             userGroupService.saveGroup(groupOld);
-
+            log.info("here is hard to get");
 
             return ResponseEntity.ok().body(groupOld);
         }
@@ -117,7 +126,7 @@ public class GroupManager {
         UserGroup userGroup = null;
         if(userService.getUser(leader.getUsername()) != null) {
             userGroup = userGroupService.getGroup(GroupName);
-            userGroup.setLeader(leader);
+            userGroup.setLeader(userService.getUser(leader.getUsername()));
             userGroupService.saveGroup(userGroup);
         }
         else {
@@ -136,7 +145,7 @@ public class GroupManager {
         UserGroup group = null;
         if(userService.getUser(user.getUsername()) != null) {
             group = userGroupService.getGroup(GroupName);
-            group.getUsers().add(user);
+            group.getUsers().add(userService.getUser(user.getUsername()));
             userGroupService.saveGroup(group);
         }
         else {

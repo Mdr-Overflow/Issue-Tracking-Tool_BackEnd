@@ -1,41 +1,48 @@
 package Issue.Tracking.Tool.LoginSessionPoint.domain;
 
 
+import Issue.Tracking.Tool.LoginSessionPoint.constants.AbstractPersistentObject;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user_group")
-public class UserGroup  implements Serializable {
+
+public class UserGroup extends AbstractPersistentObject implements Serializable {
     @JsonSerialize
     @JsonDeserialize
 
     @Id
-   /* @SequenceGenerator(
-            name = "Group_Id_seq",
-            sequenceName = "Group_Id_seq",
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    /*
+    @SequenceGenerator(
+            name = "UserGroup_Id_seq",
+            sequenceName = "User_Id_seq",
             allocationSize = 1
-    )*/
-    @GeneratedValue(
-            strategy = GenerationType.TABLE
-            //generator = "Group_Id_seq"
-
     )
-    @Column(name = "id")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "UserGroup_Id_seq"
+    )
+*/
+
     private Long id;
 
     @Column(unique = true)
@@ -47,24 +54,37 @@ public class UserGroup  implements Serializable {
 
     @OneToMany(
 
-            cascade = {CascadeType.MERGE , CascadeType.PERSIST , CascadeType.REFRESH},
 
+            cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name= "user_group_id",referencedColumnName = "id")
+    @JoinColumn(name= "user_group",insertable = false, updatable = true)
+    @Fetch(value = FetchMode.SELECT)
+
     private Collection<APIUser> users;
 
 
-    @OneToOne(
 
-            cascade = {CascadeType.MERGE , CascadeType.PERSIST , CascadeType.REFRESH },
-
-            fetch = FetchType.LAZY)
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @Fetch( FetchMode.SELECT)
+    @JoinColumn(name= "user_group_id",referencedColumnName = "id", insertable = false, updatable = true)
     private APIUser Leader;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date lastUpdated;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserGroup)) return false;
+        if (!super.equals(o)) return false;
+        UserGroup userGroup = (UserGroup) o;
+        return Objects.equals(getId(), userGroup.getId()) && Objects.equals(getName(), userGroup.getName()) && Objects.equals(getCreatedAt(), userGroup.getCreatedAt()) && Objects.equals(getUsers(), userGroup.getUsers()) && Objects.equals(getLeader(), userGroup.getLeader()) && Objects.equals(getLastUpdated(), userGroup.getLastUpdated());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id, name, createdAt, users, Leader, lastUpdated);
+    }
 }

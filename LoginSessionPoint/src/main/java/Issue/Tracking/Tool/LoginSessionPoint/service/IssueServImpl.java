@@ -33,8 +33,8 @@ public class IssueServImpl implements  IssueService {
 
         List<APIUser> users = new ArrayList<APIUser>();
         for (APIUser user: issue.getUsers())
-            if(userRepo.findByUsername(user.getUsername()) != null){
-                users.add(userRepo.findByUsername(user.getUsername()));
+            if(userRepo.findFirstByUsername(user.getUsername()) != null){
+                users.add(userRepo.findFirstByUsername(user.getUsername()));
             }
 
 

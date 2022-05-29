@@ -6,19 +6,22 @@ import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserGroupRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Synchronize;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.PreUpdate;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+
 @Slf4j
 
 public class UserGroupServiceImpl implements UserGroupService {
@@ -26,18 +29,30 @@ public class UserGroupServiceImpl implements UserGroupService {
     private final UserRepo userRepo;
     private final UserGroupRepo userGroupRepo;
 
+
+
     @Override
     public UserGroup saveGroup(UserGroup userGroup) {
         log.info("Saving  UserGroup  {} to DB", userGroup.getName());
-        List<APIUser> users = new ArrayList<APIUser>();
-        for (APIUser user: userGroup.getUsers())
-             if(userRepo.findByUsername(user.getUsername()) != null){
-                 users.add(userRepo.findByUsername(user.getUsername()));
-             }
-        if(userRepo.findByUsername(userGroup.getLeader().getUsername()) != null)
-        {
-            userGroup.setLeader(userRepo.findByUsername(userGroup.getLeader().getUsername()));
+        ArrayList<APIUser> users = new ArrayList<>();
+        for (APIUser user: userGroup.getUsers()) {
+            log.info("call nr x");
+            if (userRepo.findFirstByUsername(user.getUsername()) != null) {
+                log.info("Something here");
+                users.add(userRepo.findFirstByUsername(user.getUsername()));
+            }
         }
+        //HERE
+
+        log.info("we found them users");
+        if(userRepo.findFirstByUsername(userGroup.getLeader().getUsername()) != null)
+        {
+            userGroup.setLeader(userRepo.findFirstByUsername(userGroup.getLeader().getUsername()));
+        }
+       // userRepo.flush();
+        log.info("MAYBE HERE BREAKS ");
+
+     //   userRepo.findAll().forEach(user -> user);
 
         log.info(users.toString());
         userGroup.getUsers().clear();
@@ -46,6 +61,9 @@ public class UserGroupServiceImpl implements UserGroupService {
 
         log.info(userGroup.getUsers().toString());
 
+     //   userGroupRepo.flush();
+
+        //log.info(userRepo.findAll().toString());
         return  userGroupRepo.save(userGroup);
     }
 
@@ -76,7 +94,7 @@ public class UserGroupServiceImpl implements UserGroupService {
     public void AddUserToGroup(String username, String groupName) {
         log.info("Adding Contributor to Issue {} ",username);
         UserGroup userGroup = userGroupRepo.findByName(groupName);
-        userGroup.getUsers().add(userRepo.findByUsername(username));
+        userGroup.getUsers().add(userRepo.findFirstByUsername(username));
     }
 
     @Override

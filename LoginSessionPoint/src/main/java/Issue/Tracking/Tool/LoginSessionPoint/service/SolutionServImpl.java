@@ -53,7 +53,7 @@ public class SolutionServImpl implements SolutionService {
     @Override
     public void saveOwner(Solution solution, String username) {
         log.info("Saving User {} as Owner of {}", username,solution.getName());
-        APIUser user =  userRepo.findByUsername(username);
+        APIUser user =  userRepo.findFirstByUsername(username);
         solution.setOwner(user); // maybe change
 
     }
@@ -61,7 +61,7 @@ public class SolutionServImpl implements SolutionService {
     @Override
     public void addToCollabs(Solution solution, String username) {
         log.info("Saving User {} as collab. of {}", username,solution.getName());
-        APIUser user =  userRepo.findByUsername(username);
+        APIUser user =  userRepo.findFirstByUsername(username);
         solution.getCollaborators().add(user);
     }
 
