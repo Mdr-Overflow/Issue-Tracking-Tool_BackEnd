@@ -14,7 +14,7 @@ public class RoleUtils {
     private static RoleRepo roleRepo;
     public static void giveRole(String roleName, APIUser user){
 
-        Role role = new Role(null,roleName,null,null);
+        Role role = new Role(null,roleName,roleRepo.findByName(roleName).getPrivileges(),null,null);
         user.getRoles().add(role);
 
     }

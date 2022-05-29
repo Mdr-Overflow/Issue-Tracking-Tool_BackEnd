@@ -48,18 +48,18 @@ public class LoginSessionPointApplication {
 			roleService.saveRole(new Role(2L, "ROLE_ADMIN",List.of(privService.findByName("ROLE_ADMIN")),null,null));
 			roleService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",List.of(privService.findByName("ROLE_SUPER_ADMIN")),null,null));
 */
-			/*
+
 			roleService.saveRole(new Role(1L, "ROLE_USER", List.of(privService.createPrivilegeIfNotFound("ROLE_USER")),null,null));
 			roleService.saveRole(new Role(2L, "ROLE_ADMIN",List.of(privService.createPrivilegeIfNotFound("ROLE_ADMIN")),null,null));
 			roleService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",List.of(privService.createPrivilegeIfNotFound("ROLE_SUPER_ADMIN")),null,null));
 			roleService.saveRole(new Role(4L, "ROLE_USER2",List.of(privService.findByName("GET_USER")),null,null));
-*/
 
+/*
 			roleService.saveRole(new Role(1L, "ROLE_USER",null,null));
 			roleService.saveRole(new Role(2L, "ROLE_ADMIN",null,null));
 			roleService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",null,null));
 			roleService.saveRole(new Role(4L, "ROLE_USER2",null,null));
-
+*/
 			//userGroupService.saveGroup(new UserGroup(1L,"DEFAULT",null,new ArrayList<APIUser>(),new APIUser(),null));
 /*
 			userService.saveUser(new APIUser(1L, "John Travolta", "1234","Jt@asdas.com","John", new ArrayList<>(),  new ArrayList<>(),new UserGroup(), new UserGroup(),null,null));

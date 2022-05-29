@@ -3,14 +3,19 @@ package Issue.Tracking.Tool.LoginSessionPoint.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "privilege")
+
+
 public class Privilege {
     @Id
 
@@ -29,6 +34,29 @@ public class Privilege {
 
     private String name;
 
-  //  @ManyToMany(mappedBy = "privileges")
-   // private Collection<Role> roles;
+
+    @ManyToMany(mappedBy = "privileges", fetch = FetchType.EAGER)
+    private Collection<Role> roles;
+
+    @Override
+    public String toString() {
+        return "Privilege{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", roles=" + "roles" +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Privilege)) return false;
+        Privilege privilege = (Privilege) o;
+        return Objects.equals(getId(), privilege.getId()) && Objects.equals(getName(), privilege.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
+    }
 }

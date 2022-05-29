@@ -9,5 +9,5 @@ public interface PrivService {
 
     Privilege findByName(String p);
 
-  //  Privilege createPrivilegeIfNotFound(String name);
+    Privilege createPrivilegeIfNotFound(String name);
 }

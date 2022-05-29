@@ -67,12 +67,24 @@ public class UserGroup extends AbstractPersistentObject implements Serializable 
 
     @OneToOne(cascade = CascadeType.ALL)
     @Fetch( FetchMode.SELECT)
-    @JoinColumn(name= "user_group_id",referencedColumnName = "id", insertable = false, updatable = true)
+    @JoinColumn(name= "user_group_id",referencedColumnName = "id", insertable = true, updatable = true)
     private APIUser Leader;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date lastUpdated;
+
+    @Override
+    public String toString() {
+        return "UserGroup{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", createdAt=" + createdAt +
+                ", users=" + users.toString() +
+                ", Leader=" + Leader.toString() +
+                ", lastUpdated=" + lastUpdated +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {

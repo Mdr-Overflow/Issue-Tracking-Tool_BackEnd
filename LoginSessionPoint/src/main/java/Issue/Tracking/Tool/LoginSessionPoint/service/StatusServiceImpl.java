@@ -43,7 +43,7 @@ public class StatusServiceImpl  implements  StatusService{
         try { intValue = Integer.parseInt(toSearch);}
         catch (NumberFormatException ignored){}
 
-        return  statusRepo.findBy(toSearch,intValue);
+        return  statusRepo.findBy("%"+toSearch +"%",intValue);
     }
 
 }

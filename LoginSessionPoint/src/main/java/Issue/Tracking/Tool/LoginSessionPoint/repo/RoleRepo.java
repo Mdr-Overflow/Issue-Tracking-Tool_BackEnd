@@ -22,7 +22,7 @@ public interface RoleRepo  extends JpaRepository<Role,Long> {
     )
     List<Role> findBy(String inputString, Long inputInt);
 
-   // @Query("SELECT DISTINCT r.privileges FROM  Role r where r.name = :name ")
-  //  List<Privilege> getAllPrivs(String name);
+    @Query("SELECT DISTINCT r.privileges FROM  Role r where r.name = :name ")
+    List<Privilege> getAllPrivs(String name);
 
 }

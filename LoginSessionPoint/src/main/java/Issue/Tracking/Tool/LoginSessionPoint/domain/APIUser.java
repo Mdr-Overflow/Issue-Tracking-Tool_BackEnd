@@ -1,6 +1,11 @@
 package Issue.Tracking.Tool.LoginSessionPoint.domain;
 
 import Issue.Tracking.Tool.LoginSessionPoint.constants.AbstractPersistentObject;
+import Issue.Tracking.Tool.LoginSessionPoint.constants.UserDeserializer;
+import Issue.Tracking.Tool.LoginSessionPoint.constants.UserSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,6 +26,8 @@ import java.util.*;
 @Entity
 @Data
 @Table(name = "apiuser")
+@JsonSerialize(using = UserSerializer.class)
+@JsonDeserialize(using = UserDeserializer.class)
 public class APIUser extends  AbstractPersistentObject {
 
    /* @Transient
@@ -69,7 +76,24 @@ public class APIUser extends  AbstractPersistentObject {
 */
  @CreationTimestamp
  @Temporal(TemporalType.TIMESTAMP)
+ @JsonFormat
+         (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
  private java.util.Date createdAt;
+
+ @Override
+ public String toString() {
+  return "APIUser{" +
+          "id=" + id +
+          ", username='" + username + '\'' +
+          ", password='" + password + '\'' +
+          ", email='" + email + '\'' +
+          ", Name='" + Name + '\'' +
+          ", roles=" + roles.toString() +
+          ", apiKeys=" + apiKeys +
+          ", createdAt=" + createdAt +
+          ", lastUpdated=" + lastUpdated +
+          '}';
+ }
 
  @Override
  public boolean equals(Object o) {
@@ -88,5 +112,7 @@ public class APIUser extends  AbstractPersistentObject {
 
  @UpdateTimestamp
  @Temporal(TemporalType.TIMESTAMP)
+ @JsonFormat
+         (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
  private java.util.Date lastUpdated;
 }

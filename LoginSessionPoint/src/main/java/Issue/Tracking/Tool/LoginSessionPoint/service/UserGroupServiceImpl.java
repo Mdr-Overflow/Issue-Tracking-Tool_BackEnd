@@ -114,7 +114,7 @@ public class UserGroupServiceImpl implements UserGroupService {
         try { intValue = Integer.parseInt(toSearch);}
         catch (NumberFormatException ignored){}
 
-        return userGroupRepo.findBy(toSearch,intValue);
+        return userGroupRepo.findBy("%"+toSearch +"%",intValue);
     }
 
     @Override

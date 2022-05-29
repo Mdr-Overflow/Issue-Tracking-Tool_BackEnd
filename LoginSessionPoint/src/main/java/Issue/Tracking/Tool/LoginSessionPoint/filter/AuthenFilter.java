@@ -68,7 +68,9 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
 
 
     public String ConstructorOfRole(String s){
+        log.info("ffffffffffffffffffffffffffffffffffffffffff");
         Pattern pattern = Pattern.compile("ROLE_(.*?),");
+        log.info(s.toString());
         Matcher matcher = pattern.matcher(s);
         log.info("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         if (matcher.find()) {
@@ -86,10 +88,10 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
         log.info("Auth. result is  {}", authResult.getPrincipal());
 
 
-      //  ServletContext servletContext = request.getServletContext();
-      //  WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+        ServletContext servletContext = request.getServletContext();
+        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
 
-      //  RoleService roleService = webApplicationContext.getBean(RoleService.class);
+        RoleService roleService = webApplicationContext.getBean(RoleService.class);
 
 
         Collection<Role> AuthRoles = new ArrayList<>();
@@ -97,15 +99,16 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
 
 //roleService.getRole(ConstructorOfRole(SimpleGrantedAuthority.toString())).getPrivileges()
                 ((UserDetails) authResult.getPrincipal()).getAuthorities().forEach(SimpleGrantedAuthority -> {
-            AuthRoles.add(new Role(null  ,SimpleGrantedAuthority.toString(), null,null));
+            AuthRoles.add(new Role(null  ,SimpleGrantedAuthority.toString(), roleService.getRole(SimpleGrantedAuthority.toString()).getPrivileges(), null,null));
 
         } );
+
         log.info("Roles are  {}", AuthRoles);
         APIUser user = new APIUser((Long) null,((UserDetails)authResult.getPrincipal()).getUsername(),
                                                 ((UserDetails)authResult.getPrincipal()).getPassword(), null,null,
                                                     AuthRoles  ,new ArrayList<>(),null,null);
 
-
+        log.info("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 
         String access_token = JWT.create()

@@ -1,5 +1,5 @@
 package Issue.Tracking.Tool.LoginSessionPoint.constants;
-/*
+
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.PrivRepo;
@@ -11,6 +11,7 @@ import org.apache.tomcat.util.security.PrivilegedSetAccessControlContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +21,7 @@ import java.util.List;
 
 
 import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.*;
-/*
+
 @Component
 @Slf4j
 public class SetupDataLoader implements
@@ -93,4 +94,3 @@ void createRoleIfNotFound(
         }
 }
         }
-*/

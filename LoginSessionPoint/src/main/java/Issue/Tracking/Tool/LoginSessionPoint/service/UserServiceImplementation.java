@@ -148,6 +148,7 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
     }
 
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         APIUser user = userRepo.findFirstByUsername(username);
@@ -162,7 +163,7 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
             //for (Role role : roles)
               //  role.getPrivileges()
          //   user.getRoles().forEach(role -> log.info(role.getPrivileges().toString()));
-
+            log.info("GETTING ROLES");
             user.getRoles().forEach(role -> {
                 authorities.add(new SimpleGrantedAuthority(role.getName()));
             }); // look for each role to check

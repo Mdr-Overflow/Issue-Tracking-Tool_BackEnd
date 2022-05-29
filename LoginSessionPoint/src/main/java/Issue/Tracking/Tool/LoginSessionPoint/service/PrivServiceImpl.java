@@ -32,7 +32,7 @@ public class PrivServiceImpl implements PrivService{
         return privRepo.findByName(p);
         else throw new  IllegalArgumentException("aaaaaaaaaaaaaaaa");
     }
-/*
+
     @Override
     public Privilege createPrivilegeIfNotFound(String name) {
         Privilege privilege = privRepo.findByName(name);
@@ -47,5 +47,5 @@ public class PrivServiceImpl implements PrivService{
         }
         return privilege;
     }
-*/
+
 }

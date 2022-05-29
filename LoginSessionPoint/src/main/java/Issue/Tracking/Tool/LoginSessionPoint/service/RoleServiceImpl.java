@@ -70,7 +70,7 @@ public class RoleServiceImpl implements RoleService {
         catch (NumberFormatException ignored){}
 
         log.info(Integer.parseInt(toSearch) + " ___VAL");
-        return roleRepo.findBy(toSearch,intValue);
+        return roleRepo.findBy("%"+toSearch +"%",intValue);
     }
 
 

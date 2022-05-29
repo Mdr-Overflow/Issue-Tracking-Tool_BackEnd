@@ -62,9 +62,9 @@ public class UserServiceClass {
     @ResponseBody
     @CrossOrigin(origins = "localhost:4200")
     @GetMapping("/user/{username}")
-    public EntityModel<APIUser> getUserByName(@PathVariable("username") String username) {
-        APIUser user = userService.getUser(username);
-        return APIUserAssembler.toModel(user);
+    public APIUser getUserByName(@PathVariable("username") String username) {
+
+        return userService.getUser(username);
         // use fastAPIUser
     }
 
@@ -167,14 +167,14 @@ public class UserServiceClass {
 
     @ResponseBody
     @GetMapping("/users")
-    public CollectionModel<EntityModel<APIUser>> getUsersALL() {
-        List<EntityModel<APIUser>> users = userService.getUsersALL().stream() //
-                .map(APIUserAssembler::toModel) //
-                .collect(Collectors.toList());
+    public ResponseEntity<List<APIUser>> getUsersALL() {
+       // List<EntityModel<APIUser>> users = userService.getUsersALL().stream() //
+           //     .map(APIUserAssembler::toModel) //
+             //   .collect(Collectors.toList());
 
-        return CollectionModel.of(users, linkTo(methodOn(UserServiceClass.class).getUsersALL()).withSelfRel());
+       // return CollectionModel.of(users, linkTo(methodOn(UserServiceClass.class).getUsersALL()).withSelfRel());
 
-
+            return ResponseEntity.ok().body(userService.getUsersALL());
     }
 
 
@@ -182,13 +182,13 @@ public class UserServiceClass {
     //testing only
     @ResponseBody
     @GetMapping("role")
-    public CollectionModel<EntityModel<Role>> getALLRoles() {
+    public ResponseEntity<List<Role>> getALLRoles() {
 
-        List<EntityModel<Role>> roles = roleService.getALLRoles().stream() //
-                .map(roleModelAssembler::toModel) //
-                .collect(Collectors.toList());
+       // List<EntityModel<Role>> roles = roleService.getALLRoles().stream() //
+            //    .map(roleModelAssembler::toModel) //
+             //   .collect(Collectors.toList());
 
-        return CollectionModel.of(roles, linkTo(methodOn(UserServiceClass.class).getALLRoles()).withSelfRel());
+        return ResponseEntity.ok().body(roleService.getALLRoles());
 
     }
 

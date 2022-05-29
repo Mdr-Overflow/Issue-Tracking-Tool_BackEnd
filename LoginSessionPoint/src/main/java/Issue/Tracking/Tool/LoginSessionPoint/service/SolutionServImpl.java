@@ -158,7 +158,7 @@ public class SolutionServImpl implements SolutionService {
 
 
 
-        return  solutionRepo.findBy(toSearch,intValue);
+        return  solutionRepo.findBy("%"+toSearch +"%",intValue);
     }
 
 

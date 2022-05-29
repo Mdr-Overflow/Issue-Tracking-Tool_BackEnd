@@ -35,6 +35,6 @@ public class TypeServiceImpl implements TypeService{
         try { intValue = Integer.parseInt(toSearch);}
         catch (NumberFormatException ignored){}
 
-        return typeRepo.findBy(toSearch,intValue);
+        return typeRepo.findBy("%"+toSearch +"%",intValue);
     }
 }
