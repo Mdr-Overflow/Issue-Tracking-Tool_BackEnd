@@ -1,6 +1,7 @@
 package Issue.Tracking.Tool.LoginSessionPoint.service;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.RoleRepo;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.ALL_ROLES;
 import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.splitter;
@@ -22,6 +24,7 @@ import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.splitte
 public class RoleServiceImpl implements RoleService {
     private final RoleRepo roleRepo;
     private final UserRepo userRepo;
+    private final  PrivService privService;
 
     @Override
     public List<Role> getALLRoles() {
@@ -36,6 +39,12 @@ public class RoleServiceImpl implements RoleService {
     public Role getRole(String name) {
         return roleRepo.findByName(name);
     }
+
+    @Override
+    public Role getRoleFIX(String name) {
+        return  roleRepo.findFirstByName(name);
+    }
+
 
     @Override
     public void deleteByName(String name) {
@@ -59,6 +68,13 @@ public class RoleServiceImpl implements RoleService {
     public Role saveRole(Role role) {
         log.info("Saving role {} to DB",role.getName());
         ALL_ROLES += splitter + role.getName();
+
+        List<Privilege> privs = role.getPrivileges().stream().filter(privilege -> privService.findByName(privilege.getName()) != null )
+                .map(privilege -> privService.findByName(privilege.getName())).collect(Collectors.toList());
+        //log.info(privs.toString());
+      //  role.getPrivileges().clear();
+        role.setPrivileges(privs);
+
         return roleRepo.save(role);
 
     }

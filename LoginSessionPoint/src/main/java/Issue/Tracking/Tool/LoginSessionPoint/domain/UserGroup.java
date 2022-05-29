@@ -52,13 +52,13 @@ public class UserGroup extends AbstractPersistentObject implements Serializable 
     private java.util.Date createdAt;
 
 
-    @OneToMany(
+    @ManyToMany(
 
 
             cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH},
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name= "user_group",insertable = false, updatable = true)
+    //@JoinColumn(name= "user_group",insertable = false, updatable = true)
     @Fetch(value = FetchMode.SELECT)
 
     private Collection<APIUser> users;

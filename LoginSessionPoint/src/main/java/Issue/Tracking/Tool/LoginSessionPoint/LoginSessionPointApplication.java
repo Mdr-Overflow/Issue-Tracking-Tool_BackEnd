@@ -1,10 +1,7 @@
 package Issue.Tracking.Tool.LoginSessionPoint;
 
 
-import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.*;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.PrivRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.service.*;
 import org.springframework.boot.CommandLineRunner;
@@ -46,7 +43,7 @@ public class LoginSessionPointApplication {
 
 	@Bean
 
-	CommandLineRunner run(UserService userService, apiKeyPairService apiKeyPairService, RoleService roleService, UserGroupService userGroupService, PrivService privService) {
+	CommandLineRunner run(UserService userService, apiKeyPairService apiKeyPairService, RoleService roleService, UserGroupService userGroupService, PrivService privService, PriorityService priorityService , StatusService statusService ) {
 		return args -> {
 			/*
 			roleService.saveRole(new Role(1L, "ROLE_USER", List.of(privService.findByName("ROLE_USER")),null,null));
@@ -55,6 +52,24 @@ public class LoginSessionPointApplication {
 */
 
 			Date now = Date.from(Instant.now());
+
+			priorityService.SavePriority(new Priority(1L,"DONE",null,null));
+			priorityService.SavePriority(new Priority(1L,"TO DO",null,null));
+			priorityService.SavePriority(new Priority(1L,"IN PROGRESS",null,null));
+			priorityService.SavePriority(new Priority(1L,"IN REVIEW",null,null));
+			priorityService.SavePriority(new Priority(1L,"BLOCKED",null,null));
+
+
+
+			statusService.SaveStatus(new Status(1L,"VERY LOW",null,null));
+			statusService.SaveStatus(new Status(2L,"LOW",null,null));
+			statusService.SaveStatus(new Status(3L,"MEDIUM",null,null));
+			statusService.SaveStatus(new Status(4L,"HIGH",null,null));
+			statusService.SaveStatus(new Status(5L,"VERY HIGH",null,null));
+
+
+
+
 
 
 

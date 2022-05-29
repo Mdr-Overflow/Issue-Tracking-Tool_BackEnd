@@ -233,7 +233,9 @@ public class UserServiceClass {
     @PutMapping("/role/update/{name}")
     public ResponseEntity<Role> replaceRole(@RequestBody Role role, @PathVariable String name) {
 
-        Role roleOld = roleService.getRole(name);
+        log.info("AAAAAAAAAAAAAA");
+        Role roleOld = roleService.getRoleFIX(name);
+        log.info("ATE A SNICKERS BAR");
         if(roleOld != null) {
             if (role.getName() != null) roleOld.setName(role.getName());
             roleOld.setLastUpdated(role.getCreatedAt());
@@ -243,7 +245,7 @@ public class UserServiceClass {
                 role.getPrivileges().forEach(privilege -> roleOld.getPrivileges().add(privService.findByName(privilege.getName())));
 
             }
-
+            log.info("HARD ");
             roleService.saveRole(roleOld);
             return ResponseEntity.ok().body(roleOld);
         }

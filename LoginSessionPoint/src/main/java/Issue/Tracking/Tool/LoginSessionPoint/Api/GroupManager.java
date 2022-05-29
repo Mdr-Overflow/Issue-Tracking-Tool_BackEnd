@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 import static org.springframework.http.ResponseEntity.created;
@@ -208,12 +209,19 @@ public class GroupManager {
 
 
     @ResponseBody
-    @GetMapping("GroupManager/user/{username}")
-    public ResponseEntity<UserGroup> getGroupUsername(@PathVariable String username) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("GroupManager/user/{username}").toUriString());
+    @GetMapping("/GroupManager/user/{username}")
+    public ResponseEntity<List<UserGroup>> getGroupUsername(@PathVariable String username) {
+
+        APIUser apiUser = userService.getUser(username);
+
+        List<UserGroup> userGroups = userGroupService.getGroups().stream().filter(userGroup -> userGroup.getUsers().contains(apiUser)).collect(Collectors.toList());
 
 
-        return created(uri).body(userGroupService.findByUsernameOFUser(username));
+
+
+            if(userGroups.isEmpty()) throw new NoDataFoundException();
+
+        return ResponseEntity.ok().body(userGroups);  //
     }
 
 

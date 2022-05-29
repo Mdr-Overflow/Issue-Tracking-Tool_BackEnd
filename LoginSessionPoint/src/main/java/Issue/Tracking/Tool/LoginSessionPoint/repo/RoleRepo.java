@@ -11,7 +11,11 @@ import java.util.List;
 
 
 public interface RoleRepo  extends JpaRepository<Role,Long> {
+
+
     Role findByName(String name);
+
+    Role findFirstByName(String string);
     void deleteByName(String name);
     void removeByName(String name);
 

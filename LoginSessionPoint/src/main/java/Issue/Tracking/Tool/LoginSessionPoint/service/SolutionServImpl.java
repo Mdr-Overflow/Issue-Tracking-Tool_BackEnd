@@ -1,6 +1,7 @@
 package Issue.Tracking.Tool.LoginSessionPoint.service;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Solution;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Type;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.CUSTOM_SEARCH_TERMS;
@@ -35,6 +37,21 @@ public class SolutionServImpl implements SolutionService {
     @Override
     public Solution saveSolution(Solution solution) {
         log.info("Saving  solution  {} to DB",solution.getName());
+
+        List<APIUser> users = solution.getCollaborators().stream().filter(apiUser -> userRepo.findFirstByUsername(apiUser.getName()) != null )
+                .map(apiUser -> userRepo.findFirstByUsername(apiUser.getName())).collect(Collectors.toList());
+
+        // solution.getOwner()
+
+        if(userRepo.findFirstByUsername(solution.getOwner().getUsername()) != null)
+        {
+            solution.setOwner(userRepo.findFirstByUsername(solution.getOwner().getUsername()));
+        }
+
+        solution.getCollaborators().clear();
+        solution.setCollaborators(users);
+
+
         return solutionRepo.save(solution);
     }
 
