@@ -4,6 +4,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.RoleRepo;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 
 @NoArgsConstructor
 public class RoleUtils {
+    @Autowired
     private static RoleRepo roleRepo;
     public static void giveRole(String roleName, APIUser user){
 

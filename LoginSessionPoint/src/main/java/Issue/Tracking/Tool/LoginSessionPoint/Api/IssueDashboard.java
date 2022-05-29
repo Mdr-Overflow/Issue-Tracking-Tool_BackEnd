@@ -70,8 +70,10 @@ public class IssueDashboard {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/remove/{issueDelete}").toUriString());
         Issue issue = issueService.getIssue(issueName);
 
+
         Solution sol =  solutionService.getSolution(solution.getName());
         if(sol == null) throw new NoDataFoundException();
+
 
         issue.getSolutions().remove(sol);
         issueService.saveIssue(issue);
@@ -205,12 +207,14 @@ public class IssueDashboard {
 
 
     @DeleteMapping("/IssueDashboard/delete/{name}")
-    public ResponseEntity<Issue> deleteIssue(@PathVariable String name) {
-        if(issueService.getIssue(name) != null)
+    public ResponseEntity<deletedConfirmation> deleteIssue(@PathVariable String name) {
+        deletedConfirmation del;
+        if (issueService.getIssue(name) != null) {
             issueService.deleteByName(name);
-        else throw new NoDataFoundException();
+            del = new deletedConfirmation(name);
+        } else throw new NoDataFoundException();
 
-        return ResponseEntity.ok().body(null);
+        return ResponseEntity.ok().body(del);
     }
 
 

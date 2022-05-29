@@ -3,6 +3,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.Api;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.deletedConfirmation;
 import Issue.Tracking.Tool.LoginSessionPoint.domainAssamblers.APIUserModelAssembler;
 import Issue.Tracking.Tool.LoginSessionPoint.domainAssamblers.RoleModelAssembler;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.*;
@@ -129,6 +130,7 @@ public class UserServiceClass {
     @PutMapping("/user/update/{username}")
     public ResponseEntity<APIUser> replaceAPIUser(@RequestBody APIUser user, @PathVariable String username) {
 
+
          APIUser userOld = userService.getUser(username);
          if(userOld != null) {
              if (user.getUsername() != null) userOld.setUsername(user.getUsername());
@@ -156,10 +158,15 @@ public class UserServiceClass {
     }
 
     @DeleteMapping("/user/delete/{username}")
-    public ResponseEntity<APIUser> deleteUser(@PathVariable String username) {
-        userService.deleteByUsername(username);
+    public ResponseEntity<deletedConfirmation> deleteUser(@PathVariable String username) {
 
-        return ResponseEntity.ok().body(null);
+        deletedConfirmation del = null;
+        if (userService.getUser(username) != null) {
+            del = new deletedConfirmation(username);
+            userService.deleteByUsername(username);
+        }
+
+        return ResponseEntity.ok().body(del);
     }
 
 
@@ -245,12 +252,16 @@ public class UserServiceClass {
 
 
     @DeleteMapping("/role/delete/{name}")
-    public ResponseEntity<Role> deleteRole(@PathVariable String name) {
-        if (!DEFAULT_ROLES.contains(name))
-        roleService.deleteByName(name);
+    public ResponseEntity<deletedConfirmation> deleteRole(@PathVariable String name) {
+        deletedConfirmation del = new deletedConfirmation();
+        if (!DEFAULT_ROLES.contains(name)) {
+
+            roleService.deleteByName(name);
+            del.setDeleted(name);
+        }
         else throw new IllegalDefaultException();
 
-        return  ResponseEntity.ok().body(null);
+        return  ResponseEntity.ok().body(del);
     }
 
     //testing only
@@ -272,13 +283,13 @@ public class UserServiceClass {
         if(userService.getAllUsernames().contains(user.getUsername()))
             throw new AlreadyExistsException(APIUser.class);
 
-        if(!user.getEmail().matches("/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/"))
-            throw  new InvalidMailException();
+       // if(!user.getEmail().matches("/^(.+)@(\\\\S+)$"))
+           // throw  new InvalidMailException();
 
 
 
 
-        RoleUtils.giveRole("ROLE_USER",user);
+        user.getRoles().add(roleService.getRole("ROLE_USER"));
         log.info("ROLES ARE:" + user.getRoles());
 
 

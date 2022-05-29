@@ -3,6 +3,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.Api;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
 
+import Issue.Tracking.Tool.LoginSessionPoint.domain.deletedConfirmation;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.LeaderNOTinGroupException;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.IssueService;
@@ -43,12 +44,15 @@ public class GroupManager {
     }
 
     @DeleteMapping("/GroupManager/delete/{name}")
-    public ResponseEntity<UserGroup> deleteGroup(@PathVariable String name) {
-        if(userGroupService.getGroup(name) != null)
-        userGroupService.deleteByName(name);
-        else throw new NoDataFoundException();
+    public ResponseEntity<deletedConfirmation> deleteGroup(@PathVariable String name) {
+        deletedConfirmation del = new deletedConfirmation();
+        if (userGroupService.getGroup(name) != null) {
+            del = new deletedConfirmation(userGroupService.getGroup(name).getName());
+            userGroupService.deleteByName(name);
 
-        return ResponseEntity.ok().body(null);
+        } else throw new NoDataFoundException();
+
+        return ResponseEntity.ok().body(del);
     }
 
 
@@ -170,27 +174,29 @@ public class GroupManager {
 
     @ResponseBody
     @DeleteMapping("/GroupManager/DelUser/{GroupName}")
-    public ResponseEntity<UserGroup> DelUser(@RequestBody APIUser user, @PathVariable String GroupName) {
+    public ResponseEntity<deletedConfirmation> DelUser(@RequestBody APIUser user, @PathVariable String GroupName) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("GroupManager/DelUser/{GroupName}").toUriString());
 
+        deletedConfirmation del = new deletedConfirmation();
         UserGroup group = null;
         if(userService.getUser(user.getUsername()) != null && userGroupService.getGroup(GroupName) != null) {
             group = userGroupService.getGroup(GroupName);
             group.getUsers().remove(user);
+             del = new deletedConfirmation(user.getUsername());
             userGroupService.saveGroup(group);
         }
         else {
             throw new NoDataFoundException();
         }
 
-        return ResponseEntity.ok().body(group);
+        return ResponseEntity.ok().body(del);
 
     }
 
 
 
 
-
+/*
     @ResponseBody
     @PostMapping("GroupManager/addUser")
     public ResponseEntity<String> saveGroup(@RequestBody String Username, String GroupName) {
@@ -198,7 +204,7 @@ public class GroupManager {
         userGroupService.AddUserToGroup(Username, GroupName);
         return created(uri).body("Nice");
     }
-
+*/
 
 
     @ResponseBody
