@@ -1,5 +1,7 @@
 package Issue.Tracking.Tool.LoginSessionPoint.domain;
 
+import Issue.Tracking.Tool.LoginSessionPoint.constants.PrivSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Table(name = "privilege")
 
+@JsonSerialize(using = PrivSerializer.class)
 
 public class Privilege {
     @Id

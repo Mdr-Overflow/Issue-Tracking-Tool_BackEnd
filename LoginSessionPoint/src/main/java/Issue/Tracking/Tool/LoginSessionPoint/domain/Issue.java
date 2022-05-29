@@ -31,13 +31,13 @@ public class Issue {
     @Column(unique = true)
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
     private Status status;
 
 
     private String details;
 
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
     private Priority priority;
 
     @CreationTimestamp
@@ -48,12 +48,12 @@ public class Issue {
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date lastUpdated;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST })
+    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH  })
     private Collection <Solution> solutions = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST })
+    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST , CascadeType.DETACH})
     private Collection <UserGroup> userGroups = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST })
+    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH })
     private Collection <APIUser> users = new ArrayList<>();
 }
