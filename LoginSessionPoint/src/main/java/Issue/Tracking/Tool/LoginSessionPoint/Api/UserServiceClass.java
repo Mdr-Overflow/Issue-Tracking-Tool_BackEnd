@@ -356,6 +356,16 @@ public class UserServiceClass {
 
     }
 
+    @ResponseBody
+    @GetMapping("role/getPrivs/{rolename}")
+    public ResponseEntity<List<Privilege>> getALLPrivs2(@PathVariable String rolename) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("role/getPrivs/{rolename}").toUriString());
+
+
+        return created(uri).body(new ArrayList<>(roleService.getRole(rolename).getPrivileges()));
+
+    }
+
 
 
     @ResponseBody
@@ -363,7 +373,7 @@ public class UserServiceClass {
     public ResponseEntity<Role> saveRole(@RequestBody Role role) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/save").toUriString());
 
-        log.info(role.getPrivileges().toString());
+        //log.info(role.getPrivileges().toString());
 
         for(Privilege p : role.getPrivileges())
             if(privService.findByName(p.getName()) == null)

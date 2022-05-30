@@ -124,17 +124,21 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
           for (UserGroup userGroup: userGroupList)
           {
               if(userGroup.getLeader().getUsername().equals(username)){
-                  if(userGroup.getUsers().size() >1)
-                       userGroup.setLeader(new ArrayList<APIUser>(userGroup.getUsers()).get(0));
+                  if(userGroup.getUsers().size() >1) {
+                      userGroup.setLeader(new ArrayList<APIUser>(userGroup.getUsers()).get(0));
+                      userGroupRepo.saveAll(userGroupList);
+                  }
                   else userGroupRepo.deleteByName(userGroup.getName());
               }
-
+                else{
+                  userGroupRepo.saveAll(userGroupList);
+              }
           }
 
 
 
 
-            userGroupRepo.saveAll(userGroupList);
+
 
             userRepo.deleteByUsername(username);
         }
