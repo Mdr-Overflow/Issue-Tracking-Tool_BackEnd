@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
@@ -33,9 +34,64 @@ public class IssueDashboard {
     @PostMapping("IssueDashboard/save")
     public ResponseEntity<Issue> saveIssue(@RequestBody Issue issue) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/save").toUriString());
+
         return created(uri).body(issueService.saveIssue(issue));
 
     }
+
+    @ResponseBody
+    @PostMapping("IssueDashboard/solution/save")
+    public ResponseEntity<Object> SolSave(@RequestBody Solution solution) throws IOException {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/save").toUriString());
+
+        return created(uri).body(solutionService.saveSolution(solution,false));
+
+    }
+
+
+    @ResponseBody
+    @PutMapping("IssueDashboard/solution/update")
+    public ResponseEntity<Solution> SolUpdate(@RequestBody Solution solution) throws IOException {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/save").toUriString());
+
+
+         Solution  solutionOld = solutionService.getSolution(solution.getName());
+
+        if(solutionOld != null) {
+
+            if (solution.getName() != null) solutionOld.setName(solution.getName());
+
+
+            if (solution.getCollaborators() != null) {
+                solutionOld.getCollaborators().clear();
+                solution.getCollaborators().forEach(apiUser ->   solutionOld.getCollaborators().add(userService.getUser(apiUser.getUsername())));
+            }
+
+            if (solution.getContent()!= null) solutionOld.setContent(solution.getContent());
+            solutionOld.setFinal(solution.isFinal());
+            solutionOld.setAccepted(solution.isAccepted());
+
+           if(solution.getOwner() != null){
+               solutionOld.setOwner(userService.getUser(solution.getOwner().getUsername()));
+
+           }
+
+
+
+            solution.setLastUpdated(solution.getCreatedAt());
+
+
+
+            solutionService.saveSolution(solutionOld,true);
+            return created(uri).body(solutionOld);
+        }
+        else throw new NoDataFoundException();
+
+
+
+    }
+
+
 
     @ResponseBody
     @PostMapping("IssueDashboard/solution/save/{issueName}")

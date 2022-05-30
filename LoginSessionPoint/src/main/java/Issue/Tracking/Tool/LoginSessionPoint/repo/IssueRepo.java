@@ -45,6 +45,6 @@ public interface IssueRepo extends JpaRepository <Issue,Long>{
 
     void deleteByName(String name);
 
-    @Query(value = "SELECT  i FROM Issue as i join i.users iu WHERE iu.username = :name ")
+    @Query(value = "SELECT  i FROM Issue as i join i.users iu join i.userGroups ig join ig.users igu WHERE (iu.username = :name) or (igu.username = :name)")
     List<Issue> findByNameOfUsers(String name);
 }

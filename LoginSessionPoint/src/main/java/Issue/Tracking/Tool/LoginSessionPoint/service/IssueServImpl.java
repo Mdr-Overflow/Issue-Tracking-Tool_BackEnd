@@ -55,17 +55,16 @@ public class IssueServImpl implements  IssueService {
             if(solutionRepo.findByName(sol.getName()) != null){
                 sols.add(solutionRepo.findByName(sol.getName()));
             }
+try {
+    if (priorityRepo.findByName(issue.getPriority().getName()) != null) {
+        issue.setPriority(priorityRepo.findByName(issue.getPriority().getName()));
+    }
 
-        if(priorityRepo.findByName(issue.getPriority().getName())!= null)
-        {
-            issue.setPriority(priorityRepo.findByName(issue.getPriority().getName()));
-        }
-
-        if(statusRepo.getStatusByName((issue.getStatus().getName()))!= null)
-        {
-            issue.setStatus(statusRepo.getStatusByName((issue.getStatus().getName())));
-        }
-
+    if (statusRepo.getStatusByName((issue.getStatus().getName())) != null) {
+        issue.setStatus(statusRepo.getStatusByName((issue.getStatus().getName())));
+    }
+}
+catch (NullPointerException ignored ) {}
 
        // log.info(users.toString());
         issue.getUsers().clear();

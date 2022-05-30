@@ -3,6 +3,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.Api;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Priority;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Status;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Type;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.deletedConfirmation;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.*;
@@ -25,6 +26,18 @@ public class Extras {
     private final SolutionService solutionService;
     private final StatusService statusService;
     private final PriorityService priorityService;
+    private final TypeService typeService;
+
+
+    @ResponseBody
+    @GetMapping("/Extras/Type/getAll")
+    public ResponseEntity<List<Type>> getTypes() {
+
+        return ResponseEntity.ok().body(typeService.findALL());
+
+    }
+
+
 
 
     @ResponseBody

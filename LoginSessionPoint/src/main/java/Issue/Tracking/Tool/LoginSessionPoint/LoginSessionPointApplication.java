@@ -43,7 +43,8 @@ public class LoginSessionPointApplication {
 
 	@Bean
 
-	CommandLineRunner run(UserService userService, apiKeyPairService apiKeyPairService, RoleService roleService, UserGroupService userGroupService, PrivService privService, PriorityService priorityService , StatusService statusService ) {
+	CommandLineRunner run(UserService userService, apiKeyPairService apiKeyPairService, RoleService roleService, UserGroupService userGroupService,
+						  PrivService privService, PriorityService priorityService , StatusService statusService , TypeService typeService ) {
 		return args -> {
 			/*
 			roleService.saveRole(new Role(1L, "ROLE_USER", List.of(privService.findByName("ROLE_USER")),null,null));
@@ -69,8 +70,8 @@ public class LoginSessionPointApplication {
 
 
 
-
-
+			typeService.SaveType(new Type(1L,"text",null,null));
+			typeService.SaveType(new Type(2L,"file",null,null));
 
 
 			roleService.saveRole(new Role(1L, "ROLE_USER", List.of(privService.createPrivilegeIfNotFound("ROLE_USER")),now ,null));

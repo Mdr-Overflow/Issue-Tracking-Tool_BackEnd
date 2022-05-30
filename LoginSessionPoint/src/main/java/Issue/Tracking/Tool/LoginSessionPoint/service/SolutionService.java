@@ -3,10 +3,11 @@ package Issue.Tracking.Tool.LoginSessionPoint.service;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Solution;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface SolutionService {
-    Solution saveSolution(Solution solution);
+    Solution saveSolution(Solution solution, Boolean update) throws IOException;
     Solution getSolution(String name);
     List<Solution> getSolutions();
 

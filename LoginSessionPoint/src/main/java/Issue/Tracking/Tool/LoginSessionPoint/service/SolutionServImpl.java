@@ -1,5 +1,7 @@
 package Issue.Tracking.Tool.LoginSessionPoint.service;
 
+import Issue.Tracking.Tool.LoginSessionPoint.Api.FilePoint;
+import Issue.Tracking.Tool.LoginSessionPoint.Api.UserServiceClass;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Solution;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +24,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static Issue.Tracking.Tool.LoginSessionPoint.constants.MiscConfig.CUSTOM_SEARCH_TERMS;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +40,7 @@ public class SolutionServImpl implements SolutionService {
     private final TypeRepo typeRepo;
 
     @Override
-    public Solution saveSolution(Solution solution) {
+    public Solution saveSolution(Solution solution, Boolean update) throws IOException {
         log.info("Saving  solution  {} to DB",solution.getName());
 
         List<APIUser> users = solution.getCollaborators().stream().filter(apiUser -> userRepo.findFirstByUsername(apiUser.getName()) != null )
@@ -47,6 +52,15 @@ public class SolutionServImpl implements SolutionService {
         {
             solution.setOwner(userRepo.findFirstByUsername(solution.getOwner().getUsername()));
         }
+        //
+
+        if(solution.getType().getName().equals("file")){
+            if(update)
+            solution.setContent(linkTo(methodOn(FilePoint.class).downloadFiles(solution.getContent())).withRel("upload/").toString());
+            else solution.setContent(linkTo(methodOn(FilePoint.class).downloadFiles(solution.getContent())).withRel("download/").toString());
+
+        }
+
 
         solution.getCollaborators().clear();
         solution.setCollaborators(users);

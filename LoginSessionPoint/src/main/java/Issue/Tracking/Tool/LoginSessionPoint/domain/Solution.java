@@ -30,10 +30,10 @@ public class Solution {
     private String name;
 
     private String description;
-    private boolean isFinal;
-    private boolean isAccepted;
+    private boolean isFinal = false;
+    private boolean isAccepted = false;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH})
     private Type type;
 
     private String content;
@@ -46,10 +46,10 @@ public class Solution {
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date lastUpdated;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST })
+    @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH })
     private APIUser owner;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST })
+    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH })
     private Collection <APIUser> collaborators ;
 
 
