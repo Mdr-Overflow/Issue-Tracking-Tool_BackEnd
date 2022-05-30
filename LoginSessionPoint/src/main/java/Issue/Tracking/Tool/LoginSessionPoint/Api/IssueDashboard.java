@@ -285,12 +285,13 @@ public class IssueDashboard {
 
 
     @ResponseBody
-    @GetMapping("/IssueDashboard/Username = {name}")
+    @GetMapping("/IssueDashboard/Username={name}")
     public List<Issue> FindByN(@PathVariable String name) {
 
-
+        if(userService.getUser(name) != null)
         return issueService.findByNameOfUsers(name);
 
+        else throw new NoDataFoundException();
 
     }
 

@@ -45,6 +45,6 @@ public interface IssueRepo extends JpaRepository <Issue,Long>{
 
     void deleteByName(String name);
 
-    @Query(value = "SELECT DISTINCT i FROM Issue as i join i.users as iu WHERE iu.username = :name ")
+    @Query(value = "SELECT  i FROM Issue as i join i.users iu WHERE iu.username = :name ")
     List<Issue> findByNameOfUsers(String name);
 }

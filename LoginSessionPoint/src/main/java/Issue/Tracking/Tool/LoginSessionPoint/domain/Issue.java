@@ -54,9 +54,9 @@ public class Issue {
     @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH  })
     private Collection <Solution> solutions = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST , CascadeType.DETACH,CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST , CascadeType.DETACH,CascadeType.REFRESH})
     private Collection <UserGroup> userGroups = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH,CascadeType.REFRESH })
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH,CascadeType.REFRESH })
     private Collection <APIUser> users = new ArrayList<>();
 }

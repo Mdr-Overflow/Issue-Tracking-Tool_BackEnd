@@ -1,10 +1,7 @@
 package Issue.Tracking.Tool.LoginSessionPoint.service;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.*;
-import Issue.Tracking.Tool.LoginSessionPoint.repo.SolutionRepo;
-import Issue.Tracking.Tool.LoginSessionPoint.repo.UserGroupRepo;
-import Issue.Tracking.Tool.LoginSessionPoint.repo.IssueRepo;
-import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
+import Issue.Tracking.Tool.LoginSessionPoint.repo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +27,9 @@ public class IssueServImpl implements  IssueService {
     private final UserGroupRepo userGroupRepo;
     private final IssueRepo issueRepo;
     private final SolutionRepo solutionRepo;
+    private final PriorityRepo priorityRepo;
+    private final StatusRepo statusRepo;
+
     //private final Priority userRepo;
     //private final Status   userRepo;
 
@@ -55,6 +55,16 @@ public class IssueServImpl implements  IssueService {
             if(solutionRepo.findByName(sol.getName()) != null){
                 sols.add(solutionRepo.findByName(sol.getName()));
             }
+
+        if(priorityRepo.findByName(issue.getPriority().getName())!= null)
+        {
+            issue.setPriority(priorityRepo.findByName(issue.getPriority().getName()));
+        }
+
+        if(statusRepo.getStatusByName((issue.getStatus().getName()))!= null)
+        {
+            issue.setStatus(statusRepo.getStatusByName((issue.getStatus().getName())));
+        }
 
 
        // log.info(users.toString());
