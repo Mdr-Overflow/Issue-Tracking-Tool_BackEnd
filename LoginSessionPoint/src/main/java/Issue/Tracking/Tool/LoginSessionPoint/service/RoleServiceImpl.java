@@ -68,7 +68,10 @@ public class RoleServiceImpl implements RoleService {
     public Role saveRole(Role role) {
         log.info("Saving role {} to DB",role.getName());
         ALL_ROLES += splitter + role.getName();
-
+        if (role.getPrivileges() == null) {
+            log.info(role.toString());
+            throw new NoDataFoundException();
+        }
         List<Privilege> privs = role.getPrivileges().stream().filter(privilege -> privService.findByName(privilege.getName()) != null )
                 .map(privilege -> privService.findByName(privilege.getName())).collect(Collectors.toList());
         //log.info(privs.toString());

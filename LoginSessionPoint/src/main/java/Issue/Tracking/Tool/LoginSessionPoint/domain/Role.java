@@ -27,7 +27,7 @@ import static org.hibernate.annotations.FetchMode.JOIN;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "role")
-@JsonSerialize(using = RoleSerializer.class)
+//@JsonSerialize(using = RoleSerializer.class)
 public class Role  {
 
     /*@Transient

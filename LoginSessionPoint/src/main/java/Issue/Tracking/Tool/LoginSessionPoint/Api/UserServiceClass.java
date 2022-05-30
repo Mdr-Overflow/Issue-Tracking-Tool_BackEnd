@@ -374,7 +374,7 @@ public class UserServiceClass {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/save").toUriString());
 
         //log.info(role.getPrivileges().toString());
-
+        log.info(role.toString());
         for(Privilege p : role.getPrivileges())
             if(privService.findByName(p.getName()) == null)
                 throw new NoDataFoundException();

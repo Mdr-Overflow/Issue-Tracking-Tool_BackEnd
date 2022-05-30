@@ -157,6 +157,10 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
          return userRepo.findBy("%" + toSearch + "%",intValue);
     }
 
+    @Override
+    public List<APIUser> getUsersNOGROUP() {
+        return userRepo.getUsersNOGROUP();
+    }
 
 
     @Override

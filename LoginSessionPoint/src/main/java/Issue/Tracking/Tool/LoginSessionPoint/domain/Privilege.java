@@ -1,6 +1,8 @@
 package Issue.Tracking.Tool.LoginSessionPoint.domain;
 
+import Issue.Tracking.Tool.LoginSessionPoint.constants.PrivDeserializer;
 import Issue.Tracking.Tool.LoginSessionPoint.constants.PrivSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +22,7 @@ import java.util.stream.Collectors;
 @Table(name = "privilege")
 
 @JsonSerialize(using = PrivSerializer.class)
-
+//@JsonDeserialize(using = PrivDeserializer.class)
 public class Privilege {
     @Id
 
@@ -47,7 +49,7 @@ public class Privilege {
     public String toString() {
         return "Privilege{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name=" + name + '\'' +
 
                 '}';
     }

@@ -40,6 +40,7 @@ public class UserGroupServiceImpl implements UserGroupService {
             if (userRepo.findFirstByUsername(user.getUsername()) != null) {
                 log.info("Something here");
                 users.add(userRepo.findFirstByUsername(user.getUsername()));
+         //       userRepo.findFirstByUsername(user.getUsername()).setGroup_id(userGroup.getId());
             }
         }
         //HERE

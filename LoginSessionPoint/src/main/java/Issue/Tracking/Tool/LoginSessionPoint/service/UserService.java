@@ -26,5 +26,7 @@ public interface UserService {
     void deleteByUsername(String username);
 
     List<APIUser> findBy(String toSearch);
+
+    List<APIUser> getUsersNOGROUP();
     //APIUser returnThis();
 }

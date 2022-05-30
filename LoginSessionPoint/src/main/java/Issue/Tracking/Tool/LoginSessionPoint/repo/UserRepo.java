@@ -25,6 +25,8 @@ public interface UserRepo  extends JpaRepository<APIUser,Long> , JpaSpecificatio
     APIUser findFirstByUsername(String name);
 
 
+
+
     List<Role> findAllByUsername(String username);
 
 //FetchMode.SELECT
@@ -48,6 +50,13 @@ public interface UserRepo  extends JpaRepository<APIUser,Long> , JpaSpecificatio
 
     @Query(value = "SELECT DISTINCT u FROM APIUser as u join u.roles r  WHERE :name = r.name ")
     List<APIUser> findAllByRoles_Name(String name);
+
+
+    @Query(value = "SELECT u FROM  APIUser as u WHERE u.id not in (SELECT gu.id FROM  UserGroup as g join g.users gu)")
+    List<APIUser> getUsersNOGROUP();
+
+
+    //List<APIUser> findByGroup_id(Long id);
 
 
  /*   @Modifying

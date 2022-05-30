@@ -60,6 +60,7 @@ public class APIUser extends  AbstractPersistentObject {
  private String Name;
 
 
+
  @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
  private Collection<Role> roles = new ArrayList<>();
 

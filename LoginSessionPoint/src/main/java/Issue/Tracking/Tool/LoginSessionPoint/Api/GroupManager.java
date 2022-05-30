@@ -72,6 +72,7 @@ public class GroupManager {
             if (group.getUsers() != null) {
                  groupOld.getUsers().clear();
                  group.getUsers().forEach(apiUser -> groupOld.getUsers().add(userService.getUser(apiUser.getUsername())));
+              //   group.getUsers().forEach(apiUser -> groupOld.getUsers().forEach(apiUser2 -> apiUser2.setGroup_id(groupOld.getId())));
             }
             if (group.getLeader() != null) {
                 groupOld.setLeader(userService.getUser(group.getLeader().getUsername()));
@@ -144,6 +145,7 @@ public class GroupManager {
         if(userService.getUser(leader.getUsername()) != null && userGroupService.getGroup(GroupName) != null) {
             userGroup = userGroupService.getGroup(GroupName);
             userGroup.setLeader(userService.getUser(leader.getUsername()));
+           // userService.getUser(leader.getUsername()).setGroup_id(userGroup.getId());
             userGroupService.saveGroup(userGroup);
         }
         else {
@@ -183,6 +185,7 @@ public class GroupManager {
         if(userService.getUser(username) != null && userGroupService.getGroup(GroupName) != null) {
             group = userGroupService.getGroup(GroupName);
             group.getUsers().remove(userService.getUser(username));
+          //  userService.getUser(username).setGroup_id(0L);
              del = new deletedConfirmation(username);
             userGroupService.saveGroup(group);
         }
@@ -206,6 +209,22 @@ public class GroupManager {
         return created(uri).body("Nice");
     }
 */
+
+    @ResponseBody
+    @GetMapping("/GroupManager/usersNOgroup")
+    public ResponseEntity<List<APIUser>> NOG() {
+
+
+           List<APIUser> users = userService.getUsersNOGROUP();
+           if(users == null) throw new  NoDataFoundException();
+
+        return ResponseEntity.ok().body(users); //
+    }
+
+
+
+
+
 
 
     @ResponseBody
