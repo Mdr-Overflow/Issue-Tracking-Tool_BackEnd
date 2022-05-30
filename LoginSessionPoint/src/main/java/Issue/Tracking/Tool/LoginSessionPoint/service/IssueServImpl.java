@@ -135,6 +135,13 @@ public class IssueServImpl implements  IssueService {
 
     @Override
     public void deleteByName(String name) {
+
+
+
+
+
+
+
         issueRepo.deleteByName(name);
     }
 
