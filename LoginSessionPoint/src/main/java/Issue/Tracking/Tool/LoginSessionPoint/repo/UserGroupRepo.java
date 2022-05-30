@@ -40,5 +40,5 @@ public interface UserGroupRepo extends JpaRepository<UserGroup,Long> {
 
 
     @Query("FROM UserGroup g join g.users us WHERE us.username = :username ")
-    UserGroup findByUsernameOFUser(String username);
+    List <UserGroup> findByUsernameOFUser(String username);
 }

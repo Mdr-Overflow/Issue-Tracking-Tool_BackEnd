@@ -99,6 +99,10 @@ public class UserGroupServiceImpl implements UserGroupService {
 
     @Override
     public void deleteByName(String name) {
+
+
+
+
         userGroupRepo.deleteByName(name);
     }
 
@@ -123,7 +127,7 @@ public class UserGroupServiceImpl implements UserGroupService {
     }
 
     @Override
-    public UserGroup findByUsernameOFUser(String username) {
+    public  List<UserGroup> findByUsernameOFUser(String username) {
         return userGroupRepo.findByUsernameOFUser(username);
 
 

@@ -32,7 +32,7 @@ public interface UserRepo  extends JpaRepository<APIUser,Long> , JpaSpecificatio
 
 
    // void DelDupes();
-
+   // @Query("DELETE u from APIUser u")
     void deleteByUsername(String username);
 
     @Query("SELECT u.username FROM APIUser u ")

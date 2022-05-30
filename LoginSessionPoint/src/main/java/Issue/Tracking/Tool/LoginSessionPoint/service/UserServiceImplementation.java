@@ -3,7 +3,9 @@ package Issue.Tracking.Tool.LoginSessionPoint.service;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 //import Issue.Tracking.Tool.LoginSessionPoint.Repo.RoleRepo;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.RoleRepo;
+import Issue.Tracking.Tool.LoginSessionPoint.repo.UserGroupRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
 import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ import javax.persistence.PreRemove;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service @RequiredArgsConstructor
 @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class, isolation = Isolation.DEFAULT)
@@ -37,6 +40,7 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
 
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
+    private final UserGroupRepo userGroupRepo;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -106,19 +110,6 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
         return userRepo.getALLUsernames();
     }
 
-    // @Override
-   // public void updateUser(APIUser userOld, APIUser userNew) {
-   //     userRepo.UpdateUser(userOld.getUsername(), userNew.getUsername(), userNew.getCreatedAt(), (List<apiKeyPair>) userNew.getApiKeys()
-   //             , userNew.getEmail(), userNew.getLastUpdated(), userNew.getName(), userNew.getPassword(), (List<Role>) userNew.getRoles());
-
-   // }
-
-   /* @Override
-    public List<Role> getRoles() {
-        log.info("Getting all roles of user ");
-        return userRepo.findAllByUsername();
-    }*/
-
 
 
     @Override
@@ -128,11 +119,26 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
         if(userRepo.findFirstByUsername(username) != null)
         {
 
+          List<UserGroup> userGroupList =  userGroupRepo.findByUsernameOFUser(username);
+          userGroupList.forEach(userGroup -> userGroup.getUsers().remove(userRepo.findFirstByUsername(username)));
+          for (UserGroup userGroup: userGroupList)
+          {
+              if(userGroup.getLeader().getUsername().equals(username)){
+                  if(userGroup.getUsers().size() >1)
+                       userGroup.setLeader(new ArrayList<APIUser>(userGroup.getUsers()).get(0));
+                  else userGroupRepo.deleteByName(userGroup.getName());
+              }
 
+          }
+
+
+
+
+            userGroupRepo.saveAll(userGroupList);
 
             userRepo.deleteByUsername(username);
         }
-
+        else throw new NoDataFoundException();
 
     }
 
