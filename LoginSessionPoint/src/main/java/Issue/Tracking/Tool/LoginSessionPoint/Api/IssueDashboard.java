@@ -117,6 +117,7 @@ public class IssueDashboard {
                 issue.getUsers().forEach(apiUser -> issueOld.getUsers().add(userService.getUser(apiUser.getUsername())));
             }
             if (issue.getDetails() != null) issueOld.setDetails(issue.getDetails());
+            if (issue.getDueDate() != null) issueOld.setDueDate(issue.getDueDate());
 
             if (issue.getStatus() != null) issueOld.setStatus(statusService.getStatus(issue.getStatus().getName()));
             if (issue.getPriority() != null) issueOld.setPriority(priorityService.getPrio(issue.getPriority().getName()));
@@ -184,6 +185,7 @@ public class IssueDashboard {
                 issue.getUsers().forEach(apiUser -> issueOld.getUsers().add(userService.getUser(apiUser.getUsername())));
             }
             if (issue.getDetails() != null) issueOld.setDetails(issue.getDetails());
+            if (issue.getDueDate() != null) issueOld.setDueDate(issue.getDueDate());
 
             if (issue.getStatus() != null) issueOld.setStatus(statusService.getStatus(issue.getStatus().getName()));
             if (issue.getPriority() != null) issueOld.setPriority(priorityService.getPrio(issue.getPriority().getName()));
@@ -277,6 +279,17 @@ public class IssueDashboard {
       //  return ResponseEntity.ok(
 
         throw new NoDataFoundException();
+
+
+    }
+
+
+    @ResponseBody
+    @GetMapping("/IssueDashboard/Username = {name}")
+    public List<Issue> FindByN(@PathVariable String name) {
+
+
+        return issueService.findByNameOfUsers(name);
 
 
     }

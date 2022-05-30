@@ -10,6 +10,8 @@ import java.util.List;
 public interface PriorityRepo extends JpaRepository<Priority,Long> {
 
 
+
+
     Priority findByName(String name);
 
     @Query(value = " SELECT DISTINCT p FROM Priority as p  " +

@@ -53,19 +53,19 @@ public class LoginSessionPointApplication {
 
 			Date now = Date.from(Instant.now());
 
-			priorityService.SavePriority(new Priority(1L,"DONE",null,null));
-			priorityService.SavePriority(new Priority(1L,"TO DO",null,null));
-			priorityService.SavePriority(new Priority(1L,"IN PROGRESS",null,null));
-			priorityService.SavePriority(new Priority(1L,"IN REVIEW",null,null));
-			priorityService.SavePriority(new Priority(1L,"BLOCKED",null,null));
+			priorityService.SavePriority(new Priority(1L,"VERY LOW",null,null));
+			priorityService.SavePriority(new Priority(2L,"LOW",null,null));
+			priorityService.SavePriority(new Priority(3L,"MEDIUM",null,null));
+			priorityService.SavePriority(new Priority(4L,"HIGH",null,null));
+			priorityService.SavePriority(new Priority(5L,"VERY HIGH",null,null));
 
 
 
-			statusService.SaveStatus(new Status(1L,"VERY LOW",null,null));
-			statusService.SaveStatus(new Status(2L,"LOW",null,null));
-			statusService.SaveStatus(new Status(3L,"MEDIUM",null,null));
-			statusService.SaveStatus(new Status(4L,"HIGH",null,null));
-			statusService.SaveStatus(new Status(5L,"VERY HIGH",null,null));
+			statusService.SaveStatus(new Status(1L,"TO DO",null,null));
+			statusService.SaveStatus(new Status(2L,"IN PROGRESS",null,null));
+			statusService.SaveStatus(new Status(3L,"IN REVIEW",null,null));
+			statusService.SaveStatus(new Status(4L,"BLOCKED",null,null));
+			statusService.SaveStatus(new Status(5L,"DONE",null,null));
 
 
 

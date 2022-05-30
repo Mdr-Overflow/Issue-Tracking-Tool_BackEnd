@@ -48,6 +48,9 @@ public class Issue {
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date lastUpdated;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date DueDate;
+
     @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH  })
     private Collection <Solution> solutions = new ArrayList<>();
 

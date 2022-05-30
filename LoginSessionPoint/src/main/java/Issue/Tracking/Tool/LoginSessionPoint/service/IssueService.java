@@ -41,4 +41,8 @@ public interface IssueService {
     List<Issue> findByPrio(String toSearch);
 
     List<Issue> findByStatus(String toSearch);
+
+  //  List<Issue> findByProp(String prop, String name);
+
+    List<Issue> findByNameOfUsers(String name);
 }

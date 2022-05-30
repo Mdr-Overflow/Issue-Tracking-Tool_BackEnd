@@ -10,9 +10,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -166,15 +172,31 @@ public class IssueServImpl implements  IssueService {
         return issue.getPriority();
     }
 
+
+    public boolean matches_Regex(Date date, String regex){
+
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(date.toString());
+
+        return matcher.find();
+
+    }
+
     @Override
     public List<Issue> findBy(String toSearch) {
 
         long intValue = 0L;
+        Integer inputDate = null;
         try { intValue = Integer.parseInt(toSearch);}
         catch (NumberFormatException ignored){}
 
+        try { inputDate = Integer.parseInt(toSearch);
+             return issueRepo.findAll().stream().filter(issue ->  matches_Regex(issue.getDueDate(),"%" + toSearch + "%")).collect(Collectors.toList());
+        }
+        catch (NumberFormatException ignored){}
 
-        return  issueRepo.findBy("%" + toSearch + "%",intValue);
+
+        return  issueRepo.findBy("%" + toSearch + "%",intValue,inputDate);
     }
 
     @Override
@@ -186,4 +208,46 @@ public class IssueServImpl implements  IssueService {
     public List<Issue> findByStatus(String toSearch) {
         return issueRepo.findAllByStatus_NameContains("%" + toSearch + "%");
     }
-}
+
+    @Override
+    public List<Issue> findByNameOfUsers(String name) {
+        return issueRepo.findByNameOfUsers(name);
+    }
+/*
+    @Override
+    public List<Issue> findByProp(String prop, String name) {
+
+        List<Field> privateFields = new ArrayList<>();
+        Field[] allFields = Issue.class.getDeclaredFields();
+        for (Field field : allFields) {
+            if (Modifier.isPrivate(field.getModifiers())) {
+                privateFields.add(field);
+            }
+        }
+
+        if(privateFields.stream().map(Field::getName).collect(Collectors.toList()).contains(prop))
+        {
+            for (Field  f : privateFields){
+                if(f.getName().equals("name"))
+                {
+                    return List.of(issueRepo.findByName(name));
+                }
+
+                if(f.getName().equals("status"))
+                {
+                    return issueRepo.findAllByStatus_NameContains(name);
+                }
+
+                if(f.getName().equals("status"))
+                {
+                    return issueRepo.findAllByStatus_NameContains(name);
+                }
+
+
+            }}
+
+
+        }*/
+
+    }
+

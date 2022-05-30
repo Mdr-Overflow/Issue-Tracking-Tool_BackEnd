@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IssueRepo extends JpaRepository <Issue,Long>{
@@ -30,9 +31,9 @@ public interface IssueRepo extends JpaRepository <Issue,Long>{
             "WHERE (:inputString is null or i.id = :inputInt) or (:inputString is null or p.name like :inputString)" +
             " and (:inputString is null or s.name like :inputString) and " +
             " (:inputString is null or i.name like " + ":inputString" + " ) or " +
-            "(:inputString is null or i.details  like "  + ":inputString" + " )"
+            "(:inputString is null or i.details  like "  + ":inputString" + " )  or (:inputDate is not null ) "
     )
-    List<Issue> findBy(String inputString, Long inputInt);
+    List<Issue> findBy(String inputString, Long inputInt, Integer inputDate);
 
 
 
@@ -44,6 +45,6 @@ public interface IssueRepo extends JpaRepository <Issue,Long>{
 
     void deleteByName(String name);
 
-
-
+    @Query(value = "SELECT DISTINCT i FROM Issue as i join i.users as iu WHERE iu.username = :name ")
+    List<Issue> findByNameOfUsers(String name);
 }
