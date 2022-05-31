@@ -325,9 +325,11 @@ public class IssueDashboard {
 
 
 
+
+
     @ResponseBody
-    @PostMapping("IssueDashboard/get")
-    public ResponseEntity<Issue> getIssue(@RequestBody String IssueName) {
+    @PostMapping("IssueDashboard/get/{IssueName}")
+    public ResponseEntity<Issue> getIssue(@PathVariable String IssueName) {
 
         return ResponseEntity.ok().body(issueService.getIssue(IssueName));
 
@@ -339,6 +341,14 @@ public class IssueDashboard {
     public ResponseEntity<List<Issue>> getAllIssues() {
 
         return ResponseEntity.ok().body(issueService.getIssues());
+
+    }
+
+    @ResponseBody
+    @GetMapping("IssueDashboard/solution/getAll")
+    public ResponseEntity<List<Solution>> getAllS() {
+
+        return ResponseEntity.ok().body(solutionService.getSolutions());
 
     }
 

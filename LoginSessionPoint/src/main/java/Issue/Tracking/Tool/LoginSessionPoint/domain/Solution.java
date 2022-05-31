@@ -35,7 +35,7 @@ public class Solution {
     private boolean isFinal = false;
     private boolean isAccepted = false;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH})
+    @OneToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH})
     @Fetch( FetchMode.SELECT)
     @JoinColumn(name= "solution_id",referencedColumnName = "id", insertable = true, updatable = true)
     private Type type;
