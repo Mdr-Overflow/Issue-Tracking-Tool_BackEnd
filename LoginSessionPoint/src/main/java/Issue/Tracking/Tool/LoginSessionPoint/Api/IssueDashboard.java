@@ -108,7 +108,7 @@ public class IssueDashboard {
 
 
     @ResponseBody
-    @PostMapping("IssueDashboard/solution/save/{issueName}") //works
+    @PostMapping("IssueDashboard/solution/save/{issueName}")
     public ResponseEntity<Solution> addSolution(@RequestBody Solution solution, @PathVariable String issueName) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/save/{issueName}").toUriString());
         solutionService.saveSolution(solution,false);
@@ -127,16 +127,19 @@ public class IssueDashboard {
     }
 
     @ResponseBody
-    @PutMapping("IssueDashboard/solution/add/{issueName}") //works depr.
+    @PutMapping("IssueDashboard/solution/add/{issueName}")
     public ResponseEntity<Solution> addSolution2(@RequestBody Solution solution, @PathVariable String issueName) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/add/{issueName}").toUriString());
         Issue issue = issueService.getIssue(issueName);
 
         Solution sol = solutionService.getSolution(issueName);
+
         if(sol == null)
             throw new NoDataFoundException();
 
+
         issue.getSolutions().add(sol);
+        issue.setPriority(priorityService.getPrio("TO DO"));
         issueService.saveIssue(issue);
         return created(uri).body(sol);
     }
@@ -144,7 +147,7 @@ public class IssueDashboard {
 
 
     @ResponseBody
-    @DeleteMapping("IssueDashboard/solution/remove/{issueName}/{solutionName}")  // worked
+    @DeleteMapping("IssueDashboard/solution/remove/{issueName}/{solutionName}")
     public ResponseEntity<Issue> remSolution(@PathVariable String solutionName, @PathVariable String issueName) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/remove/{issueDelete}").toUriString());
         Issue issue = issueService.getIssue(issueName);
@@ -165,7 +168,7 @@ public class IssueDashboard {
 
 
     @ResponseBody
-    @DeleteMapping("IssueDashboard/solution/delete/{issueName}/{solutionName}")  //sol deletes
+    @DeleteMapping("IssueDashboard/solution/delete/{issueName}/{solutionName}")
     public ResponseEntity<Issue> delSolution(@RequestBody String solutionName, @PathVariable String issueName) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/delete/{issueDelete}").toUriString());
 

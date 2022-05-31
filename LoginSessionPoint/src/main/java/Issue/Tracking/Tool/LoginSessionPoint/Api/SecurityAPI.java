@@ -54,18 +54,18 @@ public class SecurityAPI {
     @GetMapping("token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        String authorizationHeader = request.getHeader(AUTHORIZATION); //
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
 
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
-                String refresh_token = authorizationHeader.substring("Bearer ".length()); // signature
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); // encryption algo
+                String refresh_token = authorizationHeader.substring("Bearer ".length());
+                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 
-                JWTVerifier verifier = JWT.require(algorithm).build();  // Verifier object
-                DecodedJWT decodedJWT = verifier.verify(refresh_token);  // Verify token
-                String username = decodedJWT.getSubject();     // decode username
+                JWTVerifier verifier = JWT.require(algorithm).build();
+                DecodedJWT decodedJWT = verifier.verify(refresh_token);
+                String username = decodedJWT.getSubject();
 
-                APIUser user = userService.getUser(username);   // create APIUser object
+                APIUser user = userService.getUser(username);
 
                 List<Role> AuthRoles = (List<Role>) user.getRoles();
                 Set<String> claims = AuthRoles.stream().map(role -> role.getPrivileges().stream().map(Privilege::getName).collect(Collectors.toList())).collect(Collectors.toList()).stream().flatMap(Collection::stream).collect(Collectors.toSet()); //.map(strings -> strings)//.collect(Collectors.joining(","));

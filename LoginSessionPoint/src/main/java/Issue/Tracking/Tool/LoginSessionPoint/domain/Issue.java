@@ -37,9 +37,9 @@ public class Issue {
     private String name;
 
     @OneToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})
-    //@Fetch( FetchMode.SELECT)
+
     @Nullable
-   // @JoinColumn(name= "issue_id",referencedColumnName = "id", insertable = true, updatable = true)
+
     private Status status;
 
 
@@ -47,8 +47,7 @@ public class Issue {
 
     @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})
     @Nullable
-   // @Fetch( FetchMode.SELECT)
-  //  @JoinColumn(name= "issue_id2",referencedColumnName = "id", insertable = true, updatable = true)
+
     private Priority priority;
 
     @CreationTimestamp

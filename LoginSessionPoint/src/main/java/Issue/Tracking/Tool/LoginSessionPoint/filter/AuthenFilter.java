@@ -82,11 +82,11 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
 
 
     public String ConstructorOfRole(String s){
-        log.info("ffffffffffffffffffffffffffffffffffffffffff");
+
         Pattern pattern = Pattern.compile("ROLE_(.*?),");
         log.info(s.toString());
         Matcher matcher = pattern.matcher(s);
-        log.info("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
         if (matcher.find()) {
            return "ROLE_"+ matcher.group();
         }
@@ -120,7 +120,7 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
 
 
 
-//roleService.getRole(ConstructorOfRole(SimpleGrantedAuthority.toString())).getPrivileges()
+
                 ((UserDetails) authResult.getPrincipal()).getAuthorities().forEach(SimpleGrantedAuthority -> {
             AuthRoles.add(new Role(null  ,SimpleGrantedAuthority.toString(), roleService.getRole(SimpleGrantedAuthority.toString()).getPrivileges(), null,null));
 
@@ -131,7 +131,7 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
                                                 ((UserDetails)authResult.getPrincipal()).getPassword(), null,null,
                                                     AuthRoles  ,new ArrayList<>(),null,null);
 
-        log.info("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 
         Set<String> claims = AuthRoles.stream().map(role -> role.getPrivileges().stream().map(Privilege::getName).collect(Collectors.toList())).collect(Collectors.toList()).stream().flatMap(Collection::stream).collect(Collectors.toSet()); //.map(strings -> strings)//.collect(Collectors.joining(","));
@@ -143,22 +143,21 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
 
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10L * 6000 * TOKEN_EXPIRATION_TIME_MINS))  // Token Expiress at 20 mins
+                .withExpiresAt(new Date(System.currentTimeMillis() + 10L * 6000 * TOKEN_EXPIRATION_TIME_MINS))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", claimsNew)
                 .sign(algorithm);
 
-///user.getRoles().stream().map(Role-> Role.getPrivileges().stream().map(Privilege::getName)).collect(Collectors.toList()))
+
 
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10L * 6000 * REFRESH_TOKEN_EXPIRATION_TIME_MINS))  // Token Expiress at 60 mins
+                .withExpiresAt(new Date(System.currentTimeMillis() + 10L * 6000 * REFRESH_TOKEN_EXPIRATION_TIME_MINS))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", claimsNew)
                 .sign(algorithm);
 
-        /*response.setHeader("access_token", access_token);
-        response.setHeader("refresh_token", refresh_token);*/
+
 
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", access_token);
@@ -166,16 +165,5 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
-/*
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-       // super.unsuccessfulAuthentication(request, response, failed);
-        log.info("Illegal Credentials");
 
-
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                "Authentication Failed");
-
-        // for catching failed auth request  -> block acc. , etc
-    }*/
 }
