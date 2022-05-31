@@ -10,10 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -255,7 +252,23 @@ catch (NullPointerException ignored) {
 
     @Override
     public List<Issue> findByNameOfUsers(String name) {
-        return issueRepo.findByNameOfUsers(name);
+        List <Issue> issues = new ArrayList<>();
+        List<APIUser> users2 = new ArrayList<>();
+        for(Issue issue: Objects.requireNonNull(issueRepo.findAll())){
+           try {
+               for (APIUser user : Objects.requireNonNull(issue.getUsers()))
+                   if (user.getUsername().contains(name))
+                       issues.add(issue);
+           }
+           catch (NullPointerException ignored){};
+            try {
+            for(UserGroup userGroup: Objects.requireNonNull(issue.getUserGroups()))
+                users2  =  userGroup.getUsers().stream().filter(apiUser -> apiUser.getUsername().equals(name)).collect(Collectors.toList());
+                     issues.add(issue);}
+              catch (NullPointerException ignored){};
+        }
+
+        return issues;
     }
 
     @Override

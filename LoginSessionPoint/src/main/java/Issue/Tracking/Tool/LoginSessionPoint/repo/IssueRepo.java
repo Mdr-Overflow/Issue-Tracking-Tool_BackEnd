@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -53,6 +54,11 @@ public interface IssueRepo extends JpaRepository <Issue,Long>{
 
     @Query(value = "SELECT iSoc FROM  Issue  i join i.solutions iSo join iSo.collaborators iSoc WHERE (i.name = :issueName) and (iSo.name = :solName) ")
     List<APIUser> getSoCon(String issueName, String solName);
+
+    @Query(value = "SELECT  i FROM Issue as i join i.users ig WHERE ig.username = :name")
+    List<APIUser> findByNameOfUsers1(String name);
+    @Query(value = "SELECT  i FROM Issue as i join i.users ig WHERE ig.username = :name")
+    List<Issue> findBynameOfUsersInGroup(String name);
 
     //List<Issue> findByNameOF
 }
