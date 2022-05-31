@@ -31,9 +31,18 @@ public class apiKeyPairServiceImpl implements apiKeyPairService {
 
     @Override
     public boolean validate(String apiKey) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException {
-        for (apiKeyPair key : keyPairRepo.findAll()) {
-            return apiKey.equals(key.getApiKey());
-        }
+      try {
+          if (keyPairRepo.findAll() != null) {
+              log.info("GOOOOD");
+              for (apiKeyPair key : keyPairRepo.findAll()) {
+                  return apiKey.equals(key.getApiKey());
+              }
+          }
+      }
+      catch (Exception e){
+          log.info(e.getMessage() + "  AFFFFFFFFFFFF");
+      }
+        log.info("BAADDD");
         return false;
     }
 

@@ -54,12 +54,19 @@ public class IssueDashboard {
 
 
     @ResponseBody
-    @PutMapping("IssueDashboard/solution/update") //works
-    public ResponseEntity<Solution> SolUpdate(@RequestBody Solution solution) throws IOException {
+    @PutMapping("IssueDashboard/solution/update/{IssueName}") //works
+    public ResponseEntity<Solution> SolUpdate(@RequestBody Solution solution, @PathVariable String IssueName) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/save").toUriString());
 
+       if(issueService.getIssue(IssueName) == null) throw new IllegalArgumentException();
 
-         Solution  solutionOld = solutionService.getSolution(solution.getName());
+        Solution  solutionOld = null;
+        for(Solution solu : issueService.getIssue(IssueName).getSolutions()) {
+            log.info(solu.toString());
+            if (solu.getName().equals(solution.getName())) {
+                solutionOld = solutionService.getSolution(solu.getName());
+            }
+        }
 
         if(solutionOld != null) {
 
@@ -68,7 +75,8 @@ public class IssueDashboard {
 
             if (solution.getCollaborators() != null) {
                 solutionOld.getCollaborators().clear();
-                solution.getCollaborators().forEach(apiUser ->   solutionOld.getCollaborators().add(userService.getUser(apiUser.getUsername())));
+                Solution finalSolutionOld = solutionOld;
+                solution.getCollaborators().forEach(apiUser ->   finalSolutionOld.getCollaborators().add(userService.getUser(apiUser.getUsername())));
             }
 
             if (solution.getContent()!= null) solutionOld.setContent(solution.getContent());

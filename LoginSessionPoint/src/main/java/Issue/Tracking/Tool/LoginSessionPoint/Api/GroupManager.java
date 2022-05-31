@@ -200,6 +200,15 @@ public class GroupManager {
 
 
 
+/*
+    @ResponseBody
+    @PostMapping("GroupManager/addUser")
+    public ResponseEntity<String> saveGroup(@RequestBody String Username, String GroupName) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/addUser").toUriString());
+        userGroupService.AddUserToGroup(Username, GroupName);
+        return created(uri).body("Nice");
+    }
+*/
 
     @ResponseBody
     @GetMapping("/GroupManager/usersNOgroup")
