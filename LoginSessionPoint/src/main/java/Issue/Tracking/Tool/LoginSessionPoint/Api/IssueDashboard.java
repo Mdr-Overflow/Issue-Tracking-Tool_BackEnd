@@ -99,11 +99,24 @@ public class IssueDashboard {
 
     @ResponseBody
     @PostMapping("IssueDashboard/solution/save/{issueName}")
-    public ResponseEntity<Solution> addSolution(@RequestBody Solution solution, @PathVariable String issueName) {
+    public ResponseEntity<Solution> addSolution(@RequestBody Solution solution, @PathVariable String issueName) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/save/{issueName}").toUriString());
         Issue issue = issueService.getIssue(issueName);
-        issue.getSolutions().add(solution);
-        issueService.saveIssue(issue);
+        if(issue != null) {
+            try {
+
+                issue.getSolutions().add(solution);
+                solutionService.saveSolution(solution,false);
+                issueService.saveIssue(issue);
+            }
+            catch (NullPointerException | IOException ex){
+                issue.setSolutions(new ArrayList<Solution>());
+                issue.getSolutions().add(solution);
+                solutionService.saveSolution(solution,false);
+                issueService.saveIssue(issue);
+            }
+        }
+        else throw new NoDataFoundException();
         return created(uri).body(solution);
     }
 
@@ -117,9 +130,9 @@ public class IssueDashboard {
         if(sol == null)
             throw new NoDataFoundException();
 
-        issue.getSolutions().add(solution);
+        issue.getSolutions().add(sol);
         issueService.saveIssue(issue);
-        return created(uri).body(solution);
+        return created(uri).body(sol);
     }
 
 

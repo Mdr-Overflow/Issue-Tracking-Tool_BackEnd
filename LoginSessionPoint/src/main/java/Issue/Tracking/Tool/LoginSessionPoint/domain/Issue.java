@@ -62,7 +62,7 @@ public class Issue {
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date DueDate;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH  },mappedBy = "issue")
+    @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH  })
     @Nullable
     private Collection <Solution> solutions = new ArrayList<>();
 

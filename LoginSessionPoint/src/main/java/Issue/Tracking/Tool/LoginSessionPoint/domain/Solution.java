@@ -54,8 +54,8 @@ public class Solution {
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date lastUpdated;
 
-    @ManyToOne
-    private Issue issue;
+
+    private String IssueName;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH })
     private APIUser owner;

@@ -7,6 +7,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Solution;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Type;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
+import Issue.Tracking.Tool.LoginSessionPoint.repo.IssueRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.SolutionRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.TypeRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
@@ -38,6 +39,7 @@ public class SolutionServImpl implements SolutionService {
     private final SolutionRepo solutionRepo;
     private final UserRepo userRepo;
     private final TypeRepo typeRepo;
+    private final IssueRepo issueRepo;
 
     @Override
     public Solution saveSolution(Solution solution, Boolean update) throws IOException {
@@ -51,6 +53,13 @@ public class SolutionServImpl implements SolutionService {
             solution.setType(typeRepo.findByName(solution.getType().getName()));
         }
         else solution.setType(null);
+
+
+        if(issueRepo.findByName(solution.getIssueName()) != null)
+        {
+            solution.setIssueName(issueRepo.findByName(solution.getIssueName()).getName());
+        }
+        else solution.setIssueName(null);
 
         // solution.getOwner()
 
