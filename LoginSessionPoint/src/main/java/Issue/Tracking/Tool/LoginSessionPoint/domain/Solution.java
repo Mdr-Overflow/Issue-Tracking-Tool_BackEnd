@@ -60,7 +60,7 @@ public class Solution {
     @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE ,CascadeType.PERSIST, CascadeType.DETACH,CascadeType.REFRESH})
     private APIUser owner;
 
-    @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE ,CascadeType.PERSIST ,CascadeType.DETACH,CascadeType.REFRESH })
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE ,CascadeType.PERSIST ,CascadeType.DETACH,CascadeType.REFRESH })
     private Collection <APIUser> collaborators ;
 
 

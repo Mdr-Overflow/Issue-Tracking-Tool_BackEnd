@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EndPointNames {
-// Regarding Issues
-// USER is able to change name, description
-    //Leader can change anything excluding groups on issue
-        // Admin can change anything
 
     public static List<String> Gen_Endp_Names() {
 
@@ -16,7 +12,6 @@ public class EndPointNames {
                 ("USER,GROUPMANAGER," +
 
                         "ISSUEDASHBOARD"
-
 
                 ).split(",")
         );

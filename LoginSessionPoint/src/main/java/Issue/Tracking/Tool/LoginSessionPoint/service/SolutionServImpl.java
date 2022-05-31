@@ -45,8 +45,19 @@ public class SolutionServImpl implements SolutionService {
     public Solution saveSolution(Solution solution, Boolean update) throws IOException {
         log.info("Saving  solution  {} to DB",solution.getName());
 
-        List<APIUser> users = solution.getCollaborators().stream().filter(apiUser -> userRepo.findFirstByUsername(apiUser.getName()) != null )
-                .map(apiUser -> userRepo.findFirstByUsername(apiUser.getName())).collect(Collectors.toList());
+        List<APIUser> users = new ArrayList<>();
+        try {
+            for (APIUser user : solution.getCollaborators())
+                if (userRepo.findFirstByUsername(user.getUsername()) != null) {
+                    users.add(userRepo.findFirstByUsername(user.getUsername()));
+                }
+            solution.getCollaborators().clear();
+        } catch (NullPointerException i) {
+            solution.setCollaborators(null);
+            log.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        }
+
+       // solution.setCollaborators(users);
 
         if(typeRepo.findByName(solution.getType().getName()) != null)
         {
@@ -80,8 +91,8 @@ public class SolutionServImpl implements SolutionService {
         }
 
 
-        solution.getCollaborators().clear();
-        solution.setCollaborators(users);
+         //solution.getCollaborators().clear();
+         solution.setCollaborators(users);
 
 
         return solutionRepo.save(solution);

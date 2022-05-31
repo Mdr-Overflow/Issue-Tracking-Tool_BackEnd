@@ -60,8 +60,6 @@ public class UserServiceClass {
     private  final PrivService privService;
     private  final Issue.Tracking.Tool.LoginSessionPoint.service.apiKeyPairService apiKeyPairService;
 
-    //private final SecurityService securityService;
-
 
 
     @ResponseBody
@@ -70,7 +68,7 @@ public class UserServiceClass {
     public APIUser getUserByName(@PathVariable("username") String username) {
 
         return userService.getUser(username);
-        // use fastAPIUser
+
     }
 
 
@@ -140,10 +138,6 @@ public class UserServiceClass {
                  userOld.getRoles().clear();
                  user.getRoles().forEach(role -> userOld.getRoles().add(roleService.getRole(role.getName())));
              }
-          /*   if (user.getApiKeys() != null) {
-                 userOld.getApiKeys().clear();
-                 userOld.getApiKeys().forEach(apiKeyPair -> user.getApiKeys().add(apiKeyPairService.generate()));
-             }*/ // should not be updatable like this
 
 
              if (user.getEmail() != null) userOld.setEmail(user.getEmail());
@@ -188,11 +182,7 @@ public class UserServiceClass {
     @ResponseBody
     @GetMapping("/users")
     public ResponseEntity<List<APIUser>> getUsersALL() {
-       // List<EntityModel<APIUser>> users = userService.getUsersALL().stream() //
-           //     .map(APIUserAssembler::toModel) //
-             //   .collect(Collectors.toList());
 
-       // return CollectionModel.of(users, linkTo(methodOn(UserServiceClass.class).getUsersALL()).withSelfRel());
 
             return ResponseEntity.ok().body(userService.getUsersALL());
     }
@@ -204,9 +194,7 @@ public class UserServiceClass {
     @GetMapping("role")
     public ResponseEntity<List<Role>> getALLRoles() {
 
-       // List<EntityModel<Role>> roles = roleService.getALLRoles().stream() //
-            //    .map(roleModelAssembler::toModel) //
-             //   .collect(Collectors.toList());
+
 
         return ResponseEntity.ok().body(roleService.getALLRoles());
 
@@ -219,11 +207,6 @@ public class UserServiceClass {
         return ResponseEntity.ok().body(roleService.getRole(name));
 
     }
-
-
-    //testing only
-
-    // @GetMapping
 
 
 
@@ -285,10 +268,6 @@ public class UserServiceClass {
         if(userService.getAllUsernames().contains(user.getUsername()))
             throw new AlreadyExistsException(APIUser.class);
 
-       // if(!user.getEmail().matches("/^(.+)@(\\\\S+)$"))
-           // throw  new InvalidMailException();
-
-
 
 
         user.getRoles().add(roleService.getRole("ROLE_USER"));
@@ -310,15 +289,10 @@ public class UserServiceClass {
 
             Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 
-            /*
-            List<Role> AuthRoles = (List<Role>) user.getRoles();
-            Set<String> claims = AuthRoles.stream().map(role -> role.getPrivileges().stream().map(Privilege::getName).collect(Collectors.toList())).collect(Collectors.toList()).stream().flatMap(Collection::stream).collect(Collectors.toSet()); //.map(strings -> strings)//.collect(Collectors.joining(","));
-            List<String>  claimsNew = new ArrayList<>(claims);
-            */
 
             String access_token = JWT.create()
                     .withSubject(user.getUsername())
-                    .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 10L * 6000 * TOKEN_EXPIRATION_TIME_MINS))  // Token Expiress at 20 mins
+                    .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 10L * 6000 * TOKEN_EXPIRATION_TIME_MINS))
                     .withIssuer(request.getRequestURL().toString())
                     .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                     .sign(algorithm);
@@ -326,13 +300,12 @@ public class UserServiceClass {
 
             String refresh_token = JWT.create()
                     .withSubject(user.getUsername())
-                    .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 10L * 6000 * REFRESH_TOKEN_EXPIRATION_TIME_MINS))  // Token Expiress at 60 mins
+                    .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 10L * 6000 * REFRESH_TOKEN_EXPIRATION_TIME_MINS))
                     .withIssuer(request.getRequestURL().toString())
                     .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                     .sign(algorithm);
 
-        /*response.setHeader("access_token", access_token);
-        response.setHeader("refresh_token", refresh_token);*/
+
 
             Map<String, String> tokens = new HashMap<>();
             tokens.put("access_token", access_token);

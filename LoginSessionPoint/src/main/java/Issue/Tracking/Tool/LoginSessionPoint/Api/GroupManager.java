@@ -72,7 +72,7 @@ public class GroupManager {
             if (group.getUsers() != null) {
                  groupOld.getUsers().clear();
                  group.getUsers().forEach(apiUser -> groupOld.getUsers().add(userService.getUser(apiUser.getUsername())));
-              //   group.getUsers().forEach(apiUser -> groupOld.getUsers().forEach(apiUser2 -> apiUser2.setGroup_id(groupOld.getId())));
+
             }
             if (group.getLeader() != null) {
                 groupOld.setLeader(userService.getUser(group.getLeader().getUsername()));
@@ -81,7 +81,7 @@ public class GroupManager {
 
             group.setLastUpdated(group.getCreatedAt());
 
-          //  userGroupService.deleteByName(groupOld.getName());
+
             userGroupService.saveGroup(groupOld);
             log.info("here is hard to get");
 
@@ -200,15 +200,6 @@ public class GroupManager {
 
 
 
-/*
-    @ResponseBody
-    @PostMapping("GroupManager/addUser")
-    public ResponseEntity<String> saveGroup(@RequestBody String Username, String GroupName) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/GroupManager/addUser").toUriString());
-        userGroupService.AddUserToGroup(Username, GroupName);
-        return created(uri).body("Nice");
-    }
-*/
 
     @ResponseBody
     @GetMapping("/GroupManager/usersNOgroup")

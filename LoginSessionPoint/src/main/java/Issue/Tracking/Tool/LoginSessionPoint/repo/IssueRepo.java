@@ -51,5 +51,8 @@ public interface IssueRepo extends JpaRepository <Issue,Long>{
     @Query(value = "SELECT  i FROM Issue as i join i.userGroups ig WHERE ig.name = :name")
     List<Issue> findByNameOFGroup(String name);
 
+    @Query(value = "SELECT iSoc FROM  Issue  i join i.solutions iSo join iSo.collaborators iSoc WHERE (i.name = :issueName) and (iSo.name = :solName) ")
+    List<APIUser> getSoCon(String issueName, String solName);
+
     //List<Issue> findByNameOF
 }

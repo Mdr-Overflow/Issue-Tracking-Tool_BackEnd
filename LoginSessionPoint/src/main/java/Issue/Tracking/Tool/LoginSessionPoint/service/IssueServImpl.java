@@ -257,6 +257,11 @@ catch (NullPointerException ignored) {
     public List<Issue> findByNameOfUsers(String name) {
         return issueRepo.findByNameOfUsers(name);
     }
+
+    @Override
+    public List<APIUser> getSoCon(String issueName, String solName) {
+        return issueRepo.getSoCon(issueName,solName);
+    }
 /*
     @Override
     public List<Issue> findByProp(String prop, String name) {

@@ -73,4 +73,5 @@ public class Issue {
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH,CascadeType.REFRESH })
     @Nullable
     private Collection <APIUser> users = new ArrayList<>();
+
 }

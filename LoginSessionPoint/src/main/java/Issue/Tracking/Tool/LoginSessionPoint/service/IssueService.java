@@ -45,4 +45,6 @@ public interface IssueService {
   //  List<Issue> findByProp(String prop, String name);
 
     List<Issue> findByNameOfUsers(String name);
+
+     List<APIUser> getSoCon(String issueName, String solName);
 }

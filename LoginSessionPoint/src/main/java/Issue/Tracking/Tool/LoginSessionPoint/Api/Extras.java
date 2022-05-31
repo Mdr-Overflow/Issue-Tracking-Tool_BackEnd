@@ -83,10 +83,7 @@ public class Extras {
 
             if (priority.getName() != null) priorityOld.setName(priority.getName());
 
-
             priority.setLastUpdated(priority.getCreatedAt());
-
-
             priorityService.SavePriority(priorityOld);
 
             return ResponseEntity.ok().body(priorityOld);
@@ -119,8 +116,6 @@ public class Extras {
         List<Priority> priorities = priorityService.findBy(ToSearch);
 
         log.info(priorities.toString() + " BY " + ToSearch);
-
-
 
         return priorities;
 
@@ -163,10 +158,7 @@ public class Extras {
 
             if (status.getName() != null) statusOld.setName(status.getName());
 
-
             status.setLastUpdated(status.getCreatedAt());
-
-
             statusService.SaveStatus(statusOld);
 
             return ResponseEntity.ok().body(statusOld);

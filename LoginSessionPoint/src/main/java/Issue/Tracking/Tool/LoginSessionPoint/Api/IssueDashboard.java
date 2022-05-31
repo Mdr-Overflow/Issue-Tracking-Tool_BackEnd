@@ -162,11 +162,11 @@ public class IssueDashboard {
         Issue issue = issueService.getIssue(issueName);
         Solution sol =  solutionService.getSolution(solutionName);
         if(sol == null) {
-            log.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
             throw new NoDataFoundException();
 
         }
-        log.info("BBBBBBBBBBBBBBBBBBBBBBBB");
+
         issue.getSolutions().remove(sol);
         issueService.saveIssue(issue);
         solutionService.deleteSol(sol);
@@ -182,86 +182,49 @@ public class IssueDashboard {
     @ResponseBody
     @PutMapping("/IssueDashboard/admin/update/{name}")
     public ResponseEntity<Issue> replaceIssue(@RequestBody Issue issue, @PathVariable String name) {
-        log.error("ssssssssssssss");
-        log.info("ssssssssssssss");
-        log.info("ssssssssssssaasdads");
-        log.info("ssssssssssssss");
-     /*   log.info(issue.getPriority().getName());
-        log.info(issue.toString());
 
-        log.info(issueOld.toString());
-        if (issue.getPriority() == null)  log.info("NNNNNNNNNUUUUUUUUUUUUUUULL");
-       else{
-           log.info("ssssssGGGGGGGGG");
-           log.info(issue.getPriority().toString());
-        }*/
-        int c = 0;
         try {
             Issue issueOld = issueService.getIssue(name);
-            c+=1;
-            if (issueOld != null) {
-                c+=1;
-                if (issue.getName() != null) issueOld.setName(issue.getName());
-                c+=1;
 
+            if (issueOld != null) {
+
+                if (issue.getName() != null) issueOld.setName(issue.getName());
                 if (issue.getUsers() != null) {
-                    c+=1;
                     issueOld.getUsers().clear();
-                    c+=1;
                     issue.getUsers().forEach(apiUser -> issueOld.getUsers().add(userService.getUser(apiUser.getUsername())));
                 }
-                c+=1;
                 if (issue.getDetails() != null) {
-                    c+=1;
                     issueOld.setDetails(issue.getDetails());
                 }
-                c+=1;
                 if (issue.getDueDate() != null) {
-                    c+=1;
                     issueOld.setDueDate(issue.getDueDate());
                 }
-                c+=1;
                 if (issue.getStatus() != null) {
-                    c+=1;
                     issueOld.setStatus(statusService.getStatus(issue.getStatus().getName()));
                 }
-                c+=1;
                 if (issue.getPriority() != null) {
-                    c += 1;
                     issueOld.setPriority(priorityService.getPrio(issue.getPriority().getName()));
-                    c+=1;
                 }
                 if (issue.getSolutions() != null) {
-                    c+=1;
                     issueOld.getSolutions().clear();
-                    c+=1;
                     issue.getSolutions().forEach(solution -> issueOld.getSolutions().add(solutionService.getSolution(solution.getName())));
-                    c+=1;
                 }
 
                 if (issue.getUserGroups() != null) {
-                    c+=1;
                     issueOld.getUserGroups().clear();
-                    c+=1;
                     issue.getUserGroups().forEach(userGroup -> issueOld.getUserGroups().add(userGroupService.getGroup(userGroup.getName())));
-                    c+=1;
+
                 }
 
 
                 issue.setLastUpdated(issue.getCreatedAt());
-                c+=1;
-
-                //   issueService.deleteByName(issue.getName());
-                //  issueRepo.flush();
-
                 issueService.saveIssue(issueOld);
-                c+=1;
 
                 return ResponseEntity.ok().body(issueOld);
             } else throw new NoDataFoundException();
         }
         catch (NullPointerException e){
-            log.info(e.getMessage() + "asa  " + c);
+
             return ResponseEntity.ok().body(issue);
         }
 
@@ -280,7 +243,6 @@ public class IssueDashboard {
             if (issue.getDetails() != null) issueOld.setDetails(issue.getDetails());
 
             issue.setLastUpdated(issue.getCreatedAt());
-
 
             issueService.saveIssue(issueOld);
 
@@ -393,11 +355,6 @@ public class IssueDashboard {
     public ResponseEntity<List<Solution>> getSol(@PathVariable String name_ , @PathVariable String ownerName, @PathVariable String description_,
                                            @PathVariable String content_, @PathVariable String type_) {
 
-        // one atribute to search for or many ?????
-
-        //many -> add all to a list then find most common 3 -> send most common 3
-
-        //one // if path empty -> @ instead
         if(solutionService.getSolution(name_)!= null ) {
             return  ResponseEntity.ok(List.of(solutionService.getSolution(name_)));
 
@@ -464,6 +421,14 @@ public class IssueDashboard {
 
     }
 
+
+    @ResponseBody
+    @GetMapping("IssueDashboard/solution/getContrib/{IssueName}/{SolName}")
+    public ResponseEntity<List<APIUser>> getC(@PathVariable String IssueName,@PathVariable String SolName) {
+
+        return ResponseEntity.ok().body(issueService.getSoCon(IssueName,SolName));
+
+    }
 
     @ResponseBody
     @GetMapping("IssueDashboard/getContrib")
