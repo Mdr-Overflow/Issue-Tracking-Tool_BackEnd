@@ -9,8 +9,22 @@ public class EndPointNames {
     //Leader can change anything excluding groups on issue
         // Admin can change anything
 
-
     public static List<String> Gen_Endp_Names() {
+
+
+        return (List<String>) List.of(
+                ("USER,GROUPMANAGER," +
+
+                        "ISSUEDASHBOARD"
+
+
+                ).split(",")
+        );
+    }
+
+
+
+    public static List<String> Gen_Endp_Names2() {
 
 
         return (List<String>) List.of(

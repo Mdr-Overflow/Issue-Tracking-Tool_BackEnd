@@ -38,6 +38,10 @@ public class Solution {
 
     private String content;
 
+
+
+
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date createdAt;
@@ -45,6 +49,9 @@ public class Solution {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date lastUpdated;
+
+    @ManyToOne
+    private Issue issue;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH })
     private APIUser owner;

@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class Issue {
 
     @OneToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})
     //@Fetch( FetchMode.SELECT)
+    @Nullable
    // @JoinColumn(name= "issue_id",referencedColumnName = "id", insertable = true, updatable = true)
     private Status status;
 
@@ -44,6 +46,7 @@ public class Issue {
     private String details;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})
+    @Nullable
    // @Fetch( FetchMode.SELECT)
   //  @JoinColumn(name= "issue_id2",referencedColumnName = "id", insertable = true, updatable = true)
     private Priority priority;
@@ -59,12 +62,15 @@ public class Issue {
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date DueDate;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH  })
+    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH  },mappedBy = "issue")
+    @Nullable
     private Collection <Solution> solutions = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST , CascadeType.DETACH,CascadeType.REFRESH})
+    @Nullable
     private Collection <UserGroup> userGroups = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH,CascadeType.REFRESH })
+    @Nullable
     private Collection <APIUser> users = new ArrayList<>();
 }

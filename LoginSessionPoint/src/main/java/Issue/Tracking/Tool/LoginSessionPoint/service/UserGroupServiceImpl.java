@@ -2,7 +2,10 @@ package Issue.Tracking.Tool.LoginSessionPoint.service;
 
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Issue;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
+import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
+import Issue.Tracking.Tool.LoginSessionPoint.repo.IssueRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserGroupRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +31,7 @@ public class UserGroupServiceImpl implements UserGroupService {
 
     private final UserRepo userRepo;
     private final UserGroupRepo userGroupRepo;
-
+    private final IssueRepo issueRepo;
 
 
     @Override
@@ -101,6 +104,17 @@ public class UserGroupServiceImpl implements UserGroupService {
     @Override
     public void deleteByName(String name) {
 
+        if(userGroupRepo.findByName(name) != null)
+        {
+
+            List<Issue> issueList =  issueRepo.findByNameOFGroup(name);
+            issueList.forEach(issue -> {
+                assert issue.getUserGroups() != null;
+                issue.getUserGroups().remove(userGroupRepo.findByName(name));
+            });
+
+        }
+        else throw new NoDataFoundException();
 
 
 

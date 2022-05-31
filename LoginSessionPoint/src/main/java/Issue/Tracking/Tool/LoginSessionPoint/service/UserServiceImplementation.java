@@ -1,9 +1,11 @@
 package Issue.Tracking.Tool.LoginSessionPoint.service;
 
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Issue;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
 //import Issue.Tracking.Tool.LoginSessionPoint.Repo.RoleRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
+import Issue.Tracking.Tool.LoginSessionPoint.repo.IssueRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.RoleRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserGroupRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
@@ -42,6 +44,7 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
     private final RoleRepo roleRepo;
     private final UserGroupRepo userGroupRepo;
     private final PasswordEncoder passwordEncoder;
+    private final IssueRepo issueRepo;
 
     @Override
     public APIUser saveUser(APIUser user) {
@@ -121,7 +124,10 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
 
           List<UserGroup> userGroupList =  userGroupRepo.findByUsernameOFUser(username);
           userGroupList.forEach(userGroup -> userGroup.getUsers().remove(userRepo.findFirstByUsername(username)));
-          for (UserGroup userGroup: userGroupList)
+
+          
+
+            for (UserGroup userGroup: userGroupList)
           {
               if(userGroup.getLeader().getUsername().equals(username)){
                   if(userGroup.getUsers().size() >1) {

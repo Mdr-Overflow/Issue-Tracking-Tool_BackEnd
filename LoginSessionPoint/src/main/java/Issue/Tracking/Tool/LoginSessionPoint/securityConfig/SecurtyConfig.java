@@ -96,41 +96,41 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                 http.authorizeRequests();
                 http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
                 http.authorizeRequests().antMatchers(GET, "/user/**").hasAnyAuthority(USER, ADMIN,GROUP_LEADER,"GET_USER");
-                http.authorizeRequests().antMatchers(POST, "/user/save/**").hasAnyAuthority(ADMIN,"POST_USER_SAVE");
-                http.authorizeRequests().antMatchers(PUT,"/user/update/**").hasAnyAuthority(ADMIN,"PUT_USER_UPDATE");
+                http.authorizeRequests().antMatchers(POST, "/user/save/**").hasAnyAuthority(ADMIN,"POST_USER");
+                http.authorizeRequests().antMatchers(PUT,"/user/update/**").hasAnyAuthority(ADMIN,"PUT_USER");
                 http.authorizeRequests().antMatchers(PUT,"/user/changePass/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER,
-                        "PUT_USER_CHANGEPASS");
+                        "PUT_USER");
                 http.authorizeRequests().antMatchers(POST,"/users").hasAnyAuthority(USER,ADMIN,GROUP_LEADER,"POST_USERS");
 
-                http.authorizeRequests().antMatchers(DELETE,"/user/delete/**").hasAnyAuthority(ADMIN,USER,GROUP_LEADER,"DELETE_USER_DELETE");
-                http.authorizeRequests().antMatchers(GET,"/user/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER,"GET_USER_GET");
+                http.authorizeRequests().antMatchers(DELETE,"/user/delete/**").hasAnyAuthority(ADMIN,USER,GROUP_LEADER,"DELETE_USER");
+                http.authorizeRequests().antMatchers(GET,"/user/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER,"GET_USER");
 
 
                 http.authorizeRequests().antMatchers(POST, "/GroupManager").hasAnyAuthority(USER,ADMIN,GROUP_LEADER,"POST_GROUPMANAGER");
                 http.authorizeRequests().antMatchers(GET, "/GroupManager/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER,"GET_GROUPMANAGER");
-                http.authorizeRequests().antMatchers(POST, "/GroupManager/save/**").hasAnyAuthority(ADMIN,GROUP_LEADER,"POST_GROUPMANAGER_SAVE");
-                http.authorizeRequests().antMatchers(GET,"/GroupManager/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER,"GET_GROUPMANAGER_GET");
-                http.authorizeRequests().antMatchers(DELETE,"/GroupManager/delete/**").hasAnyAuthority(ADMIN,"DELETE_GROUPMANAGER_DELETE");
-                http.authorizeRequests().antMatchers(POST, "/GroupManager/addUser").hasAnyAuthority(ADMIN,GROUP_LEADER,"POST_GROUPMANAGER_ADDUSER");
+                http.authorizeRequests().antMatchers(POST, "/GroupManager/save/**").hasAnyAuthority(ADMIN,GROUP_LEADER,"POST_GROUPMANAGER");
+                http.authorizeRequests().antMatchers(GET,"/GroupManager/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER,"GET_GROUPMANAGER");
+                http.authorizeRequests().antMatchers(DELETE,"/GroupManager/delete/**").hasAnyAuthority(ADMIN,"DELETE_GROUPMANAGER");
+                http.authorizeRequests().antMatchers(POST, "/GroupManager/addUser").hasAnyAuthority(ADMIN,GROUP_LEADER,"POST_GROUPMANAGER");
 
-                http.authorizeRequests().antMatchers(PUT, "/GroupManager/changeLeader/**").hasAnyAuthority(ADMIN,"PUT_GROUPMANAGER_CHANGELEADER");
-                http.authorizeRequests().antMatchers(PUT, "/GroupManager/AddUser/**").hasAnyAuthority(ADMIN,GROUP_LEADER,"PUT_GROUPMANAGER_ADDUSER");
-                http.authorizeRequests().antMatchers(DELETE, "/GroupManager/DelUser/**").hasAnyAuthority(ADMIN,GROUP_LEADER,"DELETE_GROUPMANAGER_DELETE");
+                http.authorizeRequests().antMatchers(PUT, "/GroupManager/changeLeader/**").hasAnyAuthority(ADMIN,"PUT_GROUPMANAGER");
+                http.authorizeRequests().antMatchers(PUT, "/GroupManager/AddUser/**").hasAnyAuthority(ADMIN,GROUP_LEADER,"PUT_GROUPMANAGER");
+                http.authorizeRequests().antMatchers(DELETE, "/GroupManager/DelUser/**").hasAnyAuthority(ADMIN,GROUP_LEADER,"DELETE_GROUPMANAGER");
 
                 http.authorizeRequests().antMatchers(GET, "/IssueDashboard/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER,"GET_ISSUEDASHBOARD");
-                http.authorizeRequests().antMatchers(POST, "/IssueDashboard/save/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER,"POST_ISSUEDASHBOARD_SAVE");
-                http.authorizeRequests().antMatchers(DELETE, "/IssueDashboard/delete/**").hasAnyAuthority(ADMIN,GROUP_LEADER,"DELETE_ISSUEDASHBOARD_DELETE");
-                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/admin/update/**").hasAnyAuthority(ADMIN,"PUT_ISSUEDASHBOARD_ADMIN_UPDATE");
-                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/user/update/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER,"PUT_ISSUEDASHBOARD_USER_UPDATE");
-                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/leader/update/**").hasAnyAuthority(GROUP_LEADER,ADMIN,"PUT_ISSUEDASHBOARD_LEADER_UPDATE");
-                http.authorizeRequests().antMatchers(GET,"/IssueDashboard/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER,"GET_ISSUEDASHBOARD_GET");
-                http.authorizeRequests().antMatchers(GET,"/IssueDashboard/getSol/**").hasAnyAuthority(ADMIN,GROUP_LEADER,USER,"GET_ISSUEDASHBOARD_GETSOL");
+                http.authorizeRequests().antMatchers(POST, "/IssueDashboard/save/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER,"POST_ISSUEDASHBOARD");
+                http.authorizeRequests().antMatchers(DELETE, "/IssueDashboard/delete/**").hasAnyAuthority(ADMIN,GROUP_LEADER,"DELETE_ISSUEDASHBOARD");
+                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/admin/update/**").hasAnyAuthority(ADMIN,"PUT_ISSUEDASHBOARD");
+                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/user/update/**").hasAnyAuthority(USER,ADMIN,GROUP_LEADER,"PUT_ISSUEDASHBOARD");
+                http.authorizeRequests().antMatchers(PUT,"/IssueDashboard/leader/update/**").hasAnyAuthority(GROUP_LEADER,ADMIN,"PUT_ISSUEDASHBOARD");
+                http.authorizeRequests().antMatchers(GET,"/IssueDashboard/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER,"GET_ISSUEDASHBOARD");
+                http.authorizeRequests().antMatchers(GET,"/IssueDashboard/getSol/**").hasAnyAuthority(ADMIN,GROUP_LEADER,USER,"GET_ISSUEDASHBOARD");
 
 
-                http.authorizeRequests().antMatchers(GET,"/Extras/**/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER,"GET_EXTRAS_GET");
-                http.authorizeRequests().antMatchers(PUT,"/Extras/**/update").hasAnyAuthority(ADMIN,GROUP_LEADER,"PUT_EXTRAS_UPDATE");
-                http.authorizeRequests().antMatchers(POST,"/Extras/**/save").hasAnyAuthority(ADMIN,GROUP_LEADER,"POST_EXTRAS_SAVE");
-                http.authorizeRequests().antMatchers(DELETE,"/Extras/**/delete").hasAnyAuthority(ADMIN,GROUP_LEADER,"DELETE_EXTRAS_DELETE");
+                http.authorizeRequests().antMatchers(GET,"/Extras/**/^get").hasAnyAuthority(ADMIN,GROUP_LEADER,USER,"GET_EXTRAS");
+                http.authorizeRequests().antMatchers(PUT,"/Extras/**/update").hasAnyAuthority(ADMIN,GROUP_LEADER,"PUT_EXTRAS");
+                http.authorizeRequests().antMatchers(POST,"/Extras/**/save").hasAnyAuthority(ADMIN,GROUP_LEADER,"POST_EXTRAS");
+                http.authorizeRequests().antMatchers(DELETE,"/Extras/**/delete").hasAnyAuthority(ADMIN,GROUP_LEADER,"DELETE_EXTRAS");
 
 
                 http.authorizeRequests().antMatchers(POST, "/admin/**").hasAnyAuthority(ADMIN);

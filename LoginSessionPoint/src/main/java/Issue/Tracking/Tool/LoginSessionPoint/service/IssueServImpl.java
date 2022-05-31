@@ -4,6 +4,7 @@ import Issue.Tracking.Tool.LoginSessionPoint.domain.*;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,53 +36,75 @@ public class IssueServImpl implements  IssueService {
 
     @Override
     public Issue saveIssue(Issue issue) {
-        log.info("Saving  Issue  {} to DB",issue.getName());
+        log.info("Saving  Issue  {} to DB", issue.getName());
 
 
+        //    List<APIUser> users = new ArrayList<APIUser>();
+        //       List<UserGroup> groups = new ArrayList<UserGroup>();
+        //     List<Solution> sols = new ArrayList<Solution>();
 
+        List<APIUser> users = null;
+        try {
+            for (APIUser user : issue.getUsers())
+                if (userRepo.findFirstByUsername(user.getUsername()) != null) {
+                    users.add(userRepo.findFirstByUsername(user.getUsername()));
+                }
+            issue.getUsers().clear();
+        } catch (NullPointerException ignored) {
+        }
+//
 
-        List<APIUser> users = new ArrayList<APIUser>();
-        for (APIUser user: issue.getUsers())
-            if(userRepo.findFirstByUsername(user.getUsername()) != null){
-                users.add(userRepo.findFirstByUsername(user.getUsername()));
+        List<UserGroup> groups = null;
+        try {
+            groups = new ArrayList<UserGroup>();
+            for (UserGroup userG : issue.getUserGroups())
+                if (userGroupRepo.findByName(userG.getName()) != null) {
+                    groups.add(userGroupRepo.findByName(userG.getName()));
+                }
+            issue.getUserGroups().clear();
+        } catch (NullPointerException ignored) {
+        }
+
+        List<Solution> sols = null;
+        try {
+            sols = new ArrayList<Solution>();
+            for (Solution sol : issue.getSolutions())
+                if (solutionRepo.findByName(sol.getName()) != null) {
+                    sols.add(solutionRepo.findByName(sol.getName()));
+                }
+            //log.info(issue.getPriority().toString());
+            issue.getSolutions().clear();
+
+        } catch (NullPointerException ignored) {
+        }
+        try {
+            if (priorityRepo.findByName(issue.getPriority().getName()) != null) {
+                issue.setPriority(priorityRepo.findByName(issue.getPriority().getName()));
+                // log.info("aaaaaaaaaaaaaaaaa");
             }
 
-
-        List<UserGroup> groups = new ArrayList<UserGroup>();
-        for (UserGroup userG: issue.getUserGroups())
-            if(userGroupRepo.findByName(userG.getName()) != null){
-                groups.add(userGroupRepo.findByName(userG.getName()));
+            if (statusRepo.getStatusByName((issue.getStatus().getName())) != null) {
+                issue.setStatus(statusRepo.getStatusByName((issue.getStatus().getName())));
             }
+            // log.info(users.toString());
 
-        List<Solution> sols = new ArrayList<Solution>();
-        for (Solution sol: issue.getSolutions())
-            if(solutionRepo.findByName(sol.getName()) != null){
-                sols.add(solutionRepo.findByName(sol.getName()));
-            }
-        //log.info(issue.getPriority().toString());
-try {
-    if (priorityRepo.findByName(issue.getPriority().getName()) != null) {
-        issue.setPriority(priorityRepo.findByName(issue.getPriority().getName()));
-        log.info("aaaaaaaaaaaaaaaaa");
-    }
+            //        issue.getUsers().clear();
+            //         issue.getUserGroups().clear();
+            //       issue.getSolutions().clear();
 
-    if (statusRepo.getStatusByName((issue.getStatus().getName())) != null) {
-        issue.setStatus(statusRepo.getStatusByName((issue.getStatus().getName())));
-    }
-}
-catch (NullPointerException e ) {log.error(e.getMessage() + "   here");}
+        } catch (NullPointerException ignored) {
+        }
 
-       // log.info(users.toString());
-        issue.getUsers().clear();
-        issue.getUserGroups().clear();
-        issue.getSolutions().clear();
+
+        log.info(issue.toString());
+
 
         issue.setUsers(users);
         issue.setUserGroups(groups);
         issue.setSolutions(sols);
 
-       // log.info(userGroup.getUsers().toString());
 
+        // log.info(userGroup.getUsers().toString());
 
 
         return issueRepo.save(issue);
