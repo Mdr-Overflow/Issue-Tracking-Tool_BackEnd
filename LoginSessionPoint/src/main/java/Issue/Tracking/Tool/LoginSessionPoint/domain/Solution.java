@@ -28,14 +28,14 @@ public class Solution {
             generator = "Solution_Id_seq"
     )
     private Long id;
-    @Column(unique = true)
+   // @Column(unique = true)
     private String name;
 
     private String description;
     private boolean isFinal = false;
     private boolean isAccepted = false;
 
-    @OneToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH})
+    @OneToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
     @Fetch( FetchMode.SELECT)
     @JoinColumn(name= "solution_id",referencedColumnName = "id", insertable = true, updatable = true)
     private Type type;
@@ -57,10 +57,10 @@ public class Solution {
 
     private String IssueName;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH })
+    @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE ,CascadeType.PERSIST, CascadeType.DETACH,CascadeType.REFRESH})
     private APIUser owner;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE , CascadeType.PERSIST, CascadeType.DETACH })
+    @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE ,CascadeType.PERSIST ,CascadeType.DETACH,CascadeType.REFRESH })
     private Collection <APIUser> collaborators ;
 
 

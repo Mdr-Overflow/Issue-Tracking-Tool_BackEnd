@@ -34,7 +34,7 @@ public class IssueDashboard {
     private final PriorityService priorityService;
 
     @ResponseBody
-    @PostMapping("IssueDashboard/save")
+    @PostMapping("IssueDashboard/save") //works
     public ResponseEntity<Issue> saveIssue(@RequestBody Issue issue) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/save").toUriString());
 
@@ -43,7 +43,7 @@ public class IssueDashboard {
     }
 
     @ResponseBody
-    @PostMapping("IssueDashboard/solution/save")
+    @PostMapping("IssueDashboard/solution/save") //works
     public ResponseEntity<Object> SolSave(@RequestBody Solution solution) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/save").toUriString());
 
@@ -54,7 +54,7 @@ public class IssueDashboard {
 
 
     @ResponseBody
-    @PutMapping("IssueDashboard/solution/update")
+    @PutMapping("IssueDashboard/solution/update") //works
     public ResponseEntity<Solution> SolUpdate(@RequestBody Solution solution) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/save").toUriString());
 
@@ -98,30 +98,26 @@ public class IssueDashboard {
 
 
     @ResponseBody
-    @PostMapping("IssueDashboard/solution/save/{issueName}")
+    @PostMapping("IssueDashboard/solution/save/{issueName}") //works
     public ResponseEntity<Solution> addSolution(@RequestBody Solution solution, @PathVariable String issueName) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/save/{issueName}").toUriString());
+        solutionService.saveSolution(solution,false);
         Issue issue = issueService.getIssue(issueName);
         if(issue != null) {
             try {
-
-                issue.getSolutions().add(solution);
-                solutionService.saveSolution(solution,false);
-                issueService.saveIssue(issue);
+                issue.getSolutions().add(solutionService.getSolution(solution.getName()));
             }
-            catch (NullPointerException | IOException ex){
-                issue.setSolutions(new ArrayList<Solution>());
-                issue.getSolutions().add(solution);
-                solutionService.saveSolution(solution,false);
-                issueService.saveIssue(issue);
+            catch (NullPointerException e) {
+                List <Solution> solutions= new ArrayList<>();
+                solutions.add(solution);
+                issue.setSolutions(solutions);
             }
         }
-        else throw new NoDataFoundException();
-        return created(uri).body(solution);
+           return created(uri).body(solutionService.getSolution(solution.getName()));
     }
 
     @ResponseBody
-    @PutMapping("IssueDashboard/solution/add/{issueName}")
+    @PutMapping("IssueDashboard/solution/add/{issueName}") //works depr.
     public ResponseEntity<Solution> addSolution2(@RequestBody Solution solution, @PathVariable String issueName) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/add/{issueName}").toUriString());
         Issue issue = issueService.getIssue(issueName);
@@ -138,13 +134,16 @@ public class IssueDashboard {
 
 
     @ResponseBody
-    @DeleteMapping("IssueDashboard/solution/remove/{issueName}/{solutionName}")  //sol persists
-    public ResponseEntity<Issue> remSolution(@PathVariable String solutionName, @PathVariable String issueName) {
+    @DeleteMapping("IssueDashboard/solution/remove/{issueName}/{solutionName}")  // worked
+    public ResponseEntity<Issue> remSolution(@PathVariable String solutionName, @PathVariable String issueName) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/remove/{issueDelete}").toUriString());
         Issue issue = issueService.getIssue(issueName);
 
 
         Solution sol =  solutionService.getSolution(solutionName);
+        sol.setAccepted(false);
+        solutionService.saveSolution(sol,true);
+
         if(sol == null) throw new NoDataFoundException();
 
 
@@ -154,6 +153,7 @@ public class IssueDashboard {
     }
 
 
+
     @ResponseBody
     @DeleteMapping("IssueDashboard/solution/delete/{issueName}/{solutionName}")  //sol deletes
     public ResponseEntity<Issue> delSolution(@RequestBody String solutionName, @PathVariable String issueName) {
@@ -161,11 +161,16 @@ public class IssueDashboard {
 
         Issue issue = issueService.getIssue(issueName);
         Solution sol =  solutionService.getSolution(solutionName);
-        if(sol == null) throw new NoDataFoundException();
+        if(sol == null) {
+            log.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            throw new NoDataFoundException();
 
+        }
+        log.info("BBBBBBBBBBBBBBBBBBBBBBBB");
         issue.getSolutions().remove(sol);
-        solutionService.deleteSol(sol);
         issueService.saveIssue(issue);
+        solutionService.deleteSol(sol);
+
 
         return created(uri).body(issue);
     }
@@ -368,8 +373,17 @@ public class IssueDashboard {
     @ResponseBody
     @GetMapping("IssueDashboard/getSols/{issName}")
     public ResponseEntity<List<Solution>> getSols(@PathVariable String issName) {
+        List<Solution> sols = new ArrayList<>();
+        try {
+            if (issueService.getIssue(issName).getSolutions() != null) {
 
-        return ResponseEntity.ok().body(new ArrayList<>(Objects.requireNonNull(issueService.getIssue(issName).getSolutions())));
+                {
+                    sols = issueService.getIssue(issName).getSolutions().stream().collect(Collectors.toList());
+                }
+            }
+            return ResponseEntity.ok().body(sols);
+        }
+       catch (NullPointerException e){ throw new NoDataFoundException();}
 
     }
 

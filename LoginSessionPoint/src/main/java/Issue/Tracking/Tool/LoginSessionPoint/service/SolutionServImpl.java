@@ -55,6 +55,7 @@ public class SolutionServImpl implements SolutionService {
         else solution.setType(null);
 
 
+
         if(issueRepo.findByName(solution.getIssueName()) != null)
         {
             solution.setIssueName(issueRepo.findByName(solution.getIssueName()).getName());
@@ -67,7 +68,9 @@ public class SolutionServImpl implements SolutionService {
         {
             solution.setOwner(userRepo.findFirstByUsername(solution.getOwner().getUsername()));
         }
-        //
+        else solution.setOwner(null);
+
+        //userRepo.save(solution.getOwner());
 
         if(solution.getType().getName().equals("file")){
             if(update)
