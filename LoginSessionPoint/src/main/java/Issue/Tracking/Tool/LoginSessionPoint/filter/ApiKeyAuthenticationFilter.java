@@ -1,12 +1,14 @@
 package Issue.Tracking.Tool.LoginSessionPoint.filter;
 
 import Issue.Tracking.Tool.LoginSessionPoint.securityConfig.ApiKeyAuthenticationToken;
+import Issue.Tracking.Tool.LoginSessionPoint.securityConfig.MutableHttpServletRequest;
 import Issue.Tracking.Tool.LoginSessionPoint.service.PrivService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.apiKeyPairService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.WebApplicationContext;
@@ -16,13 +18,17 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.servlet.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 
 @RequiredArgsConstructor
 @Slf4j
+
 public class ApiKeyAuthenticationFilter implements Filter {
 
     static final private String AUTH_METHOD = "api-key";
@@ -42,6 +48,7 @@ public class ApiKeyAuthenticationFilter implements Filter {
 
         assert webApplicationContext != null;
         apiKeyPairService apiKeyPairService = webApplicationContext.getBean(apiKeyPairService.class);
+
 
 
 

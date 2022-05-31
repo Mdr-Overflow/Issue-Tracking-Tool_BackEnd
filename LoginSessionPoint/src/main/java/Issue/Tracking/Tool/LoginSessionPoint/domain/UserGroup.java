@@ -31,17 +31,7 @@ public class UserGroup extends AbstractPersistentObject implements Serializable 
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    /*
-    @SequenceGenerator(
-            name = "UserGroup_Id_seq",
-            sequenceName = "User_Id_seq",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "UserGroup_Id_seq"
-    )
-*/
+
 
     private Long id;
 

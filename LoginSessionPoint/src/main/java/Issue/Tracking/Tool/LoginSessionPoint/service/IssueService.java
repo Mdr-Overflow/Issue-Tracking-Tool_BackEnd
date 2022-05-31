@@ -10,7 +10,6 @@ public interface IssueService {
     Issue getIssue(String IssueName);
     List<Issue> getIssues();
 
-    //Status , priority , details
 
     List<Solution> getSols(Issue issue);
     List<APIUser> getContributors(Issue issue);
@@ -37,12 +36,10 @@ public interface IssueService {
     List<Issue> findBy(String toSearch);
 
 
-
     List<Issue> findByPrio(String toSearch);
 
     List<Issue> findByStatus(String toSearch);
 
-  //  List<Issue> findByProp(String prop, String name);
 
     List<Issue> findByNameOfUsers(String name);
 

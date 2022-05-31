@@ -37,7 +37,7 @@ public class PrivServiceImpl implements PrivService{
     public Privilege createPrivilegeIfNotFound(String name) {
         Privilege privilege = privRepo.findByName(name);
         log.info("I GOT HERE BEFORE NULL CHECK");
-        //log.info(privilege.toString());
+
 
         if (privilege == null) {
             privilege = new Privilege(null,name,new ArrayList<>());

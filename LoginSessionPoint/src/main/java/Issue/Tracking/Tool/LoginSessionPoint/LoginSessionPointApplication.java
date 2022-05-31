@@ -46,11 +46,7 @@ public class LoginSessionPointApplication {
 	CommandLineRunner run(UserService userService, apiKeyPairService apiKeyPairService, RoleService roleService, UserGroupService userGroupService,
 						  PrivService privService, PriorityService priorityService , StatusService statusService , TypeService typeService ) {
 		return args -> {
-			/*
-			roleService.saveRole(new Role(1L, "ROLE_USER", List.of(privService.findByName("ROLE_USER")),null,null));
-			roleService.saveRole(new Role(2L, "ROLE_ADMIN",List.of(privService.findByName("ROLE_ADMIN")),null,null));
-			roleService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",List.of(privService.findByName("ROLE_SUPER_ADMIN")),null,null));
-*/
+
 
 			Date now = Date.from(Instant.now());
 
@@ -79,20 +75,6 @@ public class LoginSessionPointApplication {
 			roleService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",List.of(privService.createPrivilegeIfNotFound("ROLE_SUPER_ADMIN"),privService.createPrivilegeIfNotFound("ROLE_ADMIN")),now,null));
 			roleService.saveRole(new Role(4L, "ROLE_USER2",List.of(privService.findByName("GET_USER")),now,null));
 
-/*
-			roleService.saveRole(new Role(1L, "ROLE_USER",null,null));
-			roleService.saveRole(new Role(2L, "ROLE_ADMIN",null,null));
-			roleService.saveRole(new Role(3L, "ROLE_SUPER_ADMIN",null,null));
-			roleService.saveRole(new Role(4L, "ROLE_USER2",null,null));
-*/
-			//userGroupService.saveGroup(new UserGroup(1L,"DEFAULT",null,new ArrayList<APIUser>(),new APIUser(),null));
-/*
-			userService.saveUser(new APIUser(1L, "John Travolta", "1234","Jt@asdas.com","John", new ArrayList<>(),  new ArrayList<>(),new UserGroup(), new UserGroup(),null,null));
-			userService.saveUser(new APIUser(2L, "Will Smith","1234","w@asdas.com","Will",new ArrayList<>(), new ArrayList<>(),new UserGroup(),new UserGroup(),null,null));
-			userService.saveUser(new APIUser(3L, "Jim Carry", "1234", "fg@asdas.com","Jim",new ArrayList<>(), new ArrayList<>(),new UserGroup(),new UserGroup(),null,null));
-			userService.saveUser(new APIUser(4L, "Arnold Schwarzenegger", "1234","sd@asdas.com","Arnold", new ArrayList<>(), new ArrayList<>(),new UserGroup(),null,null,null));
-			userService.saveUser(new APIUser(5L, "admin", "1234","Jt@asdas.com","sd", new ArrayList<>(),  new ArrayList<>(),new UserGroup(),new UserGroup(),null,null));
-			*/
 
 
 			userService.saveUser(new APIUser(10L, "John Travolta", "1234","Jt@asdas.com","John", new ArrayList<>(),  new ArrayList<>(),null,null));
@@ -100,10 +82,6 @@ public class LoginSessionPointApplication {
 			userService.saveUser(new APIUser(12L, "Jim Carry", "1234", "fg@asdas.com","Jim",new ArrayList<>(), new ArrayList<>(),null,null));
 			userService.saveUser(new APIUser(13L, "Arnold Schwarzenegger", "1234","sd@asdas.com","Arnold", new ArrayList<>(),new ArrayList<>(),null,null));
 			userService.saveUser(new APIUser(14L, "admin", "1234","Jtyyy@asdas.com","sd", new ArrayList<>(),  new ArrayList<>(),null,null));
-
-
-			// IF NAME NOT IN DB  -> CRASH
-
 
 
 
@@ -114,7 +92,7 @@ public class LoginSessionPointApplication {
 			userService.addRoleToUser("Arnold Schwarzenegger", "ROLE_ADMIN");
 			userService.addRoleToUser("Arnold Schwarzenegger", "ROLE_USER");
 
-			apiKeyPairService.generate();
+
 
 		};
 	}

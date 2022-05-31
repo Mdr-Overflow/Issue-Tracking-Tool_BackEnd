@@ -39,24 +39,20 @@ public class UserGroupServiceImpl implements UserGroupService {
         log.info("Saving  UserGroup  {} to DB", userGroup.getName());
         ArrayList<APIUser> users = new ArrayList<>();
         for (APIUser user: userGroup.getUsers()) {
-            log.info("call nr x");
+
             if (userRepo.findFirstByUsername(user.getUsername()) != null) {
-                log.info("Something here");
+
                 users.add(userRepo.findFirstByUsername(user.getUsername()));
-         //       userRepo.findFirstByUsername(user.getUsername()).setGroup_id(userGroup.getId());
+
             }
         }
-        //HERE
 
-        log.info("we found them users");
+
+
         if(userRepo.findFirstByUsername(userGroup.getLeader().getUsername()) != null)
         {
             userGroup.setLeader(userRepo.findFirstByUsername(userGroup.getLeader().getUsername()));
         }
-       // userRepo.flush();
-        log.info("MAYBE HERE BREAKS ");
-
-     //   userRepo.findAll().forEach(user -> user);
 
         log.info(users.toString());
         userGroup.getUsers().clear();
@@ -65,9 +61,9 @@ public class UserGroupServiceImpl implements UserGroupService {
 
         log.info(userGroup.getUsers().toString());
 
-     //   userGroupRepo.flush();
 
-        //log.info(userRepo.findAll().toString());
+
+
         return  userGroupRepo.save(userGroup);
     }
 
@@ -80,7 +76,6 @@ public class UserGroupServiceImpl implements UserGroupService {
     @Override
     public List<UserGroup> getGroups() {
         log.info("Getting all groups ");
-      //  org.springframework.data.domain.Pageable givenPage =  PageRequest.of(0, 1, Sort.unsorted()); // Page has overhead cost (determines how many beforehand)
         return userGroupRepo.findAll();
     }
 

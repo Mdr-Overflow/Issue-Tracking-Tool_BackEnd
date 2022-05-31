@@ -12,7 +12,6 @@ public interface StatusRepo extends JpaRepository<Status,Long> {
 
     Status getStatusByName(String name);
 
-
     @Query(value = " SELECT DISTINCT s FROM Status as s  " +
             "WHERE (:inputString is null or s.id = :inputInt) or (:inputString is null or s.name like :inputString)"
     )

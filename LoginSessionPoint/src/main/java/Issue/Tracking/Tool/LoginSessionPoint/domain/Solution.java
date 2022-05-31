@@ -28,7 +28,7 @@ public class Solution {
             generator = "Solution_Id_seq"
     )
     private Long id;
-   // @Column(unique = true)
+
     private String name;
 
     private String description;

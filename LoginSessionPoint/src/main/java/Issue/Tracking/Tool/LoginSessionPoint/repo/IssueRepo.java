@@ -60,5 +60,4 @@ public interface IssueRepo extends JpaRepository <Issue,Long>{
     @Query(value = "SELECT  i FROM Issue as i join i.users ig WHERE ig.username = :name")
     List<Issue> findBynameOfUsersInGroup(String name);
 
-    //List<Issue> findByNameOF
 }

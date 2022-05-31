@@ -27,12 +27,9 @@ import java.util.*;
 @Data
 @Table(name = "apiuser")
 @JsonSerialize(using = UserSerializer.class)
-//@JsonDeserialize(using = UserDeserializer.class)
+
 public class APIUser extends  AbstractPersistentObject {
 
-   /* @Transient
-    public static final String SEQUENCE_NAME = "users_sequence";
-*/
 
  @Id
  @SequenceGenerator(
@@ -45,11 +42,10 @@ public class APIUser extends  AbstractPersistentObject {
          generator = "User_Id_seq"
  )
 
- //@Id
- //@GeneratedValue(strategy=GenerationType.IDENTITY)
+
  private Long id;
 
- //@Column(unique = true)
+
  private String username;
 
  private String password;
@@ -68,13 +64,7 @@ public class APIUser extends  AbstractPersistentObject {
  @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, fetch = FetchType.LAZY)
  private Collection<apiKeyPair> apiKeys = new ArrayList<apiKeyPair>();
 
- /*
- @ManyToOne(fetch = FetchType.LAZY)
- private UserGroup userGroup;
 
- @OneToOne(fetch = FetchType.LAZY)
- private UserGroup userGroupLeading;
-*/
  @CreationTimestamp
  @Temporal(TemporalType.TIMESTAMP)
  @JsonFormat

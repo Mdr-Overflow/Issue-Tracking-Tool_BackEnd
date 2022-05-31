@@ -12,7 +12,6 @@ import java.util.List;
 
 public interface RoleRepo  extends JpaRepository<Role,Long> {
 
-
     Role findByName(String name);
 
     Role findFirstByName(String string);

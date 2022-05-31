@@ -27,12 +27,10 @@ import static org.hibernate.annotations.FetchMode.JOIN;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "role")
-//@JsonSerialize(using = RoleSerializer.class)
+
 public class Role  {
 
-    /*@Transient
-    public static final String SEQUENCE_NAME = "roles_sequence";
-*/
+
 
     @Id
     @SequenceGenerator(
@@ -47,7 +45,7 @@ public class Role  {
 
     private Long id;
 
-    //@Column(unique = true) Duplicate entry 'ROLE_USER' for key 'role.UK_8sewwnpamngi6b1dwaa88askk' ////
+
     private String name;
 
 

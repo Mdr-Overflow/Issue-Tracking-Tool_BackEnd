@@ -41,13 +41,13 @@ public class AuthoFilter extends OncePerRequestFilter {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer "))
             {
                 try {
-                    log.info("TRYYYY");
+
                     String token = authorizationHeader.substring("Bearer ".length());
                     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                     JWTVerifier verifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = verifier.verify(token);
                     String username = decodedJWT.getSubject();
-                    log.info("TRYYYY 2");
+
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                     log.info("Getting roles {} ", (Object) roles);
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -55,19 +55,18 @@ public class AuthoFilter extends OncePerRequestFilter {
                         authorities.add(new SimpleGrantedAuthority(role));
 
                     });
-                    log.info("TRYYYY 3");
+
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, roles, authorities);
 
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    log.info("TRYYYY 4");
+
                     filterChain.doFilter(request, response);
-                    log.info("TRYYYY 5");
+
                 } catch (Exception exception) {
 
                     log.error("Error logging in : {}", exception.getMessage());
                     response.setHeader("error",exception.getMessage());
                     response.setStatus(FORBIDDEN.value()); //403
-                   // response.sendError(FORBIDDEN.value()); //403
 
                     Map<String, String> error = new HashMap<>();
                     error.put("error_message", exception.getMessage());

@@ -91,7 +91,7 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
 
 
                 http.csrf().disable();
-                // authenFilter.setFilterProcessesUrl("/login");
+
                 http.sessionManagement().sessionCreationPolicy(STATELESS);
                 http.authorizeRequests();
                 http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
@@ -140,12 +140,7 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
 
 
                 http.addFilterBefore(new AuthoFilter(), UsernamePasswordAuthenticationFilter.class);
-                //http.formLogin()
-                       // .defaultSuccessUrl("/user");
 
-
-                //******************   //Authoriz.
-                /// ///// HERE
 
             }
 

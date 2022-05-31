@@ -57,7 +57,7 @@ public class SolutionServImpl implements SolutionService {
             log.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         }
 
-       // solution.setCollaborators(users);
+
 
         if(typeRepo.findByName(solution.getType().getName()) != null)
         {
@@ -73,7 +73,7 @@ public class SolutionServImpl implements SolutionService {
         }
         else solution.setIssueName(null);
 
-        // solution.getOwner()
+
 
         if(userRepo.findFirstByUsername(solution.getOwner().getUsername()) != null)
         {
@@ -81,7 +81,7 @@ public class SolutionServImpl implements SolutionService {
         }
         else solution.setOwner(null);
 
-        //userRepo.save(solution.getOwner());
+
 
         if(solution.getType().getName().equals("file")){
             if(update)
@@ -91,7 +91,7 @@ public class SolutionServImpl implements SolutionService {
         }
 
 
-         //solution.getCollaborators().clear();
+
          solution.setCollaborators(users);
 
 

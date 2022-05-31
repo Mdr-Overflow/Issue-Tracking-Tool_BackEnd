@@ -74,8 +74,7 @@ public class RoleServiceImpl implements RoleService {
         }
         List<Privilege> privs = role.getPrivileges().stream().filter(privilege -> privService.findByName(privilege.getName()) != null )
                 .map(privilege -> privService.findByName(privilege.getName())).collect(Collectors.toList());
-        //log.info(privs.toString());
-      //  role.getPrivileges().clear();
+
         role.setPrivileges(privs);
 
         return roleRepo.save(role);

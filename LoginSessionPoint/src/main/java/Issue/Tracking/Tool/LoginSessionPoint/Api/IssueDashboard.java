@@ -3,6 +3,7 @@ package Issue.Tracking.Tool.LoginSessionPoint.Api;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.*;
 import Issue.Tracking.Tool.LoginSessionPoint.exception.NoDataFoundException;
 import Issue.Tracking.Tool.LoginSessionPoint.service.*;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.Issue;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class IssueDashboard {
     private final PriorityService priorityService;
 
     @ResponseBody
-    @PostMapping("IssueDashboard/save") //works
+    @PostMapping("IssueDashboard/save")
     public ResponseEntity<Issue> saveIssue(@RequestBody Issue issue) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/save").toUriString());
 
@@ -43,7 +44,7 @@ public class IssueDashboard {
     }
 
     @ResponseBody
-    @PostMapping("IssueDashboard/solution/save") //works
+    @PostMapping("IssueDashboard/solution/save")
     public ResponseEntity<Object> SolSave(@RequestBody Solution solution) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/save").toUriString());
 
@@ -54,7 +55,7 @@ public class IssueDashboard {
 
 
     @ResponseBody
-    @PutMapping("IssueDashboard/solution/update/{IssueName}/{SolName}") //works
+    @PutMapping("IssueDashboard/solution/update/{IssueName}/{SolName}")
     public ResponseEntity<Solution> SolUpdate(@RequestBody Solution solution, @PathVariable String IssueName, @PathVariable String SolName) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/save").toUriString());
 
@@ -67,6 +68,7 @@ public class IssueDashboard {
                 solutionOld = solutionService.getSolution(solu.getName());
             }
         }
+
 
         if(solutionOld != null) {
 

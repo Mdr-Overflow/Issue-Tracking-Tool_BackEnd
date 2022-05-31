@@ -74,4 +74,5 @@ public class Issue {
     @Nullable
     private Collection <APIUser> users = new ArrayList<>();
 
+
 }

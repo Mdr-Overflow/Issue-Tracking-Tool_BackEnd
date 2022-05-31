@@ -4,10 +4,12 @@ import Issue.Tracking.Tool.LoginSessionPoint.constants.SetupDataLoader;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Privilege;
 import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.apiKeyPair;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.PrivRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.repo.RoleRepo;
 import Issue.Tracking.Tool.LoginSessionPoint.service.PrivService;
 import Issue.Tracking.Tool.LoginSessionPoint.service.RoleService;
+import Issue.Tracking.Tool.LoginSessionPoint.service.apiKeyPairService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,7 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,12 +33,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -96,8 +107,17 @@ public class AuthenFilter extends UsernamePasswordAuthenticationFilter {
 
         RoleService roleService = webApplicationContext.getBean(RoleService.class);
         PrivService privService = webApplicationContext.getBean(PrivService.class);
+        apiKeyPairService apiKeyPairService   = webApplicationContext.getBean(apiKeyPairService.class);
 
         Collection<Role> AuthRoles = new ArrayList<>();
+
+
+        String public_key = null;
+        if(apiKeyPairService.get_All() != null) {
+            public_key = apiKeyPairService.generate();
+        }
+        else public_key = apiKeyPairService.get_All().get(0).getApiKey();
+
 
 
 //roleService.getRole(ConstructorOfRole(SimpleGrantedAuthority.toString())).getPrivileges()

@@ -12,21 +12,15 @@ public interface UserService {
 
     void addRoleToUser(String username, String roleName );
     APIUser getUser(String username);
-    //List<APIUser> getUsers();   //load n amount
-    //void updateUser(APIUser userOld, APIUser userNew);
 
-    // 0 - asc , 1 - desc
     List<APIUser> getUsers(Integer PageIndex, Integer PageSize, String SortBy, Integer SortDirection);
     List<APIUser> getUsersALL();
     List<String> getAllUsernames();
-    //List<Role> getRoles();
-
-
 
     void deleteByUsername(String username);
 
     List<APIUser> findBy(String toSearch);
 
     List<APIUser> getUsersNOGROUP();
-    //APIUser returnThis();
+
 }

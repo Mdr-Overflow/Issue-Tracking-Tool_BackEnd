@@ -28,17 +28,13 @@ public class IssueServImpl implements  IssueService {
     private final PriorityRepo priorityRepo;
     private final StatusRepo statusRepo;
 
-    //private final Priority userRepo;
-    //private final Status   userRepo;
 
     @Override
     public Issue saveIssue(Issue issue) {
         log.info("Saving  Issue  {} to DB", issue.getName());
 
 
-        //    List<APIUser> users = new ArrayList<APIUser>();
-        //       List<UserGroup> groups = new ArrayList<UserGroup>();
-        //     List<Solution> sols = new ArrayList<Solution>();
+
 
         List<APIUser> users = new ArrayList<>();
         try {
@@ -71,7 +67,7 @@ public class IssueServImpl implements  IssueService {
                 if (solutionRepo.findByName(sol.getName()) != null) {
                     sols.add(solutionRepo.findByName(sol.getName()));
                 }
-            //log.info(issue.getPriority().toString());
+
             issue.getSolutions().clear();
 
         } catch (NullPointerException i) {issue.setSolutions(null);
@@ -79,23 +75,19 @@ public class IssueServImpl implements  IssueService {
         try {
             if (priorityRepo.findByName(issue.getPriority().getName()) != null) {
                 issue.setPriority(priorityRepo.findByName(issue.getPriority().getName()));
-                // log.info("aaaaaaaaaaaaaaaaa");
+
             }
 
             if (statusRepo.getStatusByName((issue.getStatus().getName())) != null) {
                 issue.setStatus(statusRepo.getStatusByName((issue.getStatus().getName())));
             }
-            // log.info(users.toString());
 
-            //        issue.getUsers().clear();
-            //         issue.getUserGroups().clear();
-            //       issue.getSolutions().clear();
 
         } catch (NullPointerException ignored) {
         }
 
 
-     //   log.info(issue.toString());
+
 try {
     issue.getUsers().clear();
     issue.getUserGroups().clear();
@@ -108,7 +100,6 @@ catch (NullPointerException ignored) {
         issue.setSolutions(sols);
 
 
-        // log.info(userGroup.getUsers().toString());
 
 
         return issueRepo.save(issue);
@@ -123,7 +114,7 @@ catch (NullPointerException ignored) {
     @Override
     public List<Issue> getIssues() {
         log.info("Getting all issues ");
-        //org.springframework.data.domain.Pageable givenPage =  PageRequest.of(0, 100, Sort.unsorted()); // Page has overhead cost (determines how many beforehand)
+
         return issueRepo.findAll();
 
     }
@@ -182,12 +173,6 @@ catch (NullPointerException ignored) {
 
     @Override
     public void deleteByName(String name) {
-
-
-
-
-
-
 
         issueRepo.deleteByName(name);
     }
@@ -275,41 +260,7 @@ catch (NullPointerException ignored) {
     public List<APIUser> getSoCon(String issueName, String solName) {
         return issueRepo.getSoCon(issueName,solName);
     }
-/*
-    @Override
-    public List<Issue> findByProp(String prop, String name) {
 
-        List<Field> privateFields = new ArrayList<>();
-        Field[] allFields = Issue.class.getDeclaredFields();
-        for (Field field : allFields) {
-            if (Modifier.isPrivate(field.getModifiers())) {
-                privateFields.add(field);
-            }
-        }
-
-        if(privateFields.stream().map(Field::getName).collect(Collectors.toList()).contains(prop))
-        {
-            for (Field  f : privateFields){
-                if(f.getName().equals("name"))
-                {
-                    return List.of(issueRepo.findByName(name));
-                }
-
-                if(f.getName().equals("status"))
-                {
-                    return issueRepo.findAllByStatus_NameContains(name);
-                }
-
-                if(f.getName().equals("status"))
-                {
-                    return issueRepo.findAllByStatus_NameContains(name);
-                }
-
-
-            }}
-
-
-        }*/
 
     }
 

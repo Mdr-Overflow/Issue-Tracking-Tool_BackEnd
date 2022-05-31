@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Table(name = "privilege")
 
 @JsonSerialize(using = PrivSerializer.class)
-//@JsonDeserialize(using = PrivDeserializer.class)
+
 public class Privilege {
     @Id
 
