@@ -71,7 +71,7 @@ public class IssueDashboard {
         if(solutionOld != null) {
 
             if (solution.getName() != null) solutionOld.setName(solution.getName());
-
+            if (solution.getDescription() != null) solutionOld.setDescription(solution.getDescription());
 
             if (solution.getCollaborators() != null) {
                 solutionOld.getCollaborators().clear();

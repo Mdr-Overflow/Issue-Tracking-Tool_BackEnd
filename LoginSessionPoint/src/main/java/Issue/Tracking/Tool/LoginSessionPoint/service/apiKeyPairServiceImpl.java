@@ -33,8 +33,10 @@ public class apiKeyPairServiceImpl implements apiKeyPairService {
     public boolean validate(String apiKey) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException {
       try {
           if (keyPairRepo.findAll() != null) {
-              log.info("GOOOOD");
+              //log.info("GOOOOD");
               for (apiKeyPair key : keyPairRepo.findAll()) {
+
+
                   return apiKey.equals(key.getApiKey());
               }
           }
@@ -68,6 +70,19 @@ public class apiKeyPairServiceImpl implements apiKeyPairService {
 
             PrivateKey secretKey = pair.getPrivate();
             PublicKey ApiKey = pair.getPublic();
+
+            String secretMessage =  kPSImplem.GenerateKeyPair()[0];
+
+
+
+         //   Cipher encryptCipher = Cipher.getInstance("RSA");
+           // encryptCipher.init(Cipher.ENCRYPT_MODE, publicKey);
+
+
+         //   byte[] secretMessageBytes = secretMessage.getBytes(StandardCharsets.UTF_8);
+        //    byte[] encryptedMessageBytes = encryptCipher.doFinal(secretMessageBytes);
+
+          //  String encodedMessage = Base64.getEncoder().encodeToString(encryptedMessageBytes);
             //String[] secret = kPSImplem.GenerateKeyPair();
 
             // Cipher encryptCipher = Cipher.getInstance("RSA");
@@ -84,4 +99,5 @@ public class apiKeyPairServiceImpl implements apiKeyPairService {
         } catch (NoSuchAlgorithmException e) {
             log.error("ENCRYPTION FAILED", e);
 
-    }}}
+    }
+    }}
