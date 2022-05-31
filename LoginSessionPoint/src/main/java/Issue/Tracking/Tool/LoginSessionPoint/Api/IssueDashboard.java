@@ -44,6 +44,7 @@ public class IssueDashboard {
     public ResponseEntity<Object> SolSave(@RequestBody Solution solution) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/save").toUriString());
 
+
         return created(uri).body(solutionService.saveSolution(solution,false));
 
     }

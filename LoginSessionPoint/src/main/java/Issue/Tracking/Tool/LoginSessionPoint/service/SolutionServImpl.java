@@ -46,6 +46,12 @@ public class SolutionServImpl implements SolutionService {
         List<APIUser> users = solution.getCollaborators().stream().filter(apiUser -> userRepo.findFirstByUsername(apiUser.getName()) != null )
                 .map(apiUser -> userRepo.findFirstByUsername(apiUser.getName())).collect(Collectors.toList());
 
+        if(typeRepo.findByName(solution.getType().getName()) != null)
+        {
+            solution.setType(typeRepo.findByName(solution.getType().getName()));
+        }
+        else solution.setType(null);
+
         // solution.getOwner()
 
         if(userRepo.findFirstByUsername(solution.getOwner().getUsername()) != null)

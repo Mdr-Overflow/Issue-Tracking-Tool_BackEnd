@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -34,6 +36,8 @@ public class Solution {
     private boolean isAccepted = false;
 
     @OneToOne(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH})
+    @Fetch( FetchMode.SELECT)
+    @JoinColumn(name= "solution_id",referencedColumnName = "id", insertable = true, updatable = true)
     private Type type;
 
     private String content;

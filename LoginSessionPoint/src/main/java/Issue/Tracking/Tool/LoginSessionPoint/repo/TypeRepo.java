@@ -16,4 +16,6 @@ public interface TypeRepo extends JpaRepository<Type,Long> {
             "WHERE (:inputString is null or t.id = :inputInt) or (:inputString is null or t.name like :inputString)"
     )
     List<Type> findBy(String inputString, Long inputInt);
+
+    Type findByName(String name);
 }
