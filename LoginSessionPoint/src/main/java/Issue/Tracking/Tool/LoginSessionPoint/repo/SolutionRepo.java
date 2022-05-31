@@ -46,6 +46,10 @@ public interface SolutionRepo  extends JpaRepository<Solution,Long>  {
     List<Solution> findByFinalOrAccepted(Boolean b);
 
 
+    @Query(value = "SELECT  s FROM  Solution as s join s.collaborators sc  WHERE  sc.username = :username")
+    List<Solution> findByNameOFColab(String username);
+
+
     //@Query("SELECT s.collaborators FROM Solution s  where s.collaborators = :name")
     //APIUser findCollaboratorByName(@Param("name") String name);
 

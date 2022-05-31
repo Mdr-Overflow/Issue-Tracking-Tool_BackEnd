@@ -104,17 +104,17 @@ public class UserGroupServiceImpl implements UserGroupService {
     @Override
     public void deleteByName(String name) {
 
-        if(userGroupRepo.findByName(name) != null)
-        {
+        List<Issue> issueList;
+        if (userGroupRepo.findByName(name) != null) {
 
-            List<Issue> issueList =  issueRepo.findByNameOFGroup(name);
+            issueList = issueRepo.findByNameOFGroup(name);
             issueList.forEach(issue -> {
                 assert issue.getUserGroups() != null;
                 issue.getUserGroups().remove(userGroupRepo.findByName(name));
             });
+            issueRepo.saveAll(issueList);
 
-        }
-        else throw new NoDataFoundException();
+        } else throw new NoDataFoundException();
 
 
 

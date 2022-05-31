@@ -1,14 +1,8 @@
 package Issue.Tracking.Tool.LoginSessionPoint.service;
 
-import Issue.Tracking.Tool.LoginSessionPoint.domain.APIUser;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.Issue;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.Role;
+import Issue.Tracking.Tool.LoginSessionPoint.domain.*;
 //import Issue.Tracking.Tool.LoginSessionPoint.Repo.RoleRepo;
-import Issue.Tracking.Tool.LoginSessionPoint.domain.UserGroup;
-import Issue.Tracking.Tool.LoginSessionPoint.repo.IssueRepo;
-import Issue.Tracking.Tool.LoginSessionPoint.repo.RoleRepo;
-import Issue.Tracking.Tool.LoginSessionPoint.repo.UserGroupRepo;
-import Issue.Tracking.Tool.LoginSessionPoint.repo.UserRepo;
+import Issue.Tracking.Tool.LoginSessionPoint.repo.*;
 import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +39,7 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
     private final UserGroupRepo userGroupRepo;
     private final PasswordEncoder passwordEncoder;
     private final IssueRepo issueRepo;
+    private final SolutionRepo solutionRepo;
 
     @Override
     public APIUser saveUser(APIUser user) {
@@ -125,7 +120,38 @@ public class UserServiceImplementation implements  UserService , UserDetailsServ
           List<UserGroup> userGroupList =  userGroupRepo.findByUsernameOFUser(username);
           userGroupList.forEach(userGroup -> userGroup.getUsers().remove(userRepo.findFirstByUsername(username)));
 
-          
+            List<Issue> issueList =  issueRepo.findByNameOfUsers(username);
+            issueList.forEach(issue -> {
+                assert issue.getUsers() != null;
+                issue.getUsers().remove(userRepo.findFirstByUsername(username));
+            });
+
+            issueRepo.saveAll(issueList);
+
+
+            List<Solution> solutionsList  = solutionRepo.findByNameOFColab(username);
+
+            solutionsList.forEach(solution -> {
+                assert solution.getCollaborators() != null;
+              solution.getCollaborators().remove(userRepo.findFirstByUsername(username));
+            });
+
+            for (Solution solution: solutionsList)
+            {
+                if(solution.getOwner().getUsername().equals(username)){
+                    if(solution.getCollaborators().size() >1) {
+                        solution.setOwner(new ArrayList<APIUser>(solution.getCollaborators()).get(0));
+                        solutionRepo.saveAll(solutionsList);
+                    }
+                    else solutionRepo.delete(solution);
+                }
+                else{
+                    solutionRepo.saveAll(solutionsList);
+                }
+            }
+
+
+
 
             for (UserGroup userGroup: userGroupList)
           {

@@ -43,7 +43,7 @@ public class IssueServImpl implements  IssueService {
         //       List<UserGroup> groups = new ArrayList<UserGroup>();
         //     List<Solution> sols = new ArrayList<Solution>();
 
-        List<APIUser> users = null;
+        List<APIUser> users = new ArrayList<>();
         try {
             for (APIUser user : issue.getUsers())
                 if (userRepo.findFirstByUsername(user.getUsername()) != null) {
@@ -54,7 +54,7 @@ public class IssueServImpl implements  IssueService {
         }
 //
 
-        List<UserGroup> groups = null;
+        List<UserGroup> groups = new ArrayList<>();
         try {
             groups = new ArrayList<UserGroup>();
             for (UserGroup userG : issue.getUserGroups())
@@ -65,7 +65,7 @@ public class IssueServImpl implements  IssueService {
         } catch (NullPointerException ignored) {
         }
 
-        List<Solution> sols = null;
+        List<Solution> sols = new ArrayList<>();
         try {
             sols = new ArrayList<Solution>();
             for (Solution sol : issue.getSolutions())
@@ -96,8 +96,11 @@ public class IssueServImpl implements  IssueService {
         }
 
 
-        log.info(issue.toString());
+     //   log.info(issue.toString());
 
+        issue.getUsers().clear();
+        issue.getUserGroups().clear();
+        issue.getSolutions().clear();
 
         issue.setUsers(users);
         issue.setUserGroups(groups);
