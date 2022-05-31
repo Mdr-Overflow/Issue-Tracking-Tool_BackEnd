@@ -12,8 +12,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.created;
 
@@ -340,10 +343,10 @@ public class IssueDashboard {
     }
 
     @ResponseBody
-    @GetMapping("IssueDashboard/getSols")
-    public ResponseEntity<List<Solution>> getSols(@RequestBody Issue issue) {
+    @GetMapping("IssueDashboard/getSols/{issName}")
+    public ResponseEntity<List<Solution>> getSols(@PathVariable String issName) {
 
-        return ResponseEntity.ok().body(issueService.getSols(issue));
+        return ResponseEntity.ok().body(new ArrayList<>(Objects.requireNonNull(issueService.getIssue(issName).getSolutions())));
 
     }
 

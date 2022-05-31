@@ -50,7 +50,8 @@ public class IssueServImpl implements  IssueService {
                     users.add(userRepo.findFirstByUsername(user.getUsername()));
                 }
             issue.getUsers().clear();
-        } catch (NullPointerException ignored) {
+        } catch (NullPointerException i) {
+            issue.setUsers(null);
         }
 //
 
@@ -62,7 +63,8 @@ public class IssueServImpl implements  IssueService {
                     groups.add(userGroupRepo.findByName(userG.getName()));
                 }
             issue.getUserGroups().clear();
-        } catch (NullPointerException ignored) {
+        } catch (NullPointerException i) {
+            issue.setUserGroups(null);
         }
 
         List<Solution> sols = new ArrayList<>();
@@ -75,7 +77,7 @@ public class IssueServImpl implements  IssueService {
             //log.info(issue.getPriority().toString());
             issue.getSolutions().clear();
 
-        } catch (NullPointerException ignored) {
+        } catch (NullPointerException i) {issue.setSolutions(null);
         }
         try {
             if (priorityRepo.findByName(issue.getPriority().getName()) != null) {
@@ -97,11 +99,13 @@ public class IssueServImpl implements  IssueService {
 
 
      //   log.info(issue.toString());
-
-        issue.getUsers().clear();
-        issue.getUserGroups().clear();
-        issue.getSolutions().clear();
-
+try {
+    issue.getUsers().clear();
+    issue.getUserGroups().clear();
+    issue.getSolutions().clear();
+}
+catch (NullPointerException ignored) {
+}
         issue.setUsers(users);
         issue.setUserGroups(groups);
         issue.setSolutions(sols);
