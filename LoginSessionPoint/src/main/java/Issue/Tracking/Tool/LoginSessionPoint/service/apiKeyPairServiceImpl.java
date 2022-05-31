@@ -75,14 +75,14 @@ public class apiKeyPairServiceImpl implements apiKeyPairService {
 
 
 
-         //   Cipher encryptCipher = Cipher.getInstance("RSA");
-           // encryptCipher.init(Cipher.ENCRYPT_MODE, publicKey);
+            Cipher encryptCipher = Cipher.getInstance("RSA");
+            encryptCipher.init(Cipher.ENCRYPT_MODE, ApiKey);
 
 
-         //   byte[] secretMessageBytes = secretMessage.getBytes(StandardCharsets.UTF_8);
-        //    byte[] encryptedMessageBytes = encryptCipher.doFinal(secretMessageBytes);
+           byte[] secretMessageBytes = secretMessage.getBytes(StandardCharsets.UTF_8);
+            byte[] encryptedMessageBytes = encryptCipher.doFinal(secretMessageBytes);
 
-          //  String encodedMessage = Base64.getEncoder().encodeToString(encryptedMessageBytes);
+            String encodedMessage = Base64.getEncoder().encodeToString(encryptedMessageBytes);
             //String[] secret = kPSImplem.GenerateKeyPair();
 
             // Cipher encryptCipher = Cipher.getInstance("RSA");
@@ -94,10 +94,18 @@ public class apiKeyPairServiceImpl implements apiKeyPairService {
 
           //  String encodedMessage = Base64.getEncoder().encodeToString(encryptedMessageBytes);
 
-            keyPairRepo.save(new apiKeyPair(1, ApiKey.toString(), secretKey.toString(), null, null)); // auto assigned by hibernate
+            keyPairRepo.save(new apiKeyPair(1, ApiKey.toString(), encodedMessage, null, null)); // auto assigned by hibernate
 
         } catch (NoSuchAlgorithmException e) {
             log.error("ENCRYPTION FAILED", e);
 
-    }
+    } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        }
     }}

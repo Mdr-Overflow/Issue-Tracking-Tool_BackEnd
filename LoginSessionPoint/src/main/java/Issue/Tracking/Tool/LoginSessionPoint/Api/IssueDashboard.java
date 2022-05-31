@@ -54,8 +54,8 @@ public class IssueDashboard {
 
 
     @ResponseBody
-    @PutMapping("IssueDashboard/solution/update/{IssueName}") //works
-    public ResponseEntity<Solution> SolUpdate(@RequestBody Solution solution, @PathVariable String IssueName) throws IOException {
+    @PutMapping("IssueDashboard/solution/update/{IssueName}/{SolName}") //works
+    public ResponseEntity<Solution> SolUpdate(@RequestBody Solution solution, @PathVariable String IssueName, @PathVariable String SolName) throws IOException {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/IssueDashboard/solution/save").toUriString());
 
        if(issueService.getIssue(IssueName) == null) throw new IllegalArgumentException();
@@ -63,7 +63,7 @@ public class IssueDashboard {
         Solution  solutionOld = null;
         for(Solution solu : issueService.getIssue(IssueName).getSolutions()) {
             log.info(solu.toString());
-            if (solu.getName().equals(solution.getName())) {
+            if (solu.getName().equals(SolName)) {
                 solutionOld = solutionService.getSolution(solu.getName());
             }
         }
