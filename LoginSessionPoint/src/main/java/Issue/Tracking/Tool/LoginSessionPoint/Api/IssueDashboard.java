@@ -160,45 +160,89 @@ public class IssueDashboard {
     @ResponseBody
     @PutMapping("/IssueDashboard/admin/update/{name}")
     public ResponseEntity<Issue> replaceIssue(@RequestBody Issue issue, @PathVariable String name) {
+        log.error("ssssssssssssss");
+        log.info("ssssssssssssss");
+        log.info("ssssssssssssaasdads");
+        log.info("ssssssssssssss");
+     /*   log.info(issue.getPriority().getName());
+        log.info(issue.toString());
 
-       Issue issueOld = issueService.getIssue(name);
+        log.info(issueOld.toString());
+        if (issue.getPriority() == null)  log.info("NNNNNNNNNUUUUUUUUUUUUUUULL");
+       else{
+           log.info("ssssssGGGGGGGGG");
+           log.info(issue.getPriority().toString());
+        }*/
+        int c = 0;
+        try {
+            Issue issueOld = issueService.getIssue(name);
+            c+=1;
+            if (issueOld != null) {
+                c+=1;
+                if (issue.getName() != null) issueOld.setName(issue.getName());
+                c+=1;
 
-        if(issueOld != null) {
+                if (issue.getUsers() != null) {
+                    c+=1;
+                    issueOld.getUsers().clear();
+                    c+=1;
+                    issue.getUsers().forEach(apiUser -> issueOld.getUsers().add(userService.getUser(apiUser.getUsername())));
+                }
+                c+=1;
+                if (issue.getDetails() != null) {
+                    c+=1;
+                    issueOld.setDetails(issue.getDetails());
+                }
+                c+=1;
+                if (issue.getDueDate() != null) {
+                    c+=1;
+                    issueOld.setDueDate(issue.getDueDate());
+                }
+                c+=1;
+                if (issue.getStatus() != null) {
+                    c+=1;
+                    issueOld.setStatus(statusService.getStatus(issue.getStatus().getName()));
+                }
+                c+=1;
+                if (issue.getPriority() != null) {
+                    c += 1;
+                    issueOld.setPriority(priorityService.getPrio(issue.getPriority().getName()));
+                    c+=1;
+                }
+                if (issue.getSolutions() != null) {
+                    c+=1;
+                    issueOld.getSolutions().clear();
+                    c+=1;
+                    issue.getSolutions().forEach(solution -> issueOld.getSolutions().add(solutionService.getSolution(solution.getName())));
+                    c+=1;
+                }
 
-            if (issue.getName() != null) issueOld.setName(issue.getName());
+                if (issue.getUserGroups() != null) {
+                    c+=1;
+                    issueOld.getUserGroups().clear();
+                    c+=1;
+                    issue.getUserGroups().forEach(userGroup -> issueOld.getUserGroups().add(userGroupService.getGroup(userGroup.getName())));
+                    c+=1;
+                }
 
 
-            if (issue.getUsers() != null) {
-                issueOld.getUsers().clear();
-                issue.getUsers().forEach(apiUser -> issueOld.getUsers().add(userService.getUser(apiUser.getUsername())));
-            }
-            if (issue.getDetails() != null) issueOld.setDetails(issue.getDetails());
-            if (issue.getDueDate() != null) issueOld.setDueDate(issue.getDueDate());
+                issue.setLastUpdated(issue.getCreatedAt());
+                c+=1;
 
-            if (issue.getStatus() != null) issueOld.setStatus(statusService.getStatus(issue.getStatus().getName()));
-            if (issue.getPriority() != null) issueOld.setPriority(priorityService.getPrio(issue.getPriority().getName()));
+                //   issueService.deleteByName(issue.getName());
+                //  issueRepo.flush();
 
-            if (issue.getSolutions()  != null) {
-                issueOld.getSolutions().clear();
-                issue.getSolutions().forEach(solution -> issueOld.getSolutions().add(solutionService.getSolution(solution.getName())));
-            }
+                issueService.saveIssue(issueOld);
+                c+=1;
 
-            if (issue.getUserGroups() != null)
-            {
-                issueOld.getUserGroups().clear();
-                issue.getUserGroups().forEach(userGroup -> issueOld.getUserGroups().add(userGroupService.getGroup(userGroup.getName())));
-            }
-
-
-
-            issue.setLastUpdated(issue.getCreatedAt());
-
-
-            issueService.saveIssue(issueOld);
-
-            return ResponseEntity.ok().body(issueOld);
+                return ResponseEntity.ok().body(issueOld);
+            } else throw new NoDataFoundException();
         }
-        else throw new NoDataFoundException();
+        catch (NullPointerException e){
+            log.info(e.getMessage() + "asa  " + c);
+            return ResponseEntity.ok().body(issue);
+        }
+
     }
 
     @ResponseBody

@@ -4,7 +4,10 @@ package Issue.Tracking.Tool.LoginSessionPoint.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -15,6 +18,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Issue {
 
     @Id
@@ -31,13 +35,17 @@ public class Issue {
     @Column(unique = true)
     private String name;
 
-    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})
+    //@Fetch( FetchMode.SELECT)
+   // @JoinColumn(name= "issue_id",referencedColumnName = "id", insertable = true, updatable = true)
     private Status status;
 
 
     private String details;
 
-    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})
+   // @Fetch( FetchMode.SELECT)
+  //  @JoinColumn(name= "issue_id2",referencedColumnName = "id", insertable = true, updatable = true)
     private Priority priority;
 
     @CreationTimestamp

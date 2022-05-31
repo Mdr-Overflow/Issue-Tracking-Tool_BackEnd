@@ -37,6 +37,9 @@ public class IssueServImpl implements  IssueService {
     public Issue saveIssue(Issue issue) {
         log.info("Saving  Issue  {} to DB",issue.getName());
 
+
+
+
         List<APIUser> users = new ArrayList<APIUser>();
         for (APIUser user: issue.getUsers())
             if(userRepo.findFirstByUsername(user.getUsername()) != null){
@@ -55,16 +58,18 @@ public class IssueServImpl implements  IssueService {
             if(solutionRepo.findByName(sol.getName()) != null){
                 sols.add(solutionRepo.findByName(sol.getName()));
             }
+        //log.info(issue.getPriority().toString());
 try {
     if (priorityRepo.findByName(issue.getPriority().getName()) != null) {
         issue.setPriority(priorityRepo.findByName(issue.getPriority().getName()));
+        log.info("aaaaaaaaaaaaaaaaa");
     }
 
     if (statusRepo.getStatusByName((issue.getStatus().getName())) != null) {
         issue.setStatus(statusRepo.getStatusByName((issue.getStatus().getName())));
     }
 }
-catch (NullPointerException ignored ) {}
+catch (NullPointerException e ) {log.error(e.getMessage() + "   here");}
 
        // log.info(users.toString());
         issue.getUsers().clear();
